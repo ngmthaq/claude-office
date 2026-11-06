@@ -1,0 +1,477 @@
+import { randomUUID } from 'node:crypto';
+import { getSessionInfo, query, type Query, type SDKMessage } from '@anthropic-ai/claude-agent-sdk';
+import type { HistoryEntry, RoomEvent, RoomSummary } from '@claude-office/shared';
+import type { FastifyBaseLogger } from 'fastify';
+import { ROOM_EVENT_BUFFER_MAX, STOP_TIMEOUT_MS } from '@/configs/limits.config.ts';
+import { SDK_EXTRA_ARGS, SETTING_SOURCES } from '@/configs/sdk.config.ts';
+import type { ResumeResult } from '@/dtos/resume-result.dto.ts';
+import type { RoomRow } from '@/dtos/room-row.dto.ts';
+import type { StartResult } from '@/dtos/start-result.dto.ts';
+import type { FolderRepository } from '@/repositories/folder.repository.ts';
+import type { HistoryRepository } from '@/repositories/history.repository.ts';
+import type { RoomRepository } from '@/repositories/room.repository.ts';
+import type { Session, SessionStoreRepository } from '@/repositories/session-store.repository.ts';
+import type { EventBusService } from '@/services/event-bus.service.ts';
+import type { PermissionService } from '@/services/permission.service.ts';
+import type { SdkEventMapperService } from '@/services/sdk-event-mapper.service.ts';
+import { ErrorUtil } from '@/utils/error.util.ts';
+import { InputQueue } from '@/utils/input-queue.util.ts';
+import { SessionMapperUtil } from '@/utils/session-mapper.util.ts';
+
+class LoadSkipped extends Error {}
+
+export class SessionService {
+  private readonly resuming = new Map<string, Promise<ResumeResult>>();
+
+  constructor(
+    private readonly roomRepository: RoomRepository,
+    private readonly sessionStoreRepository: SessionStoreRepository,
+    private readonly historyRepository: HistoryRepository,
+    private readonly folderRepository: FolderRepository,
+    private readonly sdkEventMapperService: SdkEventMapperService,
+    private readonly eventBusService: EventBusService,
+    private readonly permissionService: PermissionService,
+    private readonly log: FastifyBaseLogger,
+  ) {}
+
+  start(folder: string): StartResult {
+    const resolved = this.folderRepository.resolveFolder(folder);
+    if (!resolved.ok) return resolved;
+
+    const session: Session = {
+      id: randomUUID(),
+      name: null,
+      folder: resolved.value,
+      createdAt: Date.now(),
+      sessionId: null,
+      resumedFrom: null,
+      busy: false,
+      state: 'idle',
+      events: [],
+      input: null,
+      query: null,
+      closed: false,
+      historyLoaded: true,
+      historyLoading: null,
+      stopTimer: null,
+      mapper: this.sdkEventMapperService.createMapperState(),
+      pending: new Map(),
+      terminalCommands: new Set(),
+      permissionMode: 'default',
+    };
+    this.roomRepository.insert(session.id, session.folder, session.createdAt);
+    this.sessionStoreRepository.set(session.id, session);
+    this.log.info({ roomId: session.id }, 'session started');
+    this.eventBusService.notifyChanged();
+    return { ok: true, room: this.toSummary(session) };
+  }
+
+  resume(sessionId: string): Promise<ResumeResult> {
+    const open = this.sessionStoreRepository.findBySessionId(sessionId);
+    if (open) return Promise.resolve({ ok: true, room: this.toSummary(open) });
+    const newest = this.roomRepository.getNewestBySessionId(sessionId);
+    if (newest?.archivedAt != null) {
+      const restored = this.restoreRow(newest);
+      if (restored) return Promise.resolve({ ok: true, room: this.toSummary(restored) });
+    }
+    const inFlight = this.resuming.get(sessionId);
+    if (inFlight) return inFlight;
+    const promise = this.doResume(sessionId).finally(() => this.resuming.delete(sessionId));
+    this.resuming.set(sessionId, promise);
+    return promise;
+  }
+
+  listHistory(): Promise<HistoryEntry[]> {
+    return this.historyRepository.listHistory(
+      (sessionId) => this.sessionStoreRepository.findBySessionId(sessionId)?.id ?? null,
+    );
+  }
+
+  send(roomId: string, text: string): void {
+    const session = this.sessionStoreRepository.get(roomId);
+    if (!session) {
+      this.eventBusService.emitUnknownRoom(roomId);
+      return;
+    }
+    if (session.busy) {
+      this.eventBusService.emit(
+        session,
+        SessionMapperUtil.errorEvent(
+          roomId,
+          'busy',
+          'Claude is still working on the last message.',
+        ),
+      );
+      return;
+    }
+
+    session.closed = false;
+    this.eventBusService.emit(session, {
+      type: 'user_message',
+      roomId,
+      messageId: randomUUID(),
+      text,
+      time: Date.now(),
+    });
+    this.setBusy(session, true);
+    this.ensureQuery(session).push({
+      type: 'user',
+      message: { role: 'user', content: text },
+      parent_tool_use_id: null,
+    });
+  }
+
+  roomFolder(roomId: string): string | undefined {
+    return this.sessionStoreRepository.get(roomId)?.folder;
+  }
+
+  loadClosedRooms(): void {
+    const seen = new Set<string>();
+    for (const row of this.roomRepository.listWithSession()) {
+      if (row.sessionId === null || seen.has(row.sessionId)) continue;
+      seen.add(row.sessionId);
+      if (row.archivedAt !== null) continue;
+      this.sessionStoreRepository.set(
+        row.id,
+        this.sessionStoreRepository.closedSession(
+          row,
+          row.sessionId,
+          this.sdkEventMapperService.createMapperState(),
+        ),
+      );
+    }
+    this.log.info({ count: this.sessionStoreRepository.size }, 'closed rooms loaded');
+  }
+
+  restoreRow(row: RoomRow): Session | undefined {
+    if (row.sessionId === null) return undefined;
+    this.roomRepository.setArchived(row.id, null);
+    let session = this.sessionStoreRepository.findBySessionId(row.sessionId);
+    if (!session) {
+      session = this.sessionStoreRepository.closedSession(
+        row,
+        row.sessionId,
+        this.sdkEventMapperService.createMapperState(),
+      );
+      this.sessionStoreRepository.set(row.id, session);
+    }
+    this.log.info({ roomId: session.id }, 'session restored');
+    this.eventBusService.notifyChanged();
+    this.eventBusService.notifyArchivedChanged();
+    return session;
+  }
+
+  stop(roomId: string): void {
+    const session = this.sessionStoreRepository.get(roomId);
+    if (!session) {
+      this.log.info({ roomId }, 'stop ignored: unknown room');
+      return;
+    }
+    const { query: active } = session;
+    if (!active || !(session.busy || session.mapper.subagents.size > 0)) return;
+    this.permissionService.cancelAllPermissions(session);
+    this.eventBusService.emit(session, {
+      type: 'session_notice',
+      roomId,
+      kind: 'stopped',
+      time: Date.now(),
+    });
+    for (const taskId of this.sdkEventMapperService.listBackgroundTaskIds(session.mapper)) {
+      active.stopTask(taskId).catch((error: unknown) => {
+        this.log.error({ roomId, taskId, err: ErrorUtil.errorName(error) }, 'stop task failed');
+      });
+    }
+    this.stopSubagents(session);
+    if (!session.busy) return;
+    active.interrupt().catch((error: unknown) => {
+      this.log.error({ roomId, err: ErrorUtil.errorName(error) }, 'interrupt failed');
+    });
+    this.clearStopTimer(session);
+    session.stopTimer = setTimeout(() => {
+      session.stopTimer = null;
+      if (!session.busy) return;
+      this.log.warn({ roomId }, 'stop timed out; ending the query');
+      this.endQuery(session);
+      this.stopSubagents(session);
+      this.setBusy(session, false);
+    }, STOP_TIMEOUT_MS);
+  }
+
+  close(roomId: string): void {
+    const session = this.sessionStoreRepository.get(roomId);
+    if (!session) {
+      this.log.info({ roomId }, 'close ignored: unknown room');
+      return;
+    }
+    if (session.closed) return;
+    this.permissionService.cancelAllPermissions(session);
+    this.endQuery(session);
+    this.stopSubagents(session);
+    session.closed = true;
+    session.busy = false;
+    this.eventBusService.emit(session, {
+      type: 'session_notice',
+      roomId,
+      kind: 'closed',
+      time: Date.now(),
+    });
+    this.eventBusService.updateState(session, true);
+    this.log.info({ roomId }, 'session closed');
+  }
+
+  closeAll(): void {
+    for (const session of this.sessionStoreRepository.values()) {
+      this.permissionService.cancelAllPermissions(session);
+      this.endQuery(session);
+    }
+  }
+
+  async history(roomId: string): Promise<RoomEvent[] | null> {
+    const session = this.sessionStoreRepository.get(roomId);
+    if (!session) return null;
+    if (!session.historyLoaded) {
+      session.historyLoading ??= this.loadHistory(session).finally(() => {
+        session.historyLoading = null;
+      });
+      await session.historyLoading;
+    }
+    return [...session.events];
+  }
+
+  list(): RoomSummary[] {
+    return [...this.sessionStoreRepository.values()].map((session) => this.toSummary(session));
+  }
+
+  clearStopTimer(session: Session): void {
+    if (session.stopTimer === null) return;
+    clearTimeout(session.stopTimer);
+    session.stopTimer = null;
+  }
+
+  private toSummary(session: Session): RoomSummary {
+    return this.sessionStoreRepository.toSummary(
+      session,
+      this.sdkEventMapperService.listSubagents(session.mapper),
+    );
+  }
+
+  private stopSubagents(session: Session): void {
+    const events = this.sdkEventMapperService.finishAllSubagents(
+      session.id,
+      session.mapper,
+      'stopped',
+    );
+    if (events.length === 0) return;
+    for (const event of events) this.eventBusService.emit(session, event);
+    this.log.info({ roomId: session.id, count: events.length }, 'subagents stopped');
+    this.eventBusService.notifyChanged();
+  }
+
+  private endQuery(session: Session): void {
+    this.clearStopTimer(session);
+    const { input, query: active } = session;
+    session.input = null;
+    session.query = null;
+    if (!input) return;
+    input.intentional = true;
+    input.close();
+    try {
+      active?.close();
+    } catch (error) {
+      this.log.error({ roomId: session.id, err: ErrorUtil.errorName(error) }, 'query close failed');
+    }
+  }
+
+  private async doResume(sessionId: string): Promise<ResumeResult> {
+    const info = await getSessionInfo(sessionId);
+    if (!info) return { ok: false, code: 'session_not_found' };
+    const resolved = this.folderRepository.resolveFolder(info.cwd);
+    if (info.cwd === undefined || !resolved.ok) {
+      return { ok: false, code: resolved.ok ? 'not_found' : resolved.code };
+    }
+
+    const id = randomUUID();
+    let events: RoomEvent[];
+    try {
+      events = await this.historyRepository.loadRoomEvents(id, sessionId, resolved.value);
+    } catch (error) {
+      this.log.error({ sessionId, err: ErrorUtil.errorName(error) }, 'resume load failed');
+      return { ok: false, code: 'load_failed' };
+    }
+    // Another path may have opened this session while the messages were loading.
+    const open = this.sessionStoreRepository.findBySessionId(sessionId);
+    if (open) return { ok: true, room: this.toSummary(open) };
+
+    const session: Session = {
+      id,
+      name: null,
+      folder: resolved.value,
+      createdAt: Date.now(),
+      sessionId,
+      resumedFrom: sessionId,
+      busy: false,
+      state: 'idle',
+      events,
+      input: null,
+      query: null,
+      closed: false,
+      historyLoaded: true,
+      historyLoading: null,
+      stopTimer: null,
+      mapper: this.sdkEventMapperService.createMapperState(),
+      pending: new Map(),
+      terminalCommands: new Set(),
+      permissionMode: 'default',
+    };
+    this.roomRepository.insert(session.id, session.folder, session.createdAt, sessionId);
+    this.sessionStoreRepository.set(session.id, session);
+    this.log.info({ roomId: id, sessionId, eventCount: events.length }, 'session resumed');
+    this.eventBusService.notifyChanged();
+    return { ok: true, room: this.toSummary(session) };
+  }
+
+  private async loadHistory(session: Session): Promise<void> {
+    try {
+      const resolved = this.folderRepository.resolveFolder(session.folder);
+      if (!resolved.ok || session.sessionId === null) throw new LoadSkipped();
+      const loaded = await this.historyRepository.loadRoomEvents(
+        session.id,
+        session.sessionId,
+        resolved.value,
+      );
+      session.events = [...loaded, ...session.events].slice(-ROOM_EVENT_BUFFER_MAX);
+    } catch (error) {
+      this.log.error(
+        { roomId: session.id, err: ErrorUtil.errorName(error) },
+        'history load failed',
+      );
+      this.eventBusService.emit(
+        session,
+        SessionMapperUtil.errorEvent(session.id, 'load_failed', 'Could not load the old messages.'),
+      );
+    } finally {
+      session.historyLoaded = true;
+    }
+  }
+
+  private ensureQuery(session: Session): InputQueue {
+    if (session.input) return session.input;
+    const input = new InputQueue();
+    session.input = input;
+    session.mapper = this.sdkEventMapperService.createMapperState();
+    const stream = query({
+      prompt: input,
+      options: {
+        cwd: session.folder,
+        settingSources: [...SETTING_SOURCES],
+        extraArgs: { ...SDK_EXTRA_ARGS },
+        includePartialMessages: true,
+        permissionMode: session.permissionMode,
+        canUseTool: (toolName, toolInput, options) =>
+          this.permissionService.requestPermission(session, toolName, toolInput, options),
+        ...(session.sessionId ? { resume: session.sessionId } : {}),
+      },
+    });
+    session.query = stream;
+    void this.pump(session, input, stream);
+    return input;
+  }
+
+  private async pump(session: Session, input: InputQueue, stream: Query): Promise<void> {
+    try {
+      for await (const message of stream) {
+        if (input.intentional) break;
+        this.markSelfStartedTurn(session, input, message);
+        if (message.type === 'system' && message.subtype === 'init') {
+          this.setSessionId(session, message.session_id);
+          session.terminalCommands = new Set(message.terminal_slash_commands ?? []);
+          continue;
+        }
+        for (const event of this.sdkEventMapperService.mapSdkMessage(
+          session.id,
+          message,
+          session.mapper,
+        )) {
+          this.eventBusService.emit(session, event);
+          if (event.type === 'subagent_started' || event.type === 'subagent_finished') {
+            this.logSubagent(session, event);
+            this.eventBusService.updateState(session);
+            this.eventBusService.notifyChanged();
+          }
+          if (event.type === 'turn_done') {
+            this.clearStopTimer(session);
+            this.setBusy(session, false);
+          }
+        }
+      }
+      this.handleQueryEnd(session, input, null);
+    } catch (error) {
+      this.handleQueryEnd(session, input, error);
+    }
+  }
+
+  // After a background task ends, the SDK may start a turn without user input.
+  private markSelfStartedTurn(session: Session, input: InputQueue, message: SDKMessage): void {
+    const isTurnStart =
+      message.type === 'stream_event' &&
+      message.parent_tool_use_id === null &&
+      message.event.type === 'message_start';
+    if (isTurnStart && !session.busy && !session.closed && !input.intentional) {
+      this.setBusy(session, true);
+    }
+  }
+
+  private logSubagent(
+    session: Session,
+    event: Extract<RoomEvent, { type: 'subagent_started' | 'subagent_finished' }>,
+  ): void {
+    const fields = { roomId: session.id, subagentId: event.subagentId };
+    if (event.type === 'subagent_started') {
+      this.log.info({ ...fields, agentType: event.agentType }, 'subagent started');
+    } else {
+      const { status, hiddenToolCalls } = event;
+      this.log.info({ ...fields, status, hiddenToolCalls }, 'subagent finished');
+    }
+  }
+
+  private handleQueryEnd(session: Session, input: InputQueue, error: unknown): void {
+    input.close();
+    this.stopSubagents(session);
+    if (input.intentional) return;
+    this.permissionService.cancelAllPermissions(session);
+    this.clearStopTimer(session);
+    if (session.input === input) {
+      session.input = null;
+      session.query = null;
+    }
+    if (error !== null) {
+      this.log.error({ roomId: session.id, err: ErrorUtil.errorName(error) }, 'sdk query failed');
+    }
+    if (!session.busy) return;
+    const hadAuthError = session.events.at(-1)?.type === 'auth_error';
+    if (!hadAuthError) {
+      this.eventBusService.emit(
+        session,
+        SessionMapperUtil.errorEvent(
+          session.id,
+          'sdk_error',
+          'The Claude session stopped. Send again to retry.',
+        ),
+      );
+    }
+    this.setBusy(session, false);
+  }
+
+  private setSessionId(session: Session, sessionId: string): void {
+    if (session.sessionId === sessionId) return;
+    session.sessionId = sessionId;
+    this.roomRepository.setSessionId(session.id, sessionId);
+    this.eventBusService.notifyChanged();
+  }
+
+  private setBusy(session: Session, busy: boolean): void {
+    if (session.busy === busy) return;
+    session.busy = busy;
+    this.eventBusService.updateState(session, true);
+  }
+}

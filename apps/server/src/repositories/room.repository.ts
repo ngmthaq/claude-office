@@ -1,29 +1,10 @@
 import type { PermissionMode } from '@claude-office/shared';
 import type Database from 'better-sqlite3';
-
-export type RoomRow = {
-  id: string;
-  sessionId: string | null;
-  folder: string;
-  createdAt: number;
-  name: string | null;
-  archivedAt: number | null;
-  permissionMode: PermissionMode;
-};
-
-type RawRoomRow = {
-  id: string;
-  session_id: string | null;
-  folder: string;
-  created_at: number;
-  name: string | null;
-  archived_at: number | null;
-  permission_mode: PermissionMode;
-};
+import { parseRoomRow, type RawRoomRow, type RoomRow } from '@/dtos/room-row.dto.ts';
 
 const COLUMNS = 'id, session_id, folder, created_at, name, archived_at, permission_mode';
 
-export class RoomsRepo {
+export class RoomRepository {
   private readonly insertStmt;
   private readonly setSessionStmt;
   private readonly getStmt;
@@ -81,32 +62,20 @@ export class RoomsRepo {
   }
 
   listArchived(): RoomRow[] {
-    return this.listArchivedStmt.all().map(toRoomRow);
+    return this.listArchivedStmt.all().map(parseRoomRow);
   }
 
   getNewestBySessionId(sessionId: string): RoomRow | undefined {
     const row = this.newestBySessionStmt.get(sessionId);
-    return row ? toRoomRow(row) : undefined;
+    return row ? parseRoomRow(row) : undefined;
   }
 
   get(id: string): RoomRow | undefined {
     const row = this.getStmt.get(id);
-    return row ? toRoomRow(row) : undefined;
+    return row ? parseRoomRow(row) : undefined;
   }
 
   listWithSession(): RoomRow[] {
-    return this.listWithSessionStmt.all().map(toRoomRow);
+    return this.listWithSessionStmt.all().map(parseRoomRow);
   }
-}
-
-function toRoomRow(row: RawRoomRow): RoomRow {
-  return {
-    id: row.id,
-    sessionId: row.session_id,
-    folder: row.folder,
-    createdAt: row.created_at,
-    name: row.name,
-    archivedAt: row.archived_at,
-    permissionMode: row.permission_mode,
-  };
 }
