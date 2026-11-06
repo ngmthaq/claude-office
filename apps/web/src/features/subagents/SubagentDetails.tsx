@@ -10,7 +10,7 @@ import { ToolCard } from '@/features/chat/ToolCard';
 import { useChatStore, type ChatState, type SubagentItem } from '@/features/chat/use-chat-store';
 import { useSubagentDetailsStore } from '@/features/subagents/use-subagent-details-store';
 
-type SubagentDetailsProps = { roomId: string; subagentId: string };
+type SubagentDetailsProps = { roomId: string; roomName: string; subagentId: string };
 
 function selectSubagent(roomId: string, subagentId: string) {
   return (state: ChatState): SubagentItem | undefined => {
@@ -21,7 +21,7 @@ function selectSubagent(roomId: string, subagentId: string) {
   };
 }
 
-export function SubagentDetails({ roomId, subagentId }: SubagentDetailsProps) {
+export function SubagentDetails({ roomId, roomName, subagentId }: SubagentDetailsProps) {
   const item = useChatStore(selectSubagent(roomId, subagentId));
   const closeDetails = useSubagentDetailsStore((state) => state.closeDetails);
   const endRef = useRef<HTMLDivElement>(null);
@@ -30,20 +30,30 @@ export function SubagentDetails({ roomId, subagentId }: SubagentDetailsProps) {
     endRef.current?.scrollIntoView({ block: 'end' });
   }, [item]);
 
+  const title = `${item?.agentType ?? 'Sub-agent'} · ${roomName}`;
+
   return (
-    <section className="subagent-details" aria-label="Sub-agent details">
-      <div className="subagent-details__header">
+    <main className="chat-panel" aria-label="Sub-agent details">
+      <div className="chat-panel__header">
         <IconButton icon="arrow-left" label="Back to chat" onClick={closeDetails} />
+        <div className="chat-panel__title fw-semibold text-truncate" title={title}>
+          {title}
+        </div>
         {item && (
-          <>
-            <strong>{item.agentType}</strong>
+          <div className="ms-auto d-flex align-items-center gap-2 flex-shrink-0">
             <Badge bg={SUBAGENT_STATUS_BG[item.status]}>{item.status}</Badge>
-          </>
+          </div>
         )}
       </div>
-      {item ? <DetailsBody item={item} /> : <p className="text-body-secondary">No details yet.</p>}
-      <div ref={endRef} />
-    </section>
+      <div className="subagent-details__body">
+        {item ? (
+          <DetailsBody item={item} />
+        ) : (
+          <p className="text-body-secondary">No details yet.</p>
+        )}
+        <div ref={endRef} />
+      </div>
+    </main>
   );
 }
 

@@ -822,9 +822,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/ChatPanel.tsx": {
-    "mtime": 1793937829.2715561,
-    "seen": 1793937853.208721,
-    "ast_hash": "e3e70578c719fe3e872d17076426abeb",
+    "mtime": 1793938231.714068,
+    "seen": 1793938241.9111629,
+    "ast_hash": "56b367d1c8774a2a8ef21fcdfa22f362",
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/MessageList.tsx": {
@@ -1008,9 +1008,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/subagents/SubagentDetails.tsx": {
-    "mtime": 1793933994.9166422,
-    "seen": 1793934601.33146,
-    "ast_hash": "782db2b57c37d7ba87c824786749fd09",
+    "mtime": 1793938231.7144432,
+    "seen": 1793938241.9121192,
+    "ast_hash": "04e961d13a2163e61b6ca4c24a9d4afd",
     "semantic_hash": ""
   },
   "apps/web/src/features/subagents/use-subagent-details-store.ts": {
@@ -1194,9 +1194,39 @@
     "semantic_hash": ""
   },
   "plans/2026-11-06-11-03-08-header-mcp-only.md": {
-    "mtime": 1793937788.247172,
-    "seen": 1793937823.456198,
-    "ast_hash": "93fd70867dbc4076c61ba77de44ed2fb",
+    "mtime": 1793937869.1944127,
+    "seen": 1793938241.917637,
+    "ast_hash": "51502f62c0edb18ac5dcd62111e1b498",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-10-02-subagent-details-mcp-style.md": {
+    "mtime": 1793938262.9932966,
+    "seen": 1793938532.03145,
+    "ast_hash": "eccd07382b88178627aeb84d8497ed51",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-15-08-fix-subagent-prompt-height.md": {
+    "mtime": 1793938508.9966328,
+    "seen": 1793938532.031452,
+    "ast_hash": "7f7510b7087734c7ec129daa42ae1a57",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-15-19-web-test-subagent-details-panel.md": {
+    "mtime": 1793938644.1192722,
+    "seen": 1793938687.8851771,
+    "ast_hash": "a60135d11eee38825b202d82de6e68a0",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-17-24-web-test-subagent-details-panel-report.md": {
+    "mtime": 1793938644.2813709,
+    "seen": 1793938687.8851788,
+    "ast_hash": "8ba7be30d41d5514f2be7b9106a6099f",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-17-54-subagent-prompt-spacing.md": {
+    "mtime": 1793938674.6434238,
+    "seen": 1793938687.88518,
+    "ast_hash": "348e91b80338c753e52603800d16d66a",
     "semantic_hash": ""
   }
 }

@@ -822,9 +822,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/ChatPanel.tsx": {
-    "mtime": 1793937665.4801662,
-    "seen": 1793937675.14309,
-    "ast_hash": "108686606fd45845b2d6ff581fd72aeb",
+    "mtime": 1793938231.714068,
+    "seen": 1793938241.9111629,
+    "ast_hash": "56b367d1c8774a2a8ef21fcdfa22f362",
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/MessageList.tsx": {
@@ -858,9 +858,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/SessionList.tsx": {
-    "mtime": 1793937024.8628187,
-    "seen": 1793937049.579361,
-    "ast_hash": "f60ad167e023e11d65bab4d11a92f8da",
+    "mtime": 1793937829.2717016,
+    "seen": 1793937853.209457,
+    "ast_hash": "517ad27476d73f45a2ed733e67ee68fe",
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/use-sessions-store.ts": {
@@ -1008,9 +1008,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/subagents/SubagentDetails.tsx": {
-    "mtime": 1793933994.9166422,
-    "seen": 1793934601.33146,
-    "ast_hash": "782db2b57c37d7ba87c824786749fd09",
+    "mtime": 1793938231.7144432,
+    "seen": 1793938241.9121192,
+    "ast_hash": "04e961d13a2163e61b6ca4c24a9d4afd",
     "semantic_hash": ""
   },
   "apps/web/src/features/subagents/use-subagent-details-store.ts": {
@@ -1176,9 +1176,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/RoomActionsMenu.tsx": {
-    "mtime": 1793937811.75307,
-    "seen": 1793937823.451332,
-    "ast_hash": "5afdb58d72670483d37504155def3d54",
+    "mtime": 1793937844.193614,
+    "seen": 1793937853.2094212,
+    "ast_hash": "16207b128c104fd02625b3d500ea56ed",
     "semantic_hash": ""
   },
   "plans/2026-11-06-10-47-54-room-actions-menu.md": {
@@ -1194,9 +1194,27 @@
     "semantic_hash": ""
   },
   "plans/2026-11-06-11-03-08-header-mcp-only.md": {
-    "mtime": 1793937788.247172,
-    "seen": 1793937823.456198,
-    "ast_hash": "93fd70867dbc4076c61ba77de44ed2fb",
+    "mtime": 1793937869.1944127,
+    "seen": 1793938241.917637,
+    "ast_hash": "51502f62c0edb18ac5dcd62111e1b498",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-10-02-subagent-details-mcp-style.md": {
+    "mtime": 1793938262.9932966,
+    "seen": 1793938532.03145,
+    "ast_hash": "eccd07382b88178627aeb84d8497ed51",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-15-08-fix-subagent-prompt-height.md": {
+    "mtime": 1793938508.9966328,
+    "seen": 1793938532.031452,
+    "ast_hash": "7f7510b7087734c7ec129daa42ae1a57",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-15-19-web-test-subagent-details-panel.md": {
+    "mtime": 1793938519.6430821,
+    "seen": 1793938532.031453,
+    "ast_hash": "bc4b7a5314b5385e0e68266ced3f607f",
     "semantic_hash": ""
   }
 }

@@ -31,7 +31,16 @@ export function ChatPanel() {
 
   if (mcpRoomId === room.id) return <McpStatusPanel roomId={room.id} roomName={roomLabel(room)} />;
 
-  const showDetails = openSubagent !== null && openSubagent.roomId === room.id;
+  if (openSubagent !== null && openSubagent.roomId === room.id) {
+    return (
+      <SubagentDetails
+        roomId={room.id}
+        roomName={roomLabel(room)}
+        subagentId={openSubagent.subagentId}
+      />
+    );
+  }
+
   const closed = room.state === 'closed';
 
   return (
@@ -45,20 +54,14 @@ export function ChatPanel() {
           <IconButton icon="plug" label="MCP servers" onClick={() => openMcp(room.id)} />
         </div>
       </div>
-      {showDetails ? (
-        <SubagentDetails roomId={room.id} subagentId={openSubagent.subagentId} />
-      ) : (
-        <>
-          <MessageList key={`list-${room.id}`} roomId={room.id} />
-          <ChatInput
-            key={`input-${room.id}`}
-            roomId={room.id}
-            busy={room.busy}
-            subagentsActive={room.subagents.length > 0}
-            closed={closed}
-          />
-        </>
-      )}
+      <MessageList key={`list-${room.id}`} roomId={room.id} />
+      <ChatInput
+        key={`input-${room.id}`}
+        roomId={room.id}
+        busy={room.busy}
+        subagentsActive={room.subagents.length > 0}
+        closed={closed}
+      />
     </main>
   );
 }
