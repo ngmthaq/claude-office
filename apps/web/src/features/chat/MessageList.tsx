@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { AuthErrorNotice } from '@/features/chat/AuthErrorNotice';
@@ -30,10 +31,10 @@ export function MessageList({ roomId }: MessageListProps) {
 function ChatItemView({ roomId, item }: { roomId: string; item: ChatItem }) {
   switch (item.kind) {
     case 'user':
-      return <div className="message message--user">{item.text}</div>;
+      return <div className="message message--user rounded-3">{item.text}</div>;
     case 'assistant':
       return (
-        <div className="message message--assistant">
+        <div className="message message--assistant rounded-3">
           <Markdown remarkPlugins={[remarkGfm]} components={{ a: ExternalLink }}>
             {item.text}
           </Markdown>
@@ -45,15 +46,15 @@ function ChatItemView({ roomId, item }: { roomId: string; item: ChatItem }) {
       );
     case 'error':
       return (
-        <div className="notice notice--error" role="alert">
+        <Alert variant="danger" className="py-2 mb-0">
           {item.message}
-        </div>
+        </Alert>
       );
     case 'auth':
       return <AuthErrorNotice message={item.message} />;
     case 'notice':
       return (
-        <div className="notice-line">
+        <div className="notice-line text-body-secondary small text-center">
           {item.notice === 'stopped' ? 'Stopped' : 'Session closed'}
         </div>
       );

@@ -1,85 +1,75 @@
+import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Spinner from 'react-bootstrap/Spinner';
 import { roomLabel } from '@claude-office/shared';
-import { ArchivedDialog } from '@/features/archived/ArchivedDialog';
-import { useArchivedStore } from '@/features/archived/use-archived-store';
-import { sendClientEvent } from '@/features/connection/ws-client';
+import { IconButton } from '@/components/IconButton';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
-import { HistoryDialog } from '@/features/history/HistoryDialog';
-import { useHistoryStore } from '@/features/history/use-history-store';
-import { NewSessionDialog } from '@/features/sessions/NewSessionDialog';
 import { RoomRenameInput } from '@/features/sessions/RoomRenameInput';
 
 export function SessionList() {
   const rooms = useSessionsStore((state) => state.rooms);
   const selectedRoomId = useSessionsStore((state) => state.selectedRoomId);
   const select = useSessionsStore((state) => state.select);
-  const openDialog = useSessionsStore((state) => state.openDialog);
   const renaming = useSessionsStore((state) => state.renaming);
   const startRename = useSessionsStore((state) => state.startRename);
-  const openHistory = useHistoryStore((state) => state.openHistory);
-  const openArchived = useArchivedStore((state) => state.openArchived);
 
   return (
     <aside className="sidebar">
-      <button type="button" className="primary" onClick={openDialog}>
-        New session
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          openHistory();
-          sendClientEvent({ type: 'history_list' });
-        }}
-      >
-        History
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          openArchived();
-          sendClientEvent({ type: 'archived_list' });
-        }}
-      >
-        Archived
-      </button>
-      <ul className="session-list">
+      {rooms.length === 0 && (
+        <div className="text-body-secondary text-center small p-3">
+          <i className="bi bi-inbox fs-3 d-block mb-2" aria-hidden="true" />
+          No sessions yet. Use the + button in the header to start one.
+        </div>
+      )}
+      <ListGroup className="session-list">
         {rooms.map((room) => {
           const label = roomLabel(room);
           const renamingHere = renaming?.roomId === room.id && renaming.rect === null;
           return (
-            <li key={room.id} className="session-row">
+            <ListGroup.Item key={room.id} className="d-flex align-items-center gap-2 p-1">
               {renamingHere ? (
-                <RoomRenameInput room={room} className="session-rename" />
+                <RoomRenameInput room={room} className="flex-grow-1" />
               ) : (
                 <>
-                  <button
-                    type="button"
-                    className={`session-item${room.id === selectedRoomId ? ' session-item--selected' : ''}`}
+                  <Button
+                    variant={room.id === selectedRoomId ? 'primary' : 'link'}
+                    className={`flex-grow-1 text-start text-truncate d-flex justify-content-between${
+                      room.id === selectedRoomId ? '' : ' text-body text-decoration-none'
+                    }`}
                     title={room.folder}
                     onClick={() => select(room.id)}
                   >
-                    <span>
+                    <span className="text-truncate">
                       {label}
-                      {room.state === 'closed' && <span className="closed-tag">closed</span>}
+                      {room.state === 'closed' && (
+                        <Badge bg="secondary" className="ms-2">
+                          closed
+                        </Badge>
+                      )}
                     </span>
-                    {room.busy && <span className="busy-dot" role="status" aria-label="Busy" />}
-                  </button>
-                  <button
-                    type="button"
-                    className="session-rename-btn"
-                    aria-label={`Rename ${label}`}
+                    {room.busy && (
+                      <Spinner
+                        animation="grow"
+                        size="sm"
+                        variant="warning"
+                        role="status"
+                        aria-label="Busy"
+                      />
+                    )}
+                  </Button>
+                  <IconButton
+                    icon="pencil"
+                    label={`Rename ${label}`}
+                    variant="outline-secondary"
                     onClick={() => startRename(room.id, null)}
-                  >
-                    Rename
-                  </button>
+                  />
                 </>
               )}
-            </li>
+            </ListGroup.Item>
           );
         })}
-      </ul>
-      <NewSessionDialog />
-      <HistoryDialog />
-      <ArchivedDialog />
+      </ListGroup>
     </aside>
   );
 }

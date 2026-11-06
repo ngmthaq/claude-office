@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react';
+import Alert from 'react-bootstrap/Alert';
+import Badge from 'react-bootstrap/Badge';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { IconButton } from '@/components/IconButton';
 import { ExternalLink } from '@/features/chat/MessageList';
+import { SUBAGENT_STATUS_BG } from '@/features/chat/SubagentCard';
 import { ToolCard } from '@/features/chat/ToolCard';
 import { useChatStore, type ChatState, type SubagentItem } from '@/features/chat/use-chat-store';
 import { useSubagentDetailsStore } from '@/features/subagents/use-subagent-details-store';
@@ -29,17 +33,15 @@ export function SubagentDetails({ roomId, subagentId }: SubagentDetailsProps) {
   return (
     <section className="subagent-details" aria-label="Sub-agent details">
       <div className="subagent-details__header">
-        <button type="button" onClick={closeDetails}>
-          Back to chat
-        </button>
+        <IconButton icon="arrow-left" label="Back to chat" onClick={closeDetails} />
         {item && (
           <>
             <strong>{item.agentType}</strong>
-            <span className={`subagent-chip subagent-chip--${item.status}`}>{item.status}</span>
+            <Badge bg={SUBAGENT_STATUS_BG[item.status]}>{item.status}</Badge>
           </>
         )}
       </div>
-      {item ? <DetailsBody item={item} /> : <p>No details yet.</p>}
+      {item ? <DetailsBody item={item} /> : <p className="text-body-secondary">No details yet.</p>}
       <div ref={endRef} />
     </section>
   );
@@ -49,11 +51,11 @@ function DetailsBody({ item }: { item: SubagentItem }) {
   const stopped = item.status === 'stopped';
   return (
     <>
-      <h4>Task</h4>
+      <h6 className="text-body-secondary">Task</h6>
       <p>{item.description || 'Sub-agent'}</p>
-      <h4>Prompt</h4>
-      <pre className="subagent-details__prompt">{item.prompt}</pre>
-      <h4>Tool calls</h4>
+      <h6 className="text-body-secondary">Prompt</h6>
+      <pre className="subagent-details__prompt small">{item.prompt}</pre>
+      <h6 className="text-body-secondary">Tool calls</h6>
       {item.tools.map((tool) => (
         <ToolCard
           key={tool.id}
@@ -64,13 +66,13 @@ function DetailsBody({ item }: { item: SubagentItem }) {
         />
       ))}
       {item.hiddenToolCalls > 0 && (
-        <div className="subagent-details__hint">
+        <p className="subagent-details__hint small text-body-secondary">
           {item.hiddenToolCalls} more tool calls not shown
-        </div>
+        </p>
       )}
       {item.status === 'done' && item.result !== null && (
         <>
-          <h4>Result</h4>
+          <h6 className="text-body-secondary">Result</h6>
           <div className="message message--assistant">
             <Markdown remarkPlugins={[remarkGfm]} components={{ a: ExternalLink }}>
               {item.result}
@@ -80,13 +82,13 @@ function DetailsBody({ item }: { item: SubagentItem }) {
       )}
       {item.status === 'error' && item.result !== null && (
         <>
-          <h4>Result</h4>
-          <div className="subagent-details__error" role="alert">
+          <h6 className="text-body-secondary">Result</h6>
+          <Alert variant="danger" className="subagent-details__error">
             {item.result}
-          </div>
+          </Alert>
         </>
       )}
-      {stopped && <div className="notice-line">Stopped</div>}
+      {stopped && <Badge bg="secondary">Stopped</Badge>}
     </>
   );
 }

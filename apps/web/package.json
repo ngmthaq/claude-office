@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@claude-office/shared": "workspace:*",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.2",
     "pixi.js": "^8.22.0",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",

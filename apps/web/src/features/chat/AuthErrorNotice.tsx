@@ -1,11 +1,16 @@
+import Alert from 'react-bootstrap/Alert';
+
 type AuthErrorNoticeProps = { message: string };
 
 export function AuthErrorNotice({ message }: AuthErrorNoticeProps) {
   return (
-    <div className="notice notice--auth" role="alert">
-      <strong>Not logged in</strong>
+    <Alert variant="danger" className="notice notice--auth" role="alert">
+      <Alert.Heading as="h6">
+        <i className="bi bi-exclamation-triangle me-1" aria-hidden="true" />
+        Not logged in
+      </Alert.Heading>
       <p>{message}</p>
-      <ol>
+      <ol className="mb-0">
         <li>
           Install Claude Code (<code>npm install -g @anthropic-ai/claude-code</code>), run{' '}
           <code>claude</code>, and log in.
@@ -15,6 +20,6 @@ export function AuthErrorNotice({ message }: AuthErrorNoticeProps) {
         </li>
         <li>Then send your message again.</li>
       </ol>
-    </div>
+    </Alert>
   );
 }

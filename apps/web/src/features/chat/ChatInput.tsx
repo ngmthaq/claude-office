@@ -1,5 +1,7 @@
+import Form from 'react-bootstrap/Form';
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { useConnectionStore } from '@/features/connection/use-connection-store';
+import { IconButton } from '@/components/IconButton';
 import { sendClientEvent } from '@/features/connection/ws-client';
 import { AutocompletePopup, optionId } from '@/features/chat/AutocompletePopup';
 import {
@@ -75,8 +77,8 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
     });
   }
 
-  function syncCursor(target: HTMLTextAreaElement): void {
-    setCursor(target.selectionStart);
+  function syncCursor(target: { selectionStart: number | null }): void {
+    setCursor(target.selectionStart ?? 0);
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>): void {
@@ -117,7 +119,8 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
           onPick={pick}
         />
       )}
-      <textarea
+      <Form.Control
+        as="textarea"
         ref={textareaRef}
         value={text}
         rows={2}
@@ -141,24 +144,24 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
         onSelect={(event) => syncCursor(event.currentTarget)}
       />
       {!busy && (
-        <button
-          type="button"
-          className="primary"
+        <IconButton
+          icon="send"
+          label="Send message"
+          variant="primary"
+          size={undefined}
           disabled={disabled || text.trim() === ''}
           onClick={submit}
-        >
-          Send
-        </button>
+        />
       )}
       {(busy || subagentsActive) && (
-        <button
-          type="button"
-          className="danger"
+        <IconButton
+          icon="stop-fill"
+          label="Stop"
+          variant="danger"
+          size={undefined}
           disabled={!connected}
           onClick={() => sendClientEvent({ type: 'session_stop', roomId })}
-        >
-          Stop
-        </button>
+        />
       )}
     </div>
   );

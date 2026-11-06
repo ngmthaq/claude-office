@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { IconButton } from '@/components/IconButton';
 import { roomLabel } from '@claude-office/shared';
 import { ChatInput } from '@/features/chat/ChatInput';
 import { CloseConfirmDialog } from '@/features/chat/CloseConfirmDialog';
@@ -41,26 +42,24 @@ export function ChatPanel() {
   return (
     <main className="chat-panel">
       <div className="chat-panel__header">
-        <button type="button" onClick={() => select(null)}>
-          Back
-        </button>
-        <div className="chat-panel__title" title={room.folder}>
+        <IconButton icon="arrow-left" label="Back" onClick={() => select(null)} />
+        <div className="chat-panel__title fw-semibold text-truncate" title={room.folder}>
           {roomLabel(room)}
         </div>
-        {!closed && (
-          <button
-            type="button"
-            onClick={() => (needsConfirm ? setConfirming('close') : sendClose())}
-          >
-            Close
-          </button>
-        )}
-        <button
-          type="button"
-          onClick={() => (needsConfirm ? setConfirming('archive') : sendArchive())}
-        >
-          Archive
-        </button>
+        <div className="ms-auto d-flex gap-2 flex-shrink-0">
+          {!closed && (
+            <IconButton
+              icon="x-circle"
+              label="Close session"
+              onClick={() => (needsConfirm ? setConfirming('close') : sendClose())}
+            />
+          )}
+          <IconButton
+            icon="box-arrow-in-down"
+            label="Archive session"
+            onClick={() => (needsConfirm ? setConfirming('archive') : sendArchive())}
+          />
+        </div>
       </div>
       {showDetails ? (
         <SubagentDetails roomId={room.id} subagentId={openSubagent.subagentId} />

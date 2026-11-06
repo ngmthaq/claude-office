@@ -1,9 +1,13 @@
+import Badge from 'react-bootstrap/Badge';
+import Card from 'react-bootstrap/Card';
+import { IconButton } from '@/components/IconButton';
 import { sendClientEvent } from '@/features/connection/ws-client';
 import { useChatStore, type PermissionItem } from '@/features/chat/use-chat-store';
 
 type PermissionCardProps = { roomId: string; item: PermissionItem };
 
 const STATUS_LABELS = { allow: 'Allowed', deny: 'Denied', cancelled: 'Cancelled' } as const;
+const STATUS_BG = { allow: 'success', deny: 'danger', cancelled: 'secondary' } as const;
 
 export function PermissionCard({ roomId, item }: PermissionCardProps) {
   const heading = item.title ?? `Claude wants to use ${item.toolName}`;
@@ -15,40 +19,42 @@ export function PermissionCard({ roomId, item }: PermissionCardProps) {
   }
 
   return (
-    <div
-      className={`permission-card permission-card--${item.status}`}
+    <Card
+      className={`permission-card permission-card--${item.status} mb-2`}
       role="group"
       aria-label={`Permission request: ${heading}`}
     >
-      <div className="permission-card__head">
+      <Card.Header className="d-flex flex-wrap align-items-center gap-2">
         <strong>{heading}</strong>
-        <span className="permission-card__tool">{item.toolName}</span>
-        {item.fromSubagent && <span className="permission-card__tag">from sub-agent</span>}
-      </div>
-      {item.description !== null && <p className="permission-card__desc">{item.description}</p>}
-      <pre className="permission-card__input">{inputText}</pre>
-      {item.status === 'pending' || item.status === 'sending' ? (
-        <div className="permission-card__actions">
-          <button
-            type="button"
-            className="permission-card__btn permission-card__btn--deny"
-            disabled={item.status === 'sending'}
-            onClick={() => answer('deny')}
-          >
-            Deny
-          </button>
-          <button
-            type="button"
-            className="permission-card__btn permission-card__btn--allow"
-            disabled={item.status === 'sending'}
-            onClick={() => answer('allow')}
-          >
-            Allow
-          </button>
-        </div>
-      ) : (
-        <div className="permission-card__status">{STATUS_LABELS[item.status]}</div>
-      )}
-    </div>
+        <Badge bg="secondary" className="font-monospace">
+          {item.toolName}
+        </Badge>
+        {item.fromSubagent && <Badge bg="info">from sub-agent</Badge>}
+      </Card.Header>
+      <Card.Body className="p-2">
+        {item.description !== null && <p className="small mb-2">{item.description}</p>}
+        <pre className="small mb-2">{inputText}</pre>
+        {item.status === 'pending' || item.status === 'sending' ? (
+          <div className="d-flex justify-content-end gap-2">
+            <IconButton
+              icon="x-lg"
+              label="Deny"
+              variant="outline-danger"
+              disabled={item.status === 'sending'}
+              onClick={() => answer('deny')}
+            />
+            <IconButton
+              icon="check-lg"
+              label="Allow"
+              variant="success"
+              disabled={item.status === 'sending'}
+              onClick={() => answer('allow')}
+            />
+          </div>
+        ) : (
+          <Badge bg={STATUS_BG[item.status]}>{STATUS_LABELS[item.status]}</Badge>
+        )}
+      </Card.Body>
+    </Card>
   );
 }

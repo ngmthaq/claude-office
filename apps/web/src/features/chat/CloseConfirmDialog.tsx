@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import { IconButton } from '@/components/IconButton';
 import { useChatStore } from '@/features/chat/use-chat-store';
 
 type CloseConfirmDialogProps = {
@@ -14,39 +16,43 @@ export function CloseConfirmDialog({
   onConfirm,
   onCancel,
 }: CloseConfirmDialogProps) {
-  const cancelRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    cancelRef.current?.focus();
-  }, []);
-
   // The flag tells App to skip its own Esc handling while this dialog is open.
   useEffect(() => {
     const { setConfirmingClose } = useChatStore.getState();
     setConfirmingClose(true);
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onCancel();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      window.removeEventListener('keydown', onKeyDown);
-      setConfirmingClose(false);
-    };
-  }, [onCancel]);
+    return () => setConfirmingClose(false);
+  }, []);
 
   return (
-    <div className="dialog-backdrop">
-      <div className="dialog" role="dialog" aria-modal="true" aria-labelledby="close-confirm-title">
-        <h2 id="close-confirm-title">{message}</h2>
-        <div className="dialog__actions">
-          <button type="button" ref={cancelRef} onClick={onCancel}>
-            Cancel
-          </button>
-          <button type="button" className="danger" onClick={onConfirm}>
-            {confirmLabel}
-          </button>
-        </div>
-      </div>
-    </div>
+    <Modal
+      show
+      centered
+      onHide={onCancel}
+      onEscapeKeyDown={(event) => event.stopPropagation()}
+      aria-labelledby="close-confirm-title"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title as="h2" id="close-confirm-title" className="fs-5">
+          {message}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Footer>
+        <IconButton
+          icon="x-lg"
+          label="Cancel"
+          variant="secondary"
+          size={undefined}
+          autoFocus
+          onClick={onCancel}
+        />
+        <IconButton
+          icon="x-circle"
+          label={confirmLabel}
+          variant="danger"
+          size={undefined}
+          onClick={onConfirm}
+        />
+      </Modal.Footer>
+    </Modal>
   );
 }

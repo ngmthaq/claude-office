@@ -6,6 +6,7 @@ import { ChatPanel } from '@/features/chat/ChatPanel';
 import { ChatResizeHandle } from '@/features/chat/ChatResizeHandle';
 import { useChatWidthStore } from '@/features/chat/use-chat-width-store';
 import { GameCanvas } from '@/game/GameCanvas';
+import { HeaderActions } from '@/features/sessions/HeaderActions';
 import { SessionList } from '@/features/sessions/SessionList';
 import { useChatStore } from '@/features/chat/use-chat-store';
 import { useArchivedStore } from '@/features/archived/use-archived-store';
@@ -42,9 +43,10 @@ export function App() {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <h1>Claude Office</h1>
+      <header className="app-header d-flex align-items-center gap-3 px-3 py-2 border-bottom">
+        <h1 className="h5 m-0">Claude Office</h1>
         <ConnectionBadge />
+        <HeaderActions />
       </header>
       <div className="app-body">
         <ErrorBoundary>

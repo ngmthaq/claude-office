@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import Alert from 'react-bootstrap/Alert';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { sendClientEvent } from '@/features/connection/ws-client';
 import { useConnectionStore } from '@/features/connection/use-connection-store';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
@@ -21,31 +23,31 @@ export function FolderPicker() {
 
   return (
     <div className="folder-picker">
-      <div className="folder-picker__path" title={path ?? ''}>
+      <div className="small text-body-secondary text-truncate mb-2" title={path ?? ''}>
         {path ?? 'Loading...'}
       </div>
       {error && (
-        <p role="alert" className="form-error">
+        <Alert variant="danger" className="py-1 px-2 small">
           {error}
-        </p>
+        </Alert>
       )}
-      <ul className="folder-picker__list" aria-busy={loading}>
+      <ListGroup className="folder-picker__list" aria-busy={loading}>
         {parent !== null && (
-          <li>
-            <button type="button" onClick={() => browse(parent)}>
-              Up
-            </button>
-          </li>
+          <ListGroup.Item action onClick={() => browse(parent)}>
+            <i className="bi bi-arrow-up me-2" aria-hidden="true" />
+            Up
+          </ListGroup.Item>
         )}
         {entries.map((entry) => (
-          <li key={entry.path}>
-            <button type="button" onClick={() => browse(entry.path)}>
-              {entry.name}
-            </button>
-          </li>
+          <ListGroup.Item action key={entry.path} onClick={() => browse(entry.path)}>
+            <i className="bi bi-folder me-2" aria-hidden="true" />
+            {entry.name}
+          </ListGroup.Item>
         ))}
-        {!loading && entries.length === 0 && <li className="muted">No subfolders</li>}
-      </ul>
+        {!loading && entries.length === 0 && (
+          <ListGroup.Item className="text-body-secondary">No subfolders</ListGroup.Item>
+        )}
+      </ListGroup>
     </div>
   );
 }

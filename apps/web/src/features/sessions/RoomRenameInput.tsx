@@ -1,4 +1,5 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
+import Form from 'react-bootstrap/Form';
 import { ROOM_NAME_MAX, roomLabel, type RoomSummary } from '@claude-office/shared';
 import { sendClientEvent } from '@/features/connection/ws-client';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
@@ -31,9 +32,10 @@ export function RoomRenameInput({ room, className, style }: RoomRenameInputProps
   }
 
   return (
-    <input
+    <Form.Control
       ref={inputRef}
       type="text"
+      size="sm"
       className={className}
       style={style}
       defaultValue={initial}

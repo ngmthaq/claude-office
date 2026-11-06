@@ -1,5 +1,8 @@
-import { useEffect } from 'react';
+import Alert from 'react-bootstrap/Alert';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Modal from 'react-bootstrap/Modal';
 import type { HistoryEntry } from '@claude-office/shared';
+import { IconButton } from '@/components/IconButton';
 import { sendClientEvent } from '@/features/connection/ws-client';
 import { useHistoryStore } from '@/features/history/use-history-store';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
@@ -16,87 +19,84 @@ export function HistoryDialog() {
   const startResume = useHistoryStore((state) => state.startResume);
   const select = useSessionsStore((state) => state.select);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') close();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [open, close]);
-
-  if (!open) return null;
-
   const groups = groupByFolder(entries);
 
   return (
-    <div className="dialog-backdrop">
-      <div className="dialog" role="dialog" aria-modal="true" aria-labelledby="history-title">
-        <h2 id="history-title">History</h2>
-        <p className="muted">Past Claude sessions, grouped by project folder.</p>
-        {error && <p className="form-error">{error}</p>}
-        <div className="history-list">
-          {loading && <p className="muted">Loading…</p>}
-          {!loading && !error && groups.length === 0 && <p className="muted">No past sessions.</p>}
-          {groups.map((group) => (
-            <section key={group.folder} className="history-group">
-              <h3 className="history-group__title" title={group.folder}>
-                {lastSegment(group.folder)}
-              </h3>
-              <ul className="history-group__list">
-                {group.entries.map((entry) => (
-                  <li key={entry.sessionId} className="history-row">
-                    <div className="history-row__text">
-                      <span className="history-row__title" title={entry.title}>
-                        {entry.title}
-                      </span>
-                      <span className="muted history-row__meta">
-                        {new Date(entry.lastModified).toLocaleString()}
-                      </span>
-                      {entry.firstPrompt && entry.firstPrompt !== entry.title && (
-                        <span className="muted history-row__prompt" title={entry.firstPrompt}>
-                          {entry.firstPrompt}
-                        </span>
-                      )}
-                    </div>
-                    {entry.openRoomId !== null ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          select(entry.openRoomId);
-                          close();
-                        }}
+    <Modal
+      show={open}
+      onHide={close}
+      onEscapeKeyDown={(event) => event.stopPropagation()}
+      scrollable
+      aria-labelledby="history-title"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="history-title">History</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p className="text-body-secondary">Past Claude sessions, grouped by project folder.</p>
+        {error && <Alert variant="danger">{error}</Alert>}
+        {loading && <p className="text-body-secondary">Loading…</p>}
+        {!loading && !error && groups.length === 0 && (
+          <p className="text-body-secondary">No past sessions.</p>
+        )}
+        {groups.map((group) => (
+          <section key={group.folder} className="mb-3">
+            <h3 className="fs-6 text-truncate" title={group.folder}>
+              <i className="bi bi-folder2 me-1" aria-hidden="true" />
+              {lastSegment(group.folder)}
+            </h3>
+            <ListGroup>
+              {group.entries.map((entry) => (
+                <ListGroup.Item
+                  key={entry.sessionId}
+                  className="d-flex align-items-center justify-content-between gap-2"
+                >
+                  <div className="d-flex flex-column overflow-hidden">
+                    <span className="text-truncate" title={entry.title}>
+                      {entry.title}
+                    </span>
+                    <small className="text-body-secondary">
+                      {new Date(entry.lastModified).toLocaleString()}
+                    </small>
+                    {entry.firstPrompt && entry.firstPrompt !== entry.title && (
+                      <small
+                        className="text-body-secondary text-truncate"
+                        title={entry.firstPrompt}
                       >
-                        Open
-                      </button>
-                    ) : !entry.canResume ? (
-                      <span className="muted">Folder not available</span>
-                    ) : (
-                      <button
-                        type="button"
-                        className="primary"
-                        disabled={resumingId === entry.sessionId}
-                        onClick={() => {
-                          startResume(entry.sessionId);
-                          sendClientEvent({ type: 'session_resume', sessionId: entry.sessionId });
-                        }}
-                      >
-                        {resumingId === entry.sessionId ? 'Resuming…' : 'Resume'}
-                      </button>
+                        {entry.firstPrompt}
+                      </small>
                     )}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
-        <div className="dialog__actions">
-          <button type="button" onClick={close}>
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
+                  </div>
+                  {entry.openRoomId !== null ? (
+                    <IconButton
+                      icon="box-arrow-in-right"
+                      label="Open"
+                      onClick={() => {
+                        select(entry.openRoomId);
+                        close();
+                      }}
+                    />
+                  ) : !entry.canResume ? (
+                    <small className="text-body-secondary text-nowrap">Folder not available</small>
+                  ) : (
+                    <IconButton
+                      icon={resumingId === entry.sessionId ? 'hourglass-split' : 'play-fill'}
+                      label={resumingId === entry.sessionId ? 'Resuming…' : 'Resume'}
+                      variant="primary"
+                      disabled={resumingId === entry.sessionId}
+                      onClick={() => {
+                        startResume(entry.sessionId);
+                        sendClientEvent({ type: 'session_resume', sessionId: entry.sessionId });
+                      }}
+                    />
+                  )}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </section>
+        ))}
+      </Modal.Body>
+    </Modal>
   );
 }
 
