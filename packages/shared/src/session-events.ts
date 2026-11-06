@@ -375,3 +375,37 @@ export type CommandsListEvent = z.infer<typeof CommandsListEventSchema>;
 export type CommandsEvent = z.infer<typeof CommandsEventSchema>;
 export type FilesListEvent = z.infer<typeof FilesListEventSchema>;
 export type FilesEvent = z.infer<typeof FilesEventSchema>;
+
+export const McpServerStatusValueSchema = z.enum([
+  'connected',
+  'failed',
+  'needs-auth',
+  'pending',
+  'disabled',
+]);
+
+export const McpServerEntrySchema = z.object({
+  name: z.string(),
+  status: McpServerStatusValueSchema,
+  source: z.string().nullable(),
+  error: z.string().nullable(),
+  toolCount: z.number(),
+});
+
+export const McpListEventSchema = z.object({
+  type: z.literal('mcp_list'),
+  roomId: z.string(),
+});
+
+export const McpStatusEventSchema = z.object({
+  type: z.literal('mcp_status'),
+  roomId: z.string(),
+  /** False when the room has no running Claude process, so there is no status to read. */
+  live: z.boolean(),
+  servers: z.array(McpServerEntrySchema),
+});
+
+export type McpServerStatusValue = z.infer<typeof McpServerStatusValueSchema>;
+export type McpServerEntry = z.infer<typeof McpServerEntrySchema>;
+export type McpListEvent = z.infer<typeof McpListEventSchema>;
+export type McpStatusEvent = z.infer<typeof McpStatusEventSchema>;

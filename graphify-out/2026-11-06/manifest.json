@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/config.ts": {
-    "mtime": 1793929511.3914616,
-    "seen": 1793930603.29172,
-    "ast_hash": "7e3ada0c5f5b026d8c7fa948c5b6abfb",
+    "mtime": 1793935111.411222,
+    "seen": 1793935119.89023,
+    "ast_hash": "b01020305953c958141b495e06e69086",
     "semantic_hash": ""
   },
   "apps/server/src/db/database.ts": {
@@ -798,9 +798,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/sessions/session-manager.ts": {
-    "mtime": 1793933543.0451977,
-    "seen": 1793934601.331116,
-    "ast_hash": "d5ebd9097e19dee6ad34cb23c948de38",
+    "mtime": 1793935115.2875373,
+    "seen": 1793935119.8905559,
+    "ast_hash": "0eda3d80971dd7e82343713e05c32aaf",
     "semantic_hash": ""
   },
   "apps/server/src/ws/origin-check.ts": {
@@ -822,9 +822,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/ChatPanel.tsx": {
-    "mtime": 1793934395.0670056,
-    "seen": 1793934601.331285,
-    "ast_hash": "e8a7130d31703730900fcf86594e70ff",
+    "mtime": 1793934804.655867,
+    "seen": 1793934831.368462,
+    "ast_hash": "f805bdf2b3d227ffb19bb4ba8a680c6e",
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/MessageList.tsx": {
@@ -1152,9 +1152,9 @@
     "semantic_hash": ""
   },
   "plans/2026-11-06-09-56-07-ui-revamp-react-bootstrap.md": {
-    "mtime": 1793934684.1356874,
-    "seen": 1793934729.6403651,
-    "ast_hash": "c4681d95163bc46449b63bc81739248b",
+    "mtime": 1793934796.0941463,
+    "seen": 1793934831.373996,
+    "ast_hash": "0f09d58efbd58f9226f5986798d78d82",
     "semantic_hash": ""
   }
 }

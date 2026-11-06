@@ -12,6 +12,7 @@ import type { FastifyBaseLogger } from 'fastify';
 import type {
   ArchivedRoom,
   HistoryEntry,
+  McpServerEntry,
   PermissionDecision,
   RoomEvent,
   RoomSummary,
@@ -24,6 +25,7 @@ import {
   ASK_IN_CHAT_TOOLS,
   PERMISSION_DENY_MESSAGE,
   ROOM_EVENT_BUFFER_MAX,
+  SDK_EXTRA_ARGS,
   SETTING_SOURCES,
   STOP_TIMEOUT_MS,
   TOOL_RESULT_MAX_CHARS,
@@ -42,6 +44,7 @@ import {
 } from './sdk-event-mapper.ts';
 
 const COMMANDS_TIMEOUT_MS = 2000;
+const MCP_STATUS_TIMEOUT_MS = 5000;
 
 type PendingPermission = {
   toolName: string;
@@ -73,6 +76,8 @@ type Session = {
 
 type RoomEventListener = (event: RoomEvent) => void;
 type SessionStateListener = (event: SessionStateEvent) => void;
+
+export type McpStatusList = { live: boolean; servers: McpServerEntry[] };
 
 export type CommandList = { source: 'sdk' | 'disk'; commands: SlashCommandEntry[] };
 
@@ -215,6 +220,24 @@ export class SessionManager {
       }
     }
     return { source: 'disk', commands: await scanDiskCommands(session.folder) };
+  }
+
+  async listMcpServers(roomId: string): Promise<McpStatusList | undefined> {
+    const session = this.sessions.get(roomId);
+    if (!session) return undefined;
+    if (!session.query) return { live: false, servers: [] };
+    const list = await withTimeout(session.query.mcpServerStatus(), MCP_STATUS_TIMEOUT_MS);
+    const servers = list
+      .map((server) => ({
+        name: server.name,
+        status: server.status,
+        source: server.source ?? server.scope ?? null,
+        error: server.error ?? null,
+        toolCount: server.tools?.length ?? 0,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    this.log.info({ roomId, count: servers.length }, 'mcp status listed');
+    return { live: true, servers };
   }
 
   loadClosedRooms(): void {
@@ -564,6 +587,7 @@ export class SessionManager {
       options: {
         cwd: session.folder,
         settingSources: [...SETTING_SOURCES],
+        extraArgs: { ...SDK_EXTRA_ARGS },
         includePartialMessages: true,
         canUseTool: (toolName, input, options) =>
           this.requestPermission(session, toolName, input, options),

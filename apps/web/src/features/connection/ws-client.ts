@@ -3,6 +3,7 @@ import { useAutocompleteStore } from '@/features/chat/use-autocomplete-store';
 import { useChatStore } from '@/features/chat/use-chat-store';
 import { useArchivedStore } from '@/features/archived/use-archived-store';
 import { useHistoryStore } from '@/features/history/use-history-store';
+import { useMcpStore } from '@/features/mcp/use-mcp-store';
 import { useConnectionStore } from '@/features/connection/use-connection-store';
 import { isFakeRoomId, useSessionsStore } from '@/features/sessions/use-sessions-store';
 
@@ -104,6 +105,7 @@ export function startWsClient(): () => void {
           useHistoryStore.getState().setError(event.message);
         else if (event.code === 'commands_failed' || event.code === 'files_failed')
           failPendingList(event.code);
+        else if (event.code === 'mcp_failed') failPendingMcp();
         else if (event.code === 'room_not_found' || event.code === 'folder_invalid')
           failPendingList(event.code);
         else console.warn('Server error', event.code);
@@ -113,6 +115,9 @@ export function startWsClient(): () => void {
         break;
       case 'files':
         useAutocompleteStore.getState().setFiles(event.roomId, event.files);
+        break;
+      case 'mcp_status':
+        useMcpStore.getState().setStatus(event.roomId, event.live, event.servers);
         break;
       case 'session_history':
         useChatStore.getState().replaceHistory(event.roomId, event.events);
@@ -148,6 +153,11 @@ export function startWsClient(): () => void {
           ? (['files'] as const)
           : (['commands', 'files'] as const);
     useAutocompleteStore.getState().markFailed(roomId, [...kinds]);
+  }
+
+  function failPendingMcp(): void {
+    const roomId = useMcpStore.getState().openRoomId;
+    if (roomId !== null) useMcpStore.getState().markFailed(roomId);
   }
 
   function openSelectedRoom(): void {

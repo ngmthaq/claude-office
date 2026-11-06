@@ -99,6 +99,18 @@ function handleClientEvent(
           trySend(socket, errorEvent('commands_failed', 'Cannot load commands.'));
         });
       return;
+    case 'mcp_list':
+      sessions
+        .listMcpServers(event.roomId)
+        .then((list) => {
+          if (!list) trySend(socket, errorEvent('room_not_found', 'Room not found.'));
+          else trySend(socket, { type: 'mcp_status', roomId: event.roomId, ...list });
+        })
+        .catch((error: unknown) => {
+          log.error({ err: errorName(error) }, 'mcp status failed');
+          trySend(socket, errorEvent('mcp_failed', 'Cannot load MCP servers.'));
+        });
+      return;
     case 'files_list': {
       const folder = sessions.roomFolder(event.roomId);
       if (folder === undefined) {

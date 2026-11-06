@@ -12,6 +12,8 @@ import {
   FoldersListEventSchema,
   HistoryEventSchema,
   HistoryListEventSchema,
+  McpListEventSchema,
+  McpStatusEventSchema,
   PermissionAnswerEventSchema,
   PermissionRequestEventSchema,
   PermissionResolvedEventSchema,
@@ -89,6 +91,7 @@ export const ServerEventSchema = z.discriminatedUnion('type', [
   ArchivedEventSchema,
   CommandsEventSchema,
   FilesEventSchema,
+  McpStatusEventSchema,
 ]);
 
 export const ClientEventSchema = z.discriminatedUnion('type', [
@@ -108,6 +111,7 @@ export const ClientEventSchema = z.discriminatedUnion('type', [
   ArchivedListEventSchema,
   CommandsListEventSchema,
   FilesListEventSchema,
+  McpListEventSchema,
 ]);
 
 export type HelloEvent = z.infer<typeof HelloEventSchema>;

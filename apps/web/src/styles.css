@@ -181,6 +181,7 @@
 .chat-input {
   display: flex;
   position: relative;
+  align-items: flex-start;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   border-top: 1px solid var(--bs-border-color);
@@ -330,4 +331,31 @@ body.chat-resizing {
 body.chat-resizing .chat-drawer,
 body.chat-resizing .chat-drawer--open {
   transition: none;
+}
+
+.mcp-panel__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.mcp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mcp-list__row {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+}
+
+.mcp-list__error {
+  white-space: pre-wrap;
+  word-break: break-word;
 }

@@ -5,6 +5,8 @@ import { ChatInput } from '@/features/chat/ChatInput';
 import { CloseConfirmDialog } from '@/features/chat/CloseConfirmDialog';
 import { MessageList } from '@/features/chat/MessageList';
 import { sendClientEvent } from '@/features/connection/ws-client';
+import { McpStatusPanel } from '@/features/mcp/McpStatusPanel';
+import { useMcpStore } from '@/features/mcp/use-mcp-store';
 import { SubagentDetails } from '@/features/subagents/SubagentDetails';
 import { useSubagentDetailsStore } from '@/features/subagents/use-subagent-details-store';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
@@ -15,13 +17,22 @@ export function ChatPanel() {
   const [confirming, setConfirming] = useState<'close' | 'archive' | null>(null);
   const openSubagent = useSubagentDetailsStore((state) => state.open);
   const closeDetails = useSubagentDetailsStore((state) => state.closeDetails);
+  const mcpRoomId = useMcpStore((state) => state.openRoomId);
+  const openMcp = useMcpStore((state) => state.openPanel);
+  const closeMcp = useMcpStore((state) => state.closePanel);
   const roomId = room?.id ?? null;
 
   useEffect(() => {
     if (openSubagent !== null && openSubagent.roomId !== roomId) closeDetails();
   }, [openSubagent, roomId, closeDetails]);
 
+  useEffect(() => {
+    if (mcpRoomId !== null && mcpRoomId !== roomId) closeMcp();
+  }, [mcpRoomId, roomId, closeMcp]);
+
   if (!room) return null;
+
+  if (mcpRoomId === room.id) return <McpStatusPanel roomId={room.id} roomName={roomLabel(room)} />;
 
   const showDetails = openSubagent !== null && openSubagent.roomId === room.id;
   const closed = room.state === 'closed';
@@ -47,6 +58,7 @@ export function ChatPanel() {
           {roomLabel(room)}
         </div>
         <div className="ms-auto d-flex gap-2 flex-shrink-0">
+          <IconButton icon="plug" label="MCP servers" onClick={() => openMcp(room.id)} />
           {!closed && (
             <IconButton
               icon="x-circle"
