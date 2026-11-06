@@ -117,10 +117,15 @@ export class WsClientService {
         case 'subagent_tool_call':
         case 'subagent_tool_result':
         case 'subagent_finished':
+        case 'peer_message':
           useChatStore.getState().applyEvent(event);
           break;
         case 'pong':
           break;
+        default: {
+          const unhandled: never = event;
+          void unhandled;
+        }
       }
     };
 

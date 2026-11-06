@@ -22,6 +22,16 @@ const findServerRoot = (): string => {
 export const HOST = '127.0.0.1';
 export const PORT = Number(process.env.PORT) || 4317;
 export const SERVER_VERSION = '0.0.0';
+const LOG_LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'] as const;
+type LogLevel = (typeof LOG_LEVELS)[number];
+const DEFAULT_LOG_LEVEL: LogLevel = 'info';
+
+const readLogLevel = (): LogLevel => {
+  const value = process.env.LOG_LEVEL;
+  return LOG_LEVELS.find((level) => level === value) ?? DEFAULT_LOG_LEVEL;
+};
+
+export const LOG_LEVEL: LogLevel = readLogLevel();
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 export const SERVER_ROOT = findServerRoot();
 export const DATA_DIR = join(SERVER_ROOT, 'data');

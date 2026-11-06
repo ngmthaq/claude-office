@@ -9,6 +9,7 @@ import type { RoomRow } from '@/dtos/room-row.dto.ts';
 import type { StartResult } from '@/dtos/start-result.dto.ts';
 import type { FolderRepository } from '@/repositories/folder.repository.ts';
 import type { HistoryRepository } from '@/repositories/history.repository.ts';
+import type { SubagentTranscriptRepository } from '@/repositories/subagent-transcript.repository.ts';
 import type { RoomRepository } from '@/repositories/room.repository.ts';
 import type { Session, SessionStoreRepository } from '@/repositories/session-store.repository.ts';
 import type { EventBusService } from '@/services/event-bus.service.ts';
@@ -27,6 +28,7 @@ export class SessionService {
     private readonly roomRepository: RoomRepository,
     private readonly sessionStoreRepository: SessionStoreRepository,
     private readonly historyRepository: HistoryRepository,
+    private readonly subagentTranscriptRepository: SubagentTranscriptRepository,
     private readonly folderRepository: FolderRepository,
     private readonly sdkEventMapperService: SdkEventMapperService,
     private readonly eventBusService: EventBusService,
@@ -387,11 +389,20 @@ export class SessionService {
           session.terminalCommands = new Set(message.terminal_slash_commands ?? []);
           continue;
         }
-        for (const event of this.sdkEventMapperService.mapSdkMessage(
+        const description =
+          message.type === 'system' && message.subtype === 'task_notification'
+            ? this.sdkEventMapperService.subagentDescription(
+                session.mapper,
+                message.tool_use_id,
+                message.task_id,
+              )
+            : null;
+        const events = this.sdkEventMapperService.mapSdkMessage(
           session.id,
           message,
           session.mapper,
-        )) {
+        );
+        for (const event of events) {
           this.eventBusService.emit(session, event);
           if (event.type === 'subagent_started' || event.type === 'subagent_finished') {
             this.logSubagent(session, event);
@@ -403,11 +414,65 @@ export class SessionService {
             this.setBusy(session, false);
           }
         }
+        if (message.type === 'system' && message.subtype === 'task_notification') {
+          this.emitTaskResultCard(session, message, events, description);
+        }
       }
       this.handleQueryEnd(session, input, null);
     } catch (error) {
       this.handleQueryEnd(session, input, error);
     }
+  }
+
+  private emitTaskResultCard(
+    session: Session,
+    notification: Extract<SDKMessage, { type: 'system'; subtype: 'task_notification' }>,
+    events: RoomEvent[],
+    description: string | null,
+  ): void {
+    const taskId = notification.task_id;
+    if (session.mapper.cardedTasks.has(taskId)) return;
+    session.mapper.cardedTasks.add(taskId);
+    const isSubagent = events.some((event) => event.type === 'subagent_finished');
+    const emitCard = (body: string, readMs: number, usedTranscript: boolean): void => {
+      this.eventBusService.emit(
+        session,
+        this.sdkEventMapperService.buildTaskResultEvent(
+          session.id,
+          notification,
+          body,
+          description,
+          isSubagent,
+        ),
+      );
+      this.log.debug(
+        { roomId: session.id, taskId, readMs, usedTranscript },
+        'task result card emitted',
+      );
+    };
+    if (!isSubagent || !session.sessionId) {
+      emitCard(notification.summary, 0, false);
+      return;
+    }
+    const startedAt = Date.now();
+    this.subagentTranscriptRepository
+      .readFinalText(session.sessionId, taskId, session.folder)
+      .then(
+        (text) => emitCard(text ?? notification.summary, Date.now() - startedAt, text !== null),
+        (error: unknown) => {
+          this.log.error(
+            { roomId: session.id, err: ErrorUtil.errorName(error) },
+            'read result failed',
+          );
+          emitCard(notification.summary, Date.now() - startedAt, false);
+        },
+      )
+      .catch((error: unknown) => {
+        this.log.error(
+          { roomId: session.id, err: ErrorUtil.errorName(error) },
+          'emit result card failed',
+        );
+      });
   }
 
   // After a background task ends, the SDK may start a turn without user input.

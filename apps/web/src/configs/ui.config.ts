@@ -1,5 +1,6 @@
 import type { McpServerStatusValue, PermissionMode } from '@claude-office/shared';
 import type { ConnectionStatus } from '@/dtos/connection-status.dto';
+import type { ReportStatus } from '@/utils/report-status.util';
 import type { SubagentItem } from '@/dtos/subagent-item.dto';
 
 export type ModeOption = { value: PermissionMode; label: string; icon: string };
@@ -22,6 +23,35 @@ export const SUBAGENT_STATUS_BG: Record<SubagentItem['status'], string> = {
   error: 'danger',
   stopped: 'secondary',
 };
+
+export const REPORT_STATUS_BG: Record<ReportStatus | 'report', string> = {
+  complete: 'success',
+  incomplete: 'warning',
+  blocked: 'danger',
+  done: 'success',
+  failed: 'danger',
+  stopped: 'secondary',
+  report: 'secondary',
+};
+
+export const TASK_STATUS_BADGE = {
+  completed: 'done',
+  failed: 'failed',
+  killed: 'stopped',
+} as const;
+
+export const TASK_TITLE_PREFIX = 'Result: ';
+
+export const PEER_CARD_TEXT = {
+  resultLabel: 'Result',
+  messageLabel: 'Message',
+  taskDetailFallback: 'Sub-agent result',
+  handbackDetailFallback: 'sub-agent',
+  peerDetailFallback: 'another session',
+  reportHeading: 'Report',
+  reportBadge: 'report',
+  openSubagent: 'Open sub-agent',
+} as const;
 
 export const TOOL_STATUS_BG: Record<'running' | 'stopped' | 'error' | 'done', string> = {
   running: 'info',

@@ -1,7 +1,8 @@
 import type { SDKAssistantMessageError, SDKMessage } from '@anthropic-ai/claude-agent-sdk';
 import type { RoomEvent } from '@claude-office/shared';
 import type { MapperState } from '@/repositories/session-store.repository.ts';
-import { SUBAGENT_TOOL_EVENTS_MAX } from '@/configs/limits.config.ts';
+import { SUBAGENT_TOOL_EVENTS_MAX, TASK_TITLE_MAX } from '@/configs/limits.config.ts';
+import { PeerMessageUtil } from '@/utils/peer-message.util.ts';
 import { TextUtil } from '@/utils/text.util.ts';
 
 type SubagentStatus = 'done' | 'error' | 'stopped';
@@ -11,6 +12,12 @@ const NOTIFICATION_STATUS = {
   failed: 'error',
   stopped: 'stopped',
 } as const satisfies Record<string, SubagentStatus>;
+
+const TASK_CARD_STATUS = {
+  completed: 'completed',
+  failed: 'failed',
+  stopped: 'killed',
+} as const;
 
 const SUBAGENT_TOOL_NAMES: ReadonlySet<string> = new Set(['Agent', 'Task']);
 const DEFAULT_AGENT_TYPE = 'general-purpose';
@@ -31,7 +38,53 @@ const ACCOUNT_MESSAGE = 'Your Claude account cannot be used right now (billing o
 
 export class SdkEventMapperService {
   createMapperState(): MapperState {
-    return { messageId: '', subagents: new Map() };
+    return { messageId: '', subagents: new Map(), cardedTasks: new Set() };
+  }
+
+  buildTaskResultEvent(
+    roomId: string,
+    notification: {
+      tool_use_id?: string;
+      status: 'completed' | 'failed' | 'stopped';
+      summary: string;
+      uuid: string;
+    },
+    body: string,
+    description: string | null,
+    isSubagent: boolean,
+  ): RoomEvent {
+    return {
+      type: 'peer_message',
+      roomId,
+      messageId: `task-${notification.uuid}`,
+      senderName: null,
+      subagentId: notification.tool_use_id ?? null,
+      source: 'task',
+      title: this.buildLiveTitle(notification.summary, description, isSubagent),
+      taskStatus: TASK_CARD_STATUS[notification.status],
+      body,
+      time: Date.now(),
+    };
+  }
+
+  subagentDescription(
+    state: MapperState,
+    toolUseId: string | undefined,
+    taskId: string,
+  ): string | null {
+    const id = this.findSubagentId(state, toolUseId, taskId);
+    return id === undefined ? null : (state.subagents.get(id)?.description ?? null);
+  }
+
+  private buildLiveTitle(
+    summary: string,
+    description: string | null,
+    isSubagent: boolean,
+  ): string | null {
+    if (isSubagent) return description ? `Result: ${description}` : null;
+    const firstLine = (summary.split('\n')[0] ?? '').trim();
+    if (firstLine.length <= TASK_TITLE_MAX) return firstLine;
+    return `${firstLine.slice(0, TASK_TITLE_MAX - 1)}…`;
   }
 
   authErrorMessage(error: SDKAssistantMessageError | undefined): string | null {
@@ -157,8 +210,10 @@ export class SdkEventMapperService {
 
   private startSubagent(roomId: string, id: string, input: unknown, state: MapperState): RoomEvent {
     const agentType = this.readString(input, 'subagent_type') ?? DEFAULT_AGENT_TYPE;
+    const description = this.readString(input, 'description') ?? '';
     state.subagents.set(id, {
       agentType,
+      description,
       toolEvents: 0,
       hiddenToolCalls: 0,
       shownCalls: new Set(),
@@ -170,7 +225,7 @@ export class SdkEventMapperService {
       roomId,
       subagentId: id,
       agentType,
-      description: this.readString(input, 'description') ?? '',
+      description,
       prompt: TextUtil.truncate(this.readString(input, 'prompt') ?? ''),
       time: Date.now(),
     };
@@ -280,7 +335,7 @@ export class SdkEventMapperService {
     state: MapperState,
   ): RoomEvent[] {
     const content = message.message.content;
-    if (typeof content === 'string') return [];
+    if (typeof content === 'string') return this.mapPeerText(roomId, message, content, state);
     const events: RoomEvent[] = [];
     for (const block of content) {
       if (block.type !== 'tool_result') continue;
@@ -302,5 +357,32 @@ export class SdkEventMapperService {
       }
     }
     return events;
+  }
+
+  private mapPeerText(
+    roomId: string,
+    message: Extract<SDKMessage, { type: 'user' }>,
+    content: string,
+    state: MapperState,
+  ): RoomEvent[] {
+    const origin = message.origin;
+    if (origin?.kind !== 'peer') return [];
+    const body = origin.body ?? PeerMessageUtil.parsePeerEnvelope(content)?.body ?? content;
+    const taskId = origin.senderTaskId;
+    return [
+      {
+        type: 'peer_message',
+        roomId,
+        messageId: message.uuid ?? `peer-${Date.now()}`,
+        senderName: origin.name ?? null,
+        subagentId:
+          taskId !== undefined ? (this.findSubagentId(state, undefined, taskId) ?? null) : null,
+        source: taskId !== undefined ? 'handback' : 'peer',
+        title: null,
+        taskStatus: null,
+        body,
+        time: Date.now(),
+      },
+    ];
   }
 }

@@ -2,6 +2,8 @@ import { getSessionMessages, listSessions } from '@anthropic-ai/claude-agent-sdk
 import type { HistoryEntry, RoomEvent } from '@claude-office/shared';
 import { HISTORY_TEXT_MAX, ROOM_EVENT_BUFFER_MAX } from '@/configs/limits.config.ts';
 import type { FolderRepository } from '@/repositories/folder.repository.ts';
+import { TaskNotificationUtil } from '@/utils/task-notification.util.ts';
+import { PeerMessageUtil } from '@/utils/peer-message.util.ts';
 import { TextUtil } from '@/utils/text.util.ts';
 
 const WRAPPER_PREFIXES = ['<command-', '<local-command-', '<system-reminder>'];
@@ -76,6 +78,39 @@ export class HistoryRepository {
     if (start === '' || WRAPPER_PREFIXES.some((prefix) => start.startsWith(prefix))) return;
     if (start.startsWith(INTERRUPT_PREFIX)) {
       events.push({ type: 'session_notice', roomId, kind: 'stopped', time: 0 });
+      return;
+    }
+    const notification = TaskNotificationUtil.parse(text);
+    if (notification !== null) {
+      if (TaskNotificationUtil.isHandbackPointer(notification.body)) return;
+      events.push({
+        type: 'peer_message',
+        roomId,
+        messageId,
+        senderName: null,
+        subagentId: notification.toolUseId,
+        source: 'task',
+        title: notification.title,
+        taskStatus: notification.status,
+        body: notification.body,
+        time: 0,
+      });
+      return;
+    }
+    const envelope = PeerMessageUtil.parsePeerEnvelope(text);
+    if (envelope !== null) {
+      events.push({
+        type: 'peer_message',
+        roomId,
+        messageId,
+        senderName: envelope.from === '' ? null : envelope.from,
+        subagentId: null,
+        source: envelope.isHandback ? 'handback' : 'peer',
+        title: null,
+        taskStatus: null,
+        body: envelope.body,
+        time: 0,
+      });
       return;
     }
     events.push({ type: 'user_message', roomId, messageId, text, time: 0 });

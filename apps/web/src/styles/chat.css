@@ -43,6 +43,7 @@
 }
 
 .message--assistant pre,
+.peer-card__body pre,
 .tool-card pre,
 .permission-card pre,
 .subagent-details__prompt {
@@ -53,7 +54,8 @@
   white-space: pre-wrap;
 }
 
-.message--assistant table {
+.message--assistant table,
+.peer-card__body table {
   display: block;
   max-width: 100%;
   overflow-x: auto;
@@ -62,7 +64,9 @@
 }
 
 .message--assistant th,
-.message--assistant td {
+.message--assistant td,
+.peer-card__body th,
+.peer-card__body td {
   min-width: 4rem;
   padding: 0.375rem 0.625rem;
   border: 1px solid var(--bs-border-color);
@@ -72,7 +76,8 @@
   vertical-align: top;
 }
 
-.message--assistant th {
+.message--assistant th,
+.peer-card__body th {
   background: var(--bs-secondary-bg);
   white-space: nowrap;
 }
@@ -91,11 +96,13 @@
 
 .tool-card,
 .permission-card,
-.subagent-card {
+.subagent-card,
+.peer-card {
   max-width: 48rem;
 }
 
-.tool-card summary {
+.tool-card summary,
+.peer-card summary {
   cursor: pointer;
 }
 

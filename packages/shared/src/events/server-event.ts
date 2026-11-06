@@ -10,6 +10,7 @@ import { FoldersEventSchema } from './folders.ts';
 import { HelloEventSchema } from './hello.ts';
 import { HistoryEventSchema } from './history.ts';
 import { McpStatusEventSchema } from './mcp-status.ts';
+import { PeerMessageEventSchema } from './peer-message.ts';
 import { PermissionRequestEventSchema } from './permission-request.ts';
 import { PermissionResolvedEventSchema } from './permission-resolved.ts';
 import { PongEventSchema } from './pong.ts';
@@ -44,6 +45,7 @@ export const ServerEventSchema = z.discriminatedUnion('type', [
   SessionStartedEventSchema,
   SessionHistoryEventSchema,
   SessionStateEventSchema,
+  PeerMessageEventSchema,
   PermissionRequestEventSchema,
   PermissionResolvedEventSchema,
   SessionNoticeEventSchema,

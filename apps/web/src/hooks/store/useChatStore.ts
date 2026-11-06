@@ -17,6 +17,15 @@ export type ChatState = {
 
 const EMPTY_ITEMS: ChatItem[] = [];
 
+const TASK_STATUS_TO_SUBAGENT: Record<
+  'completed' | 'failed' | 'killed',
+  SubagentItem['status']
+> = {
+  completed: 'done',
+  failed: 'error',
+  killed: 'stopped',
+};
+
 export const useChatStore = create<ChatState>((set) => ({
   byRoom: {},
   confirmingClose: false,
@@ -52,6 +61,30 @@ export function applyRoomEvent(items: ChatItem[] | undefined, event: RoomEvent):
   switch (event.type) {
     case 'user_message':
       return [...current, { kind: 'user', id: event.messageId, text: event.text }];
+    case 'peer_message': {
+      const peer: ChatItem = {
+        kind: 'peer',
+        id: event.messageId,
+        senderName: event.senderName,
+        subagentId: event.subagentId,
+        source: event.source,
+        title: event.title,
+        taskStatus: event.taskStatus,
+        body: event.body,
+      };
+      if (event.source !== 'task' || event.subagentId === null) return [...current, peer];
+      return [
+        ...updateSubagent(current, event.subagentId, (item) => ({
+          ...item,
+          result: event.body,
+          status:
+            item.status === 'working' && event.taskStatus !== null
+              ? TASK_STATUS_TO_SUBAGENT[event.taskStatus]
+              : item.status,
+        })),
+        peer,
+      ];
+    }
     case 'assistant_text':
       return appendAssistantText(current, event.messageId, event.delta);
     case 'tool_call':

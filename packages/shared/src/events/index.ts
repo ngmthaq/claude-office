@@ -15,6 +15,7 @@ export * from './history-list.ts';
 export * from './history.ts';
 export * from './mcp-list.ts';
 export * from './mcp-status.ts';
+export * from './peer-message.ts';
 export * from './permission-answer.ts';
 export * from './permission-request.ts';
 export * from './permission-resolved.ts';

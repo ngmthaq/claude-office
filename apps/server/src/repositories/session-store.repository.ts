@@ -6,6 +6,7 @@ import type { InputQueue } from '@/utils/input-queue.util.ts';
 
 export type SubagentState = {
   agentType: string;
+  description: string;
   toolEvents: number;
   hiddenToolCalls: number;
   shownCalls: Set<string>;
@@ -18,6 +19,8 @@ export type MapperState = {
   messageId: string;
   /** Active sub-agents by their `Agent` tool call id, in start order. */
   subagents: Map<string, SubagentState>;
+  /** Task ids that already got a result card. */
+  cardedTasks: Set<string>;
 };
 
 export type PendingPermission = {

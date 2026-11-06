@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { AuthErrorNotice } from '@/components/atoms/AuthErrorNotice';
 import { ExternalLink } from '@/components/atoms/ExternalLink';
+import { PeerMessageCard } from '@/components/atoms/PeerMessageCard';
 import { SubagentCard } from '@/components/atoms/SubagentCard';
 import { ToolCard } from '@/components/atoms/ToolCard';
 import { PermissionCard } from '@/components/molecules/PermissionCard';
@@ -17,6 +19,10 @@ type MessageListProps = { roomId: string };
 export function MessageList({ roomId }: MessageListProps) {
   const items = useChatStore(selectRoomItems(roomId));
   const openDetails = useSubagentDetailsStore((state) => state.openDetails);
+  const subagentIds = useMemo(
+    () => new Set(items.filter((item) => item.kind === 'subagent').map((item) => item.id)),
+    [items],
+  );
   const endRef = useAutoScroll(items);
 
   function answerPermission(requestId: string, decision: 'allow' | 'deny'): void {
@@ -30,6 +36,7 @@ export function MessageList({ roomId }: MessageListProps) {
         <ChatItemView
           key={`${item.kind}-${item.id}`}
           item={item}
+          subagentIds={subagentIds}
           onAnswerPermission={answerPermission}
           onOpenSubagent={(subagentId) => openDetails(roomId, subagentId)}
         />
@@ -41,11 +48,17 @@ export function MessageList({ roomId }: MessageListProps) {
 
 type ChatItemViewProps = {
   item: ChatItem;
+  subagentIds: ReadonlySet<string>;
   onAnswerPermission: (requestId: string, decision: 'allow' | 'deny') => void;
   onOpenSubagent: (subagentId: string) => void;
 };
 
-function ChatItemView({ item, onAnswerPermission, onOpenSubagent }: ChatItemViewProps) {
+function ChatItemView({
+  item,
+  subagentIds,
+  onAnswerPermission,
+  onOpenSubagent,
+}: ChatItemViewProps) {
   switch (item.kind) {
     case 'user':
       return <div className="message message--user rounded-3">{item.text}</div>;
@@ -80,6 +93,21 @@ function ChatItemView({ item, onAnswerPermission, onOpenSubagent }: ChatItemView
         <PermissionCard
           item={item}
           onAnswer={(decision) => onAnswerPermission(item.id, decision)}
+        />
+      );
+    case 'peer':
+      return (
+        <PeerMessageCard
+          senderName={item.senderName}
+          source={item.source}
+          title={item.title}
+          taskStatus={item.taskStatus}
+          body={item.body}
+          onOpenSubagent={
+            item.subagentId !== null && subagentIds.has(item.subagentId)
+              ? onOpenSubagent.bind(null, item.subagentId)
+              : undefined
+          }
         />
       );
     case 'subagent':

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { AssistantTextEventSchema } from './assistant-text.ts';
 import { AuthErrorEventSchema } from './auth-error.ts';
+import { PeerMessageEventSchema } from './peer-message.ts';
 import { PermissionRequestEventSchema } from './permission-request.ts';
 import { PermissionResolvedEventSchema } from './permission-resolved.ts';
 import { SessionErrorEventSchema } from './session-error.ts';
@@ -22,6 +23,7 @@ export const RoomEventSchema = z.discriminatedUnion('type', [
   TurnDoneEventSchema,
   SessionErrorEventSchema,
   AuthErrorEventSchema,
+  PeerMessageEventSchema,
   PermissionRequestEventSchema,
   PermissionResolvedEventSchema,
   SessionNoticeEventSchema,

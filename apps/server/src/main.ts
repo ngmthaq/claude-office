@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import Fastify from 'fastify';
 import fastifyStatic from '@fastify/static';
 import websocket from '@fastify/websocket';
-import { HOST, IS_PRODUCTION, PORT, WEB_DIST_DIR } from '@/configs/app.config.ts';
+import { HOST, IS_PRODUCTION, LOG_LEVEL, PORT, WEB_DIST_DIR } from '@/configs/app.config.ts';
 import { openDatabase, runMigrations } from '@/configs/database.config.ts';
 import { CommandController } from '@/controllers/command.controller.ts';
 import { FileController } from '@/controllers/file.controller.ts';
@@ -21,6 +21,7 @@ import { FolderRepository } from '@/repositories/folder.repository.ts';
 import { HistoryRepository } from '@/repositories/history.repository.ts';
 import { RoomRepository } from '@/repositories/room.repository.ts';
 import { SessionStoreRepository } from '@/repositories/session-store.repository.ts';
+import { SubagentTranscriptRepository } from '@/repositories/subagent-transcript.repository.ts';
 import { registerWsRoute } from '@/routes/ws.route.ts';
 import { CatalogService } from '@/services/catalog.service.ts';
 import { EventBusService } from '@/services/event-bus.service.ts';
@@ -29,7 +30,7 @@ import { RoomService } from '@/services/room.service.ts';
 import { SdkEventMapperService } from '@/services/sdk-event-mapper.service.ts';
 import { SessionService } from '@/services/session.service.ts';
 
-const app = Fastify({ logger: true });
+const app = Fastify({ logger: { level: LOG_LEVEL } });
 
 const WEB_INDEX_FILE = 'index.html';
 const WEB_BUILD_MISSING_MESSAGE = 'web build not found, run pnpm build';
@@ -55,6 +56,7 @@ async function main(): Promise<void> {
   const fileRepository = new FileRepository();
   const commandRepository = new CommandRepository();
   const historyRepository = new HistoryRepository(folderRepository);
+  const subagentTranscriptRepository = new SubagentTranscriptRepository();
   const sdkEventMapperService = new SdkEventMapperService();
   const eventBusService = new EventBusService();
   const permissionService = new PermissionService(sessionStoreRepository, eventBusService, app.log);
@@ -62,6 +64,7 @@ async function main(): Promise<void> {
     roomRepository,
     sessionStoreRepository,
     historyRepository,
+    subagentTranscriptRepository,
     folderRepository,
     sdkEventMapperService,
     eventBusService,
