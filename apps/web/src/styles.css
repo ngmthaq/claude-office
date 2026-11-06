@@ -651,3 +651,56 @@ button.danger {
   font-size: 0.8rem;
   opacity: 0.7;
 }
+
+.chat-input {
+  position: relative;
+}
+
+.autocomplete {
+  position: absolute;
+  bottom: 100%;
+  left: 1rem;
+  right: 1rem;
+  max-height: 240px;
+  overflow-y: auto;
+  border: 1px solid #3d4148;
+  border-radius: 6px;
+  background: #1b1d21;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.autocomplete__row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.autocomplete__row:hover,
+.autocomplete__row[aria-selected='true'] {
+  background: #263553;
+}
+
+.autocomplete__name {
+  flex: none;
+  color: #8ab4f8;
+}
+
+.autocomplete__muted {
+  color: #9aa0a8;
+}
+
+.autocomplete__desc {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.autocomplete__status {
+  padding: 0.35rem 0.6rem;
+  color: #9aa0a8;
+}

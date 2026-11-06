@@ -333,3 +333,45 @@ export function roomLabel(room: { name: string | null; folder: string }): string
   const segments = room.folder.split(/[/\\]/).filter((part) => part.length > 0);
   return segments[segments.length - 1] ?? room.folder;
 }
+
+export const SlashCommandEntrySchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  argumentHint: z.string(),
+});
+
+export const FileEntrySchema = z.object({
+  path: z.string(),
+  kind: z.enum(['file', 'dir']),
+});
+
+export const CommandsListEventSchema = z.object({
+  type: z.literal('commands_list'),
+  roomId: z.string(),
+});
+
+export const CommandsEventSchema = z.object({
+  type: z.literal('commands'),
+  roomId: z.string(),
+  source: z.enum(['sdk', 'disk']),
+  commands: z.array(SlashCommandEntrySchema),
+});
+
+export const FilesListEventSchema = z.object({
+  type: z.literal('files_list'),
+  roomId: z.string(),
+});
+
+export const FilesEventSchema = z.object({
+  type: z.literal('files'),
+  roomId: z.string(),
+  files: z.array(FileEntrySchema),
+  truncated: z.boolean(),
+});
+
+export type SlashCommandEntry = z.infer<typeof SlashCommandEntrySchema>;
+export type FileEntry = z.infer<typeof FileEntrySchema>;
+export type CommandsListEvent = z.infer<typeof CommandsListEventSchema>;
+export type CommandsEvent = z.infer<typeof CommandsEventSchema>;
+export type FilesListEvent = z.infer<typeof FilesListEventSchema>;
+export type FilesEvent = z.infer<typeof FilesEventSchema>;

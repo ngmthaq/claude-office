@@ -17,6 +17,7 @@ import type {
   RoomSummary,
   SessionState,
   SessionStateEvent,
+  SlashCommandEntry,
 } from '@claude-office/shared';
 import {
   ASK_IN_CHAT_MESSAGE,
@@ -28,6 +29,7 @@ import {
   TOOL_RESULT_MAX_CHARS,
 } from '../config.ts';
 import type { RoomRow, RoomsRepo } from '../db/rooms-repo.ts';
+import { scanDiskCommands } from './command-catalog.ts';
 import { listHistory, loadRoomEvents } from './history-reader.ts';
 import { resolveFolder, type FolderErrorCode } from './folder-browser.ts';
 import {
@@ -38,6 +40,8 @@ import {
   mapSdkMessage,
   type MapperState,
 } from './sdk-event-mapper.ts';
+
+const COMMANDS_TIMEOUT_MS = 2000;
 
 type PendingPermission = {
   toolName: string;
@@ -64,10 +68,13 @@ type Session = {
   stopTimer: NodeJS.Timeout | null;
   mapper: MapperState;
   pending: Map<string, PendingPermission>;
+  terminalCommands: Set<string>;
 };
 
 type RoomEventListener = (event: RoomEvent) => void;
 type SessionStateListener = (event: SessionStateEvent) => void;
+
+export type CommandList = { source: 'sdk' | 'disk'; commands: SlashCommandEntry[] };
 
 export type StartResult = { ok: true; room: RoomSummary } | { ok: false; code: FolderErrorCode };
 export type ResumeErrorCode = FolderErrorCode | 'session_not_found' | 'load_failed';
@@ -124,6 +131,7 @@ export class SessionManager {
       stopTimer: null,
       mapper: createMapperState(),
       pending: new Map(),
+      terminalCommands: new Set(),
     };
     this.repo.insert(session.id, session.folder, session.createdAt);
     this.sessions.set(session.id, session);
@@ -179,6 +187,34 @@ export class SessionManager {
       message: { role: 'user', content: text },
       parent_tool_use_id: null,
     });
+  }
+
+  roomFolder(roomId: string): string | undefined {
+    return this.sessions.get(roomId)?.folder;
+  }
+
+  async listCommands(roomId: string): Promise<CommandList | undefined> {
+    const session = this.sessions.get(roomId);
+    if (!session) return undefined;
+    const hidden = session.terminalCommands;
+    const live = session.query;
+    if (live) {
+      try {
+        const sdk = await withTimeout(live.supportedCommands(), COMMANDS_TIMEOUT_MS);
+        const commands = sdk
+          .filter((command) => !hidden.has(command.name))
+          .map((command) => ({
+            name: command.name,
+            description: command.description ?? '',
+            argumentHint: command.argumentHint ?? '',
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        return { source: 'sdk', commands };
+      } catch (error) {
+        this.log.info({ roomId, err: errorName(error) }, 'sdk commands unavailable');
+      }
+    }
+    return { source: 'disk', commands: await scanDiskCommands(session.folder) };
   }
 
   loadClosedRooms(): void {
@@ -390,6 +426,7 @@ export class SessionManager {
       stopTimer: null,
       mapper: createMapperState(),
       pending: new Map(),
+      terminalCommands: new Set(),
     };
     this.repo.insert(session.id, session.folder, session.createdAt, sessionId);
     this.sessions.set(session.id, session);
@@ -545,6 +582,7 @@ export class SessionManager {
         this.markSelfStartedTurn(session, input, message);
         if (message.type === 'system' && message.subtype === 'init') {
           this.setSessionId(session, message.session_id);
+          session.terminalCommands = new Set(message.terminal_slash_commands ?? []);
           continue;
         }
         for (const event of mapSdkMessage(session.id, message, session.mapper)) {
@@ -735,6 +773,7 @@ function closedSession(row: RoomRow, sessionId: string): Session {
     stopTimer: null,
     mapper: createMapperState(),
     pending: new Map(),
+    terminalCommands: new Set(),
   };
 }
 
@@ -757,4 +796,20 @@ function errorEvent(roomId: string, code: string, message: string): RoomEvent {
 
 function errorName(error: unknown): string {
   return error instanceof Error ? error.name : 'unknown';
+}
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('timeout')), ms);
+    promise.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error: unknown) => {
+        clearTimeout(timer);
+        reject(error instanceof Error ? error : new Error('failed'));
+      },
+    );
+  });
 }

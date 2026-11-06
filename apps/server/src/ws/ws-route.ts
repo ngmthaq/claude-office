@@ -7,7 +7,8 @@ import {
   type ServerEvent,
 } from '@claude-office/shared';
 import { SERVER_VERSION } from '../config.ts';
-import { listFolders } from '../sessions/folder-browser.ts';
+import { listFiles } from '../sessions/file-index.ts';
+import { listFolders, resolveFolder } from '../sessions/folder-browser.ts';
 import type { SessionManager } from '../sessions/session-manager.ts';
 import { originCheck } from './origin-check.ts';
 
@@ -84,6 +85,40 @@ function handleClientEvent(
         return;
       }
       send(socket, { type: 'folders', ...result.value });
+      return;
+    }
+    case 'commands_list':
+      sessions
+        .listCommands(event.roomId)
+        .then((list) => {
+          if (!list) trySend(socket, errorEvent('room_not_found', 'Room not found.'));
+          else trySend(socket, { type: 'commands', roomId: event.roomId, ...list });
+        })
+        .catch((error: unknown) => {
+          log.error({ err: errorName(error) }, 'commands list failed');
+          trySend(socket, errorEvent('commands_failed', 'Cannot load commands.'));
+        });
+      return;
+    case 'files_list': {
+      const folder = sessions.roomFolder(event.roomId);
+      if (folder === undefined) {
+        send(socket, errorEvent('room_not_found', 'Room not found.'));
+        return;
+      }
+      const resolved = resolveFolder(folder);
+      if (!resolved.ok) {
+        send(socket, errorEvent('folder_invalid', `Cannot open folder (${resolved.code}).`));
+        return;
+      }
+      listFiles(resolved.value)
+        .then((listing) => {
+          log.info({ count: listing.files.length, truncated: listing.truncated }, 'files listed');
+          trySend(socket, { type: 'files', roomId: event.roomId, ...listing });
+        })
+        .catch((error: unknown) => {
+          log.error({ err: errorName(error) }, 'files list failed');
+          trySend(socket, errorEvent('files_failed', 'Cannot load files.'));
+        });
       return;
     }
     case 'session_start': {

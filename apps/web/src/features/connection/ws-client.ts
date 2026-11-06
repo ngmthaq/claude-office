@@ -1,4 +1,5 @@
 import { parseServerEvent, type ClientEvent, type ServerEvent } from '@claude-office/shared';
+import { useAutocompleteStore } from '@/features/chat/use-autocomplete-store';
 import { useChatStore } from '@/features/chat/use-chat-store';
 import { useArchivedStore } from '@/features/archived/use-archived-store';
 import { useHistoryStore } from '@/features/history/use-history-store';
@@ -101,7 +102,17 @@ export function startWsClient(): () => void {
         if (event.code === 'folder_invalid') sessions.setFolderError(event.message);
         else if (event.code === 'history_failed' || event.code === 'resume_failed')
           useHistoryStore.getState().setError(event.message);
+        else if (event.code === 'commands_failed' || event.code === 'files_failed')
+          failPendingList(event.code);
+        else if (event.code === 'room_not_found' || event.code === 'folder_invalid')
+          failPendingList(event.code);
         else console.warn('Server error', event.code);
+        break;
+      case 'commands':
+        useAutocompleteStore.getState().setCommands(event.roomId, event.commands);
+        break;
+      case 'files':
+        useAutocompleteStore.getState().setFiles(event.roomId, event.files);
         break;
       case 'session_history':
         useChatStore.getState().replaceHistory(event.roomId, event.events);
@@ -125,6 +136,18 @@ export function startWsClient(): () => void {
       case 'pong':
         break;
     }
+  }
+
+  function failPendingList(code: string): void {
+    const roomId = useSessionsStore.getState().selectedRoomId;
+    if (roomId === null) return;
+    const kinds =
+      code === 'commands_failed'
+        ? (['commands'] as const)
+        : code === 'files_failed'
+          ? (['files'] as const)
+          : (['commands', 'files'] as const);
+    useAutocompleteStore.getState().markFailed(roomId, [...kinds]);
   }
 
   function openSelectedRoom(): void {
