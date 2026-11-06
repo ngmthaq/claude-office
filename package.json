@@ -8,6 +8,9 @@
   },
   "scripts": {
     "dev": "pnpm -r --parallel --filter @claude-office/server --filter @claude-office/web dev",
+    "build": "pnpm -r build",
+    "start": "pnpm --filter @claude-office/server start",
+    "prod": "pnpm build && pnpm start",
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
     "format": "prettier --write .",

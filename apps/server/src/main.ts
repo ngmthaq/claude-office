@@ -1,6 +1,9 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import Fastify from 'fastify';
+import fastifyStatic from '@fastify/static';
 import websocket from '@fastify/websocket';
-import { HOST, PORT } from '@/configs/app.config.ts';
+import { HOST, IS_PRODUCTION, PORT, WEB_DIST_DIR } from '@/configs/app.config.ts';
 import { openDatabase, runMigrations } from '@/configs/database.config.ts';
 import { CommandController } from '@/controllers/command.controller.ts';
 import { FileController } from '@/controllers/file.controller.ts';
@@ -28,11 +31,23 @@ import { SessionService } from '@/services/session.service.ts';
 
 const app = Fastify({ logger: true });
 
+const WEB_INDEX_FILE = 'index.html';
+const WEB_BUILD_MISSING_MESSAGE = 'web build not found, run pnpm build';
+
+const registerWebApp = async (): Promise<void> => {
+  if (!existsSync(join(WEB_DIST_DIR, WEB_INDEX_FILE))) {
+    app.log.error({ dir: WEB_DIST_DIR }, WEB_BUILD_MISSING_MESSAGE);
+    process.exit(1);
+  }
+  await app.register(fastifyStatic, { root: WEB_DIST_DIR });
+};
+
 async function main(): Promise<void> {
   const db = openDatabase();
   const applied = runMigrations(db);
   app.log.info({ applied }, 'migrations applied');
   await app.register(websocket);
+  if (IS_PRODUCTION) await registerWebApp();
 
   const roomRepository = new RoomRepository(db);
   const sessionStoreRepository = new SessionStoreRepository();

@@ -1,13 +1,35 @@
+import { existsSync, readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+const SERVER_PACKAGE_NAME = '@claude-office/server';
+
+const findServerRoot = (): string => {
+  let dir = dirname(fileURLToPath(import.meta.url));
+  for (;;) {
+    const packagePath = join(dir, 'package.json');
+    if (existsSync(packagePath)) {
+      const { name } = JSON.parse(readFileSync(packagePath, 'utf8')) as { name?: string };
+      if (name === SERVER_PACKAGE_NAME) return dir;
+    }
+    const parent = dirname(dir);
+    if (parent === dir) throw new Error('server package root not found');
+    dir = parent;
+  }
+};
 
 export const HOST = '127.0.0.1';
 export const PORT = Number(process.env.PORT) || 4317;
 export const SERVER_VERSION = '0.0.0';
-export const DATA_DIR = fileURLToPath(new URL('../../data', import.meta.url));
+export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+export const SERVER_ROOT = findServerRoot();
+export const DATA_DIR = join(SERVER_ROOT, 'data');
+export const WEB_DIST_DIR = join(SERVER_ROOT, '..', 'web', 'dist');
 export const ALLOWED_ORIGINS: readonly string[] = [
   'http://127.0.0.1:5173',
   'http://localhost:5173',
   'http://127.0.0.1:4317',
+  'http://localhost:4317',
 ];
 export const HOME_DIR = homedir();
