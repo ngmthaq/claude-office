@@ -4,6 +4,8 @@ export const SessionStateSchema = z.enum(['idle', 'working', 'waiting', 'closed'
 
 export const ROOM_NAME_MAX = 60;
 
+export const PermissionModeSchema = z.enum(['default', 'acceptEdits', 'auto']);
+
 export const SubagentStatusSchema = z.enum(['done', 'error', 'stopped']);
 
 export const SubagentRefSchema = z.object({ id: z.string(), agentType: z.string() });
@@ -17,6 +19,7 @@ export const RoomSummarySchema = z.object({
   busy: z.boolean(),
   state: SessionStateSchema,
   subagents: z.array(SubagentRefSchema),
+  permissionMode: PermissionModeSchema,
 });
 
 export const FolderEntrySchema = z.object({
@@ -137,6 +140,12 @@ export const RoomRenameEventSchema = z.object({
   type: z.literal('room_rename'),
   roomId: z.string().min(1),
   name: z.string().trim().max(ROOM_NAME_MAX),
+});
+
+export const RoomPermissionModeEventSchema = z.object({
+  type: z.literal('room_permission_mode'),
+  roomId: z.string().min(1),
+  mode: PermissionModeSchema,
 });
 
 export const RoomArchiveEventSchema = z.object({
@@ -322,6 +331,8 @@ export type HistoryListEvent = z.infer<typeof HistoryListEventSchema>;
 export type SessionResumeEvent = z.infer<typeof SessionResumeEventSchema>;
 export type HistoryEvent = z.infer<typeof HistoryEventSchema>;
 export type RoomRenameEvent = z.infer<typeof RoomRenameEventSchema>;
+export type PermissionMode = z.infer<typeof PermissionModeSchema>;
+export type RoomPermissionModeEvent = z.infer<typeof RoomPermissionModeEventSchema>;
 export type RoomArchiveEvent = z.infer<typeof RoomArchiveEventSchema>;
 export type RoomRestoreEvent = z.infer<typeof RoomRestoreEventSchema>;
 export type ArchivedListEvent = z.infer<typeof ArchivedListEventSchema>;

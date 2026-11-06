@@ -1,3 +1,4 @@
+import type { PermissionMode } from '@claude-office/shared';
 import type Database from 'better-sqlite3';
 
 export type RoomRow = {
@@ -7,6 +8,7 @@ export type RoomRow = {
   createdAt: number;
   name: string | null;
   archivedAt: number | null;
+  permissionMode: PermissionMode;
 };
 
 type RawRoomRow = {
@@ -16,9 +18,10 @@ type RawRoomRow = {
   created_at: number;
   name: string | null;
   archived_at: number | null;
+  permission_mode: PermissionMode;
 };
 
-const COLUMNS = 'id, session_id, folder, created_at, name, archived_at';
+const COLUMNS = 'id, session_id, folder, created_at, name, archived_at, permission_mode';
 
 export class RoomsRepo {
   private readonly insertStmt;
@@ -27,6 +30,7 @@ export class RoomsRepo {
   private readonly listWithSessionStmt;
   private readonly setNameStmt;
   private readonly setArchivedStmt;
+  private readonly setPermissionModeStmt;
   private readonly listArchivedStmt;
   private readonly newestBySessionStmt;
 
@@ -41,6 +45,7 @@ export class RoomsRepo {
     );
     this.setNameStmt = db.prepare('UPDATE rooms SET name = ? WHERE id = ?');
     this.setArchivedStmt = db.prepare('UPDATE rooms SET archived_at = ? WHERE id = ?');
+    this.setPermissionModeStmt = db.prepare('UPDATE rooms SET permission_mode = ? WHERE id = ?');
     this.listArchivedStmt = db.prepare<[], RawRoomRow>(
       `SELECT ${COLUMNS} FROM rooms WHERE archived_at IS NOT NULL ORDER BY archived_at DESC`,
     );
@@ -63,6 +68,10 @@ export class RoomsRepo {
 
   setArchived(id: string, archivedAt: number | null): void {
     this.setArchivedStmt.run(archivedAt, id);
+  }
+
+  setPermissionMode(id: string, mode: PermissionMode): void {
+    this.setPermissionModeStmt.run(mode, id);
   }
 
   listArchived(): RoomRow[] {
@@ -92,5 +101,6 @@ function toRoomRow(row: RawRoomRow): RoomRow {
     createdAt: row.created_at,
     name: row.name,
     archivedAt: row.archived_at,
+    permissionMode: row.permission_mode,
   };
 }

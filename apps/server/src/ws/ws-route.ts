@@ -178,6 +178,9 @@ function handleClientEvent(
     case 'room_rename':
       sessions.rename(event.roomId, event.name);
       return;
+    case 'room_permission_mode':
+      void sessions.setPermissionMode(event.roomId, event.mode);
+      return;
     case 'room_archive':
       sessions.archive(event.roomId);
       return;

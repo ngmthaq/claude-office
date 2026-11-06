@@ -17,6 +17,7 @@ export function startFakeRooms(requested: number): () => void {
     busy: false,
     state: stateAt(index),
     subagents: [],
+    permissionMode: 'default',
   }));
   useSessionsStore.getState().setFakeRooms(rooms);
 

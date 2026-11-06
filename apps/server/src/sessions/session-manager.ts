@@ -15,6 +15,7 @@ import type {
   McpServerEntry,
   PermissionDecision,
   RoomEvent,
+  PermissionMode,
   RoomSummary,
   SessionState,
   SessionStateEvent,
@@ -72,6 +73,7 @@ type Session = {
   mapper: MapperState;
   pending: Map<string, PendingPermission>;
   terminalCommands: Set<string>;
+  permissionMode: PermissionMode;
 };
 
 type RoomEventListener = (event: RoomEvent) => void;
@@ -137,6 +139,7 @@ export class SessionManager {
       mapper: createMapperState(),
       pending: new Map(),
       terminalCommands: new Set(),
+      permissionMode: 'default',
     };
     this.repo.insert(session.id, session.folder, session.createdAt);
     this.sessions.set(session.id, session);
@@ -260,6 +263,28 @@ export class SessionManager {
     const value = name === '' ? null : name;
     this.repo.setName(roomId, value);
     session.name = value;
+    this.notifyChanged();
+  }
+
+  async setPermissionMode(roomId: string, mode: PermissionMode): Promise<void> {
+    const session = this.sessions.get(roomId);
+    if (!session) {
+      this.log.info({ roomId }, 'permission mode ignored: unknown room');
+      return;
+    }
+    try {
+      if (session.query) await session.query.setPermissionMode(mode);
+    } catch (error) {
+      this.log.error({ roomId, mode, err: errorName(error) }, 'permission mode change failed');
+      this.emit(
+        session,
+        errorEvent(roomId, 'permission_mode_failed', 'Could not change the permission mode.'),
+      );
+      return;
+    }
+    this.repo.setPermissionMode(roomId, mode);
+    session.permissionMode = mode;
+    this.log.info({ roomId, mode }, 'permission mode changed');
     this.notifyChanged();
   }
 
@@ -450,6 +475,7 @@ export class SessionManager {
       mapper: createMapperState(),
       pending: new Map(),
       terminalCommands: new Set(),
+      permissionMode: 'default',
     };
     this.repo.insert(session.id, session.folder, session.createdAt, sessionId);
     this.sessions.set(session.id, session);
@@ -589,6 +615,7 @@ export class SessionManager {
         settingSources: [...SETTING_SOURCES],
         extraArgs: { ...SDK_EXTRA_ARGS },
         includePartialMessages: true,
+        permissionMode: session.permissionMode,
         canUseTool: (toolName, input, options) =>
           this.requestPermission(session, toolName, input, options),
         ...(session.sessionId ? { resume: session.sessionId } : {}),
@@ -798,6 +825,7 @@ function closedSession(row: RoomRow, sessionId: string): Session {
     mapper: createMapperState(),
     pending: new Map(),
     terminalCommands: new Set(),
+    permissionMode: row.permissionMode,
   };
 }
 
@@ -811,6 +839,7 @@ function toSummary(session: Session): RoomSummary {
     busy: session.busy,
     state: session.state,
     subagents: listSubagents(session.mapper),
+    permissionMode: session.permissionMode,
   };
 }
 
