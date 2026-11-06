@@ -60,9 +60,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/App.tsx": {
-    "mtime": 1793929511.3938854,
-    "seen": 1793930603.2917361,
-    "ast_hash": "8a3be56e223ecb0f95ad77d0ec1d379d",
+    "mtime": 1793933173.094628,
+    "seen": 1793933185.129476,
+    "ast_hash": "2b29277b31d80e30bb4f197739ca2f7c",
     "semantic_hash": ""
   },
   "apps/web/src/components/ConnectionBadge.tsx": {
@@ -1098,9 +1098,9 @@
     "semantic_hash": ""
   },
   "plans/2026-11-06-09-01-12-chat-autocomplete-slash-and-at.md": {
-    "mtime": 1793930490.8866887,
-    "seen": 1793930603.291866,
-    "ast_hash": "ce2423109fe5a7dc2c079ef1601fa499",
+    "mtime": 1793930769.3592827,
+    "seen": 1793933185.135185,
+    "ast_hash": "372bd4c350b306232cb23ee9b9a347e0",
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/AutocompletePopup.tsx": {
@@ -1119,6 +1119,24 @@
     "mtime": 1793930723.9438317,
     "seen": 1793930733.414058,
     "ast_hash": "e335ff79bd37ae815842d569443c36f5",
+    "semantic_hash": ""
+  },
+  "apps/web/src/features/chat/ChatResizeHandle.tsx": {
+    "mtime": 1793933237.9138513,
+    "seen": 1793933250.0501351,
+    "ast_hash": "c13924415e33a2c3c829576326c6d8ee",
+    "semantic_hash": ""
+  },
+  "apps/web/src/features/chat/use-chat-width-store.ts": {
+    "mtime": 1793933171.7341523,
+    "seen": 1793933185.130091,
+    "ast_hash": "909686f9781e388e264aa1f3f329d1a8",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-09-45-14-resizable-chat-panel.md": {
+    "mtime": 1793933267.487534,
+    "seen": 1793933500.434453,
+    "ast_hash": "c72f3143f3e54d79cc1e1c74d3c6b57a",
     "semantic_hash": ""
   }
 }

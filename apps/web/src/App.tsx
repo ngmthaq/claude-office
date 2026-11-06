@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
+import type { CSSProperties } from 'react';
 import { ConnectionBadge } from '@/components/ConnectionBadge';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ChatPanel } from '@/features/chat/ChatPanel';
+import { ChatResizeHandle } from '@/features/chat/ChatResizeHandle';
+import { useChatWidthStore } from '@/features/chat/use-chat-width-store';
 import { GameCanvas } from '@/game/GameCanvas';
 import { SessionList } from '@/features/sessions/SessionList';
 import { useChatStore } from '@/features/chat/use-chat-store';
@@ -12,6 +15,8 @@ import { useSessionsStore } from '@/features/sessions/use-sessions-store';
 
 export function App() {
   const chatOpen = useSessionsStore((state) => state.selectedRoomId !== null);
+  const chatWidth = useChatWidthStore((state) => state.width);
+  const drawerStyle = { '--chat-width': `${chatWidth}px` } as CSSProperties;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -48,7 +53,8 @@ export function App() {
         <ErrorBoundary>
           <GameCanvas />
         </ErrorBoundary>
-        <div className={`chat-drawer${chatOpen ? ' chat-drawer--open' : ''}`}>
+        <div className={`chat-drawer${chatOpen ? ' chat-drawer--open' : ''}`} style={drawerStyle}>
+          <ChatResizeHandle />
           <ErrorBoundary>
             <ChatPanel />
           </ErrorBoundary>

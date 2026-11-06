@@ -1,6 +1,8 @@
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
+  background: #1b1d21;
+  color-scheme: dark;
 }
 
 .app-header {
@@ -51,6 +53,9 @@ body {
   display: flex;
   flex: 1;
   min-height: 0;
+  /* The hidden chat drawer sits past the right edge. Clip (not hidden) so scrollIntoView
+     can never scroll the page sideways to it. */
+  overflow: clip;
 }
 
 button {
@@ -226,6 +231,30 @@ button.primary {
 
 .message--assistant a {
   color: #8ab4f8;
+}
+
+.message--assistant table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.message--assistant th,
+.message--assistant td {
+  min-width: 4rem;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid #3d4148;
+  overflow-wrap: normal;
+  word-break: normal;
+  text-align: left;
+  vertical-align: top;
+}
+
+.message--assistant th {
+  background: #23262b;
+  white-space: nowrap;
 }
 
 .tool-card {
@@ -444,10 +473,11 @@ button.primary {
 
 .chat-drawer {
   display: flex;
+  position: relative;
   flex: none;
-  width: 30rem;
+  width: var(--chat-width, 30rem);
   max-width: 100%;
-  margin-right: -30rem;
+  margin-right: calc(-1 * var(--chat-width, 30rem));
   border-left: 1px solid #33363c;
   visibility: hidden;
   transition:
@@ -459,6 +489,38 @@ button.primary {
   margin-right: 0;
   visibility: visible;
   transition: margin-right 200ms ease;
+}
+
+.chat-resize-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -3px;
+  z-index: 5;
+  width: 6px;
+  cursor: col-resize;
+  touch-action: none;
+  background: transparent;
+}
+
+.chat-resize-handle:hover,
+.chat-resize-handle:active {
+  background: #3d4148;
+}
+
+.chat-resize-handle:focus-visible {
+  outline: 2px solid #6ea8fe;
+  outline-offset: -2px;
+}
+
+body.chat-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+body.chat-resizing .chat-drawer,
+body.chat-resizing .chat-drawer--open {
+  transition: none;
 }
 
 .chat-panel__header {
