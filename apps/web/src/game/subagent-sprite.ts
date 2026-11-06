@@ -1,6 +1,6 @@
 import { Container, Graphics, Rectangle, Text } from 'pixi.js';
-import { useSessionsStore } from '@/features/sessions/use-sessions-store';
-import { useSubagentDetailsStore } from '@/features/subagents/use-subagent-details-store';
+import { useSessionsStore } from '@/hooks/store/useSessionsStore';
+import { useSubagentDetailsStore } from '@/hooks/store/useSubagentDetailsStore';
 import { AgentSprite } from './agent-sprite';
 import { TILE_SIZE } from './asset-loader';
 

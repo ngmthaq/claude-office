@@ -1,6 +1,6 @@
 import { Container, Graphics, Rectangle, Sprite, Text } from 'pixi.js';
 import { roomLabel, type RoomSummary, type SessionState } from '@claude-office/shared';
-import { useChatStore } from '@/features/chat/use-chat-store';
+import { useChatStore } from '@/hooks/store/useChatStore';
 import { AgentSprite } from './agent-sprite';
 import { getTile, TILE_SIZE } from './asset-loader';
 import { DOOR_POSITION, SubagentSprite, type Point } from './subagent-sprite';

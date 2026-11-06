@@ -1,0 +1,27 @@
+.subagent-details__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.subagent-details__body > *,
+.mcp-panel__body > * {
+  flex-shrink: 0;
+}
+
+.subagent-details__prompt {
+  max-height: 12rem;
+  margin: 0 0 1rem;
+}
+
+.subagent-details__error {
+  white-space: pre-wrap;
+}
+
+.subagent-details__hint {
+  opacity: 0.7;
+}

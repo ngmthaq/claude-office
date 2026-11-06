@@ -1,6 +1,7 @@
 import { Container, type Application, type Text, type Ticker } from 'pixi.js';
 import type { RoomSummary } from '@claude-office/shared';
-import { useSessionsStore, type ScreenRect } from '@/features/sessions/use-sessions-store';
+import type { ScreenRect } from '@/dtos/rename-target.dto';
+import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { CameraController, type WorldRect } from './camera-controller';
 import { RoomView, ROOM_HEIGHT, ROOM_WIDTH } from './room-view';
 

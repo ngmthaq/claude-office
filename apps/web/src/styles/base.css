@@ -1,0 +1,18 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  /* The hidden chat drawer sits past the right edge. Clip (not hidden) so scrollIntoView
+     can never scroll the page sideways to it. */
+  overflow: clip;
+}
+
+.muted {
+  color: var(--bs-secondary-color);
+}

@@ -4,7 +4,7 @@
 
 ## Folder structure
 
-pnpm workspace. The web app is split by feature. The server is split by layer.
+pnpm workspace. Both apps are split by layer.
 
 ```
 apps/
@@ -19,9 +19,17 @@ apps/
     utils/        # small shared helpers
     migrations/   # SQL migration files
   web/src/
-    features/   # office/, chat/, sessions/ (each has components, hooks, store)
-    game/       # PixiJS: scenes, sprites, characters, tile maps
-    components/ # shared UI
+    components/     # atoms/, molecules/, organisms/, templates/, pages/
+    configs/        # constants and setup
+    dtos/           # Zod schemas and types for web data
+    styles/         # plain CSS files
+    hooks/
+      feature/      # hooks for one UI job (useEscapeClose)
+      store/        # Zustand stores (useChatStore)
+    services/       # WebSocket client and other app logic
+    utils/          # small shared helpers
+    game/           # PixiJS: scenes, sprites, characters, tile maps
+    main.tsx        # app entry
 packages/
   shared/       # shared TS types + event schemas (server <-> web)
 assets/         # pixel art: sprites, tile sets
@@ -76,6 +84,44 @@ Server file names use kebab-case with a dot suffix:
 Runtime state types that cannot be Zod schemas (for example `Session`) stay as plain TS
 types in the repository that stores them.
 
+## Web layers
+
+Component levels (`components/`):
+
+| Level        | Rule                                                              |
+| ------------ | ----------------------------------------------------------------- |
+| `atoms/`     | Pure: props in, callbacks out. Only React's own hooks for local UI state. |
+| `molecules/` | Pure. Can use atoms.                                              |
+| `templates/` | Pure layout with slots.                                           |
+| `organisms/` | Connect stores, feature hooks, and services. Pass props down.     |
+| `pages/`     | Wire a template and organisms together.                           |
+
+- Component imports go one way: `pages` → `templates` → `organisms` → `molecules` → `atoms`.
+- Logic imports go one way: `organisms` / `pages` → `hooks/feature` → `services` → `hooks/store`.
+- Any layer can import `dtos`, `configs`, and `utils`.
+- Stores never import services.
+- `game/` may import only `hooks/store`, `dtos`, `configs`, and `utils`. Only organisms import `game/`.
+
+Code style for each layer:
+
+| Layer            | Style                                                                 |
+| ---------------- | --------------------------------------------------------------------- |
+| `components/*`   | `PascalCase.tsx`, `export function Name()`, `type XxxProps` above it, named exports |
+| `hooks/feature/` | `export function useDoSomething()`                                    |
+| `hooks/store/`   | `export const useEntityStore = create<EntityState>(...)`              |
+| `configs/`       | `export const` only                                                   |
+| `dtos/`          | One file per DTO: Zod schema, `z.infer` type, parser when needed      |
+| `services/`      | Class. One instance is exported, with the full class name in camelCase. |
+| `utils/`         | Class with static methods                                             |
+| `styles/`        | Plain CSS files                                                       |
+
+Web file names:
+
+- Hook files: file name = hook name (`hooks/store/useChatStore.ts`, `hooks/feature/useEscapeClose.ts`).
+- Components: `PascalCase.tsx`.
+- Other files: kebab-case with a dot suffix (`ws-client.service.ts`, `chat-item.dto.ts`, `ui.config.ts`, `autocomplete.util.ts`).
+- Web imports use `@/` and no `.ts` extension.
+
 ## Style (Prettier + ESLint)
 
 - Semicolons: yes.
@@ -95,7 +141,7 @@ types in the repository that stores them.
 | Types and classes       | `PascalCase`         | `SessionEvent`        |
 | Constants               | `UPPER_SNAKE_CASE`   | `MAX_AGENTS_PER_ROOM` |
 | React hooks             | start with `use`     | `useActiveRoom`       |
-| Zustand stores          | `use-<name>-store.ts`| `use-office-store.ts` |
+| Zustand stores          | file name = hook name | `useChatStore.ts`     |
 | PixiJS classes          | end with their role  | `RoomScene`, `AgentSprite` |
 | Instances of our own classes | class name in camelCase, no short forms | `sessionStoreRepository`, `eventBusService` |
 

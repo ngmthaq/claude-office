@@ -1,0 +1,39 @@
+.autocomplete {
+  position: absolute;
+  bottom: 100%;
+  left: 1rem;
+  right: 1rem;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.autocomplete__row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.autocomplete__name {
+  flex: none;
+  color: var(--bs-primary);
+}
+
+.autocomplete__muted {
+  color: var(--bs-secondary-color);
+}
+
+.autocomplete__row.active .autocomplete__name,
+.autocomplete__row.active .autocomplete__muted,
+.autocomplete__row.active .autocomplete__desc {
+  color: inherit;
+}
+
+.autocomplete__desc {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
