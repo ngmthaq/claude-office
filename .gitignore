@@ -1,6 +1,5 @@
 node_modules/
 dist/
 apps/server/data/
-spikes/agent-sdk/logs/
 *.tsbuildinfo
 .DS_Store

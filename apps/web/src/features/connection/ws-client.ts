@@ -5,7 +5,7 @@ import { useArchivedStore } from '@/features/archived/use-archived-store';
 import { useHistoryStore } from '@/features/history/use-history-store';
 import { useMcpStore } from '@/features/mcp/use-mcp-store';
 import { useConnectionStore } from '@/features/connection/use-connection-store';
-import { isFakeRoomId, useSessionsStore } from '@/features/sessions/use-sessions-store';
+import { useSessionsStore } from '@/features/sessions/use-sessions-store';
 
 const INITIAL_BACKOFF_MS = 1000;
 const MAX_BACKOFF_MS = 10_000;
@@ -13,7 +13,6 @@ const MAX_BACKOFF_MS = 10_000;
 let activeSocket: WebSocket | null = null;
 
 export function sendClientEvent(event: ClientEvent): void {
-  if ('roomId' in event && isFakeRoomId(event.roomId)) return;
   if (!activeSocket || activeSocket.readyState !== WebSocket.OPEN) {
     console.warn('Not connected, dropped client event', event.type);
     return;

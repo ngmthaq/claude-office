@@ -8,7 +8,6 @@ export default tseslint.config(
     ignores: [
       '.claude/**',
       'plans/**',
-      'spikes/**',
       'assets/**',
       'graphify-out/**',
       '**/dist/**',

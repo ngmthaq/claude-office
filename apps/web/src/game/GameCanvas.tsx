@@ -22,7 +22,6 @@ export function GameCanvas() {
     let app: Application | null = null;
     let scene: OfficeScene | null = null;
     let observer: ResizeObserver | null = null;
-    let stopDevTools: (() => void) | null = null;
 
     const mount = async () => {
       const created = await createPixiApp(host);
@@ -41,19 +40,12 @@ export function GameCanvas() {
       // resizeTo only listens to the window, so watch the host for panel open and close.
       observer = new ResizeObserver(() => created.resize());
       observer.observe(host);
-
-      if (import.meta.env.DEV) {
-        const dev = await startDevTools(created, host);
-        if (cancelled) dev();
-        else stopDevTools = dev;
-      }
     };
 
     void mount().catch((error: unknown) => console.error('Failed to start the game canvas', error));
 
     return () => {
       cancelled = true;
-      stopDevTools?.();
       observer?.disconnect();
       scene?.destroy();
       scene = null;
@@ -82,20 +74,4 @@ export function GameCanvas() {
       {isEmpty && <p className="game-canvas__hint muted">Start a session to begin</p>}
     </div>
   );
-}
-
-async function startDevTools(app: Application, host: HTMLElement): Promise<() => void> {
-  const count = Number(new URLSearchParams(location.search).get('fakeRooms'));
-  if (!Number.isFinite(count) || count <= 0) return () => undefined;
-
-  const [{ startFakeRooms }, { startFpsMeter }] = await Promise.all([
-    import('./fake-rooms'),
-    import('./fps-meter'),
-  ]);
-  const stopRooms = startFakeRooms(count);
-  const stopMeter = startFpsMeter(app, host);
-  return () => {
-    stopRooms();
-    stopMeter();
-  };
 }

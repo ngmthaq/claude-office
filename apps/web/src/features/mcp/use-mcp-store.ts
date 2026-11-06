@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import type { McpServerEntry } from '@claude-office/shared';
 import { sendClientEvent } from '@/features/connection/ws-client';
-import { isFakeRoomId } from '@/features/sessions/use-sessions-store';
 
 export type McpRoomStatus = {
   status: 'loading' | 'ready' | 'error';
@@ -32,11 +31,6 @@ export const useMcpStore = create<McpState>((set, get) => ({
   },
   closePanel: () => set({ openRoomId: null }),
   refresh: (roomId) => {
-    // Fake (local-only) rooms have no server session, so there is nothing to ask.
-    if (isFakeRoomId(roomId)) {
-      get().setStatus(roomId, false, []);
-      return;
-    }
     set((state) => ({
       byRoom: {
         ...state.byRoom,

@@ -282,18 +282,6 @@
   pointer-events: none;
 }
 
-.fps-meter {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  padding: 0.125rem 0.5rem;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.6);
-  font-family: var(--bs-font-monospace);
-  font-size: 0.75rem;
-  pointer-events: none;
-}
-
 .map-rename {
   position: absolute;
   z-index: 5;

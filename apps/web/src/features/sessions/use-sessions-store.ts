@@ -1,12 +1,6 @@
 import { create } from 'zustand';
 import type { FolderEntry, FoldersEvent, RoomSummary, SessionState } from '@claude-office/shared';
 
-export const FAKE_ROOM_PREFIX = 'fake-';
-
-export function isFakeRoomId(roomId: string): boolean {
-  return roomId.startsWith(FAKE_ROOM_PREFIX);
-}
-
 export type ScreenRect = { x: number; y: number; width: number; height: number };
 
 export type RenamePlace = 'sidebar' | 'office';
@@ -27,7 +21,6 @@ type SessionsState = {
   loading: boolean;
   error: string | null;
   setRooms: (rooms: RoomSummary[]) => void;
-  setFakeRooms: (rooms: RoomSummary[]) => void;
   applySessionState: (roomId: string, state: SessionState) => void;
   select: (roomId: string | null) => void;
   openDialog: () => void;
@@ -57,27 +50,15 @@ export const useSessionsStore = create<SessionsState>((set) => ({
   error: null,
   setRooms: (rooms) =>
     set((current) => {
-      const next = [
-        ...rooms.filter((r) => !isFakeRoomId(r.id)),
-        ...current.rooms.filter(isFakeRoom),
-      ];
-      const has = (id: string | undefined) => id !== undefined && next.some((r) => r.id === id);
+      const has = (id: string | undefined) => id !== undefined && rooms.some((r) => r.id === id);
       const selected = current.selectedRoomId;
-      const dropSelected = selected !== null && !isFakeRoomId(selected) && !has(selected);
+      const dropSelected = selected !== null && !has(selected);
       return {
-        rooms: next,
+        rooms,
         selectedRoomId: dropSelected ? null : selected,
         renaming: has(current.renaming?.roomId) ? current.renaming : null,
       };
     }),
-  setFakeRooms: (fakeRooms) =>
-    set((current) => ({
-      rooms: [...current.rooms.filter((r) => !isFakeRoomId(r.id)), ...fakeRooms],
-      selectedRoomId:
-        current.selectedRoomId && isFakeRoomId(current.selectedRoomId)
-          ? null
-          : current.selectedRoomId,
-    })),
   applySessionState: (roomId, state) =>
     set((current) => ({
       rooms: current.rooms.map((room) =>
@@ -98,7 +79,3 @@ export const useSessionsStore = create<SessionsState>((set) => ({
   setFoldersLoading: () => set({ loading: true, error: null }),
   setFolderError: (error) => set({ error, loading: false }),
 }));
-
-function isFakeRoom(room: RoomSummary): boolean {
-  return isFakeRoomId(room.id);
-}
