@@ -57,7 +57,7 @@ export function SessionList() {
                       />
                     )}
                   </Button>
-                  <RoomActionsMenu room={room} place="sidebar" />
+                  <RoomActionsMenu room={room} />
                 </>
               )}
             </ListGroup.Item>

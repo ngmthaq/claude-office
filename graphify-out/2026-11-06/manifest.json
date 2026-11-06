@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/ws/ws-route.ts": {
-    "mtime": 1793935938.6032171,
-    "seen": 1793935971.53481,
-    "ast_hash": "fd0e396d7e5ccf6bf8edfe9843fee476",
+    "mtime": 1793936986.9984078,
+    "seen": 1793937049.5782988,
+    "ast_hash": "97e14c9edc36b12859703ab68d0be963",
     "semantic_hash": ""
   },
   "apps/server/tsconfig.json": {
@@ -126,9 +126,9 @@
     "semantic_hash": ""
   },
   "packages/shared/src/events.ts": {
-    "mtime": 1793935938.601807,
-    "seen": 1793935971.5366201,
-    "ast_hash": "a64715efb65268bff683b5194f3dd06b",
+    "mtime": 1793936986.9974363,
+    "seen": 1793937049.579923,
+    "ast_hash": "d3dce051bda439e9c481e89b973da9c5",
     "semantic_hash": ""
   },
   "packages/shared/src/index.ts": {
@@ -768,9 +768,9 @@
     "semantic_hash": ""
   },
   "packages/shared/src/session-events.ts": {
-    "mtime": 1793935938.6014533,
-    "seen": 1793935971.536654,
-    "ast_hash": "510b594d878c84fc6b9431a83e08a420",
+    "mtime": 1793936986.997153,
+    "seen": 1793937049.579962,
+    "ast_hash": "73339cab0afc3540b3ba5c90c406bf82",
     "semantic_hash": ""
   },
   "plans/2026-11-05-21-50-52-s3-start-session-and-chat.md": {
@@ -780,9 +780,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/db/rooms-repo.ts": {
-    "mtime": 1793935938.6022344,
-    "seen": 1793935971.534561,
-    "ast_hash": "6fee9c1ba4fecc9e176e5a6907a2c857",
+    "mtime": 1793936986.997812,
+    "seen": 1793937049.578048,
+    "ast_hash": "7cd787c250b61a62d5ee12fdfacd1224",
     "semantic_hash": ""
   },
   "apps/server/src/sessions/folder-browser.ts": {
@@ -798,9 +798,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/sessions/session-manager.ts": {
-    "mtime": 1793935948.15581,
-    "seen": 1793935971.534774,
-    "ast_hash": "dcb125a9660b9bf66188e1e138d27d42",
+    "mtime": 1793936986.9982157,
+    "seen": 1793937049.578262,
+    "ast_hash": "0b664ba85c8d31648d4df29b9c036711",
     "semantic_hash": ""
   },
   "apps/server/src/ws/origin-check.ts": {
@@ -816,15 +816,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/ChatInput.tsx": {
-    "mtime": 1793935948.1564314,
-    "seen": 1793935971.535166,
-    "ast_hash": "b717b8665ecdab2997a587aac93d16e2",
+    "mtime": 1793936362.285842,
+    "seen": 1793937049.57865,
+    "ast_hash": "0e45ce807bd3cef472ed3e66fcb124f9",
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/ChatPanel.tsx": {
-    "mtime": 1793935466.2242243,
-    "seen": 1793935476.894124,
-    "ast_hash": "6ce4f6edaf0689d946ec3b0c2ac4c39d",
+    "mtime": 1793937665.4801662,
+    "seen": 1793937675.14309,
+    "ast_hash": "108686606fd45845b2d6ff581fd72aeb",
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/MessageList.tsx": {
@@ -858,21 +858,21 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/SessionList.tsx": {
-    "mtime": 1793934695.0916786,
-    "seen": 1793934729.635316,
-    "ast_hash": "cde3e360551664e6afba38ed753163f0",
+    "mtime": 1793937024.8628187,
+    "seen": 1793937049.579361,
+    "ast_hash": "f60ad167e023e11d65bab4d11a92f8da",
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/use-sessions-store.ts": {
-    "mtime": 1793929511.3963952,
-    "seen": 1793930603.291755,
-    "ast_hash": "22b0897630b68cab9d7797de27735246",
+    "mtime": 1793937665.480282,
+    "seen": 1793937675.14385,
+    "ast_hash": "fefa5318b3891baf7052535cad7861dc",
     "semantic_hash": ""
   },
   "apps/web/src/game/GameCanvas.tsx": {
-    "mtime": 1793929511.3968155,
-    "seen": 1793930603.291757,
-    "ast_hash": "cc662db029cc00f384a8bcacc2da214e",
+    "mtime": 1793936987.0000956,
+    "seen": 1793937049.5794492,
+    "ast_hash": "65c53fbd07001139f8bf8d3341542bb5",
     "semantic_hash": ""
   },
   "apps/web/src/game/agent-sprite.ts": {
@@ -894,9 +894,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/fake-rooms.ts": {
-    "mtime": 1793929511.3971903,
-    "seen": 1793930603.291761,
-    "ast_hash": "6ac1b970d2054557187763987a10b02d",
+    "mtime": 1793935975.214175,
+    "seen": 1793937049.5795689,
+    "ast_hash": "9c6248d79f98aae21457de4a8362854e",
     "semantic_hash": ""
   },
   "apps/web/src/game/fps-meter.ts": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/office-scene.ts": {
-    "mtime": 1793929511.3973696,
-    "seen": 1793930603.2917619,
-    "ast_hash": "63e5f1d94a3498d1c85d8c3b40f13919",
+    "mtime": 1793936986.9998841,
+    "seen": 1793937049.5796092,
+    "ast_hash": "fe962d542cf788cec842d657f633eab4",
     "semantic_hash": ""
   },
   "apps/web/src/game/pixi-app.ts": {
@@ -966,9 +966,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/CloseConfirmDialog.tsx": {
-    "mtime": 1793934358.4881613,
-    "seen": 1793934601.3312871,
-    "ast_hash": "c764226b507c011c5907849329e54003",
+    "mtime": 1793937024.862243,
+    "seen": 1793937049.578688,
+    "ast_hash": "5bd203b1945a5b9f2c5a43f776acc200",
     "semantic_hash": ""
   },
   "plans/2026-11-06-06-50-13-s7-stop-and-close-session.md": {
@@ -1170,9 +1170,33 @@
     "semantic_hash": ""
   },
   "plans/2026-11-06-10-30-59-permission-mode-picker.md": {
-    "mtime": 1793935876.9728673,
-    "seen": 1793935971.5410838,
-    "ast_hash": "15529a20650999cc2892ba5c12c59fed",
+    "mtime": 1793936315.8342278,
+    "seen": 1793937049.583752,
+    "ast_hash": "9f6b41a63a3c988b2bd92f7423a8a224",
+    "semantic_hash": ""
+  },
+  "apps/web/src/features/sessions/RoomActionsMenu.tsx": {
+    "mtime": 1793937811.75307,
+    "seen": 1793937823.451332,
+    "ast_hash": "5afdb58d72670483d37504155def3d54",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-10-47-54-room-actions-menu.md": {
+    "mtime": 1793937370.5076044,
+    "seen": 1793937675.148345,
+    "ast_hash": "7af22d8bd2f2be637928f6c1cf44dc8b",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-00-53-remove-header-rename.md": {
+    "mtime": 1793937691.9349995,
+    "seen": 1793937823.456196,
+    "ast_hash": "cb91c18b3e82a34bc2adbd7f47a17be9",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-03-08-header-mcp-only.md": {
+    "mtime": 1793937788.247172,
+    "seen": 1793937823.456198,
+    "ast_hash": "93fd70867dbc4076c61ba77de44ed2fb",
     "semantic_hash": ""
   }
 }

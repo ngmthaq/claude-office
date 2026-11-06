@@ -7,18 +7,16 @@ import { McpStatusPanel } from '@/features/mcp/McpStatusPanel';
 import { useMcpStore } from '@/features/mcp/use-mcp-store';
 import { SubagentDetails } from '@/features/subagents/SubagentDetails';
 import { useSubagentDetailsStore } from '@/features/subagents/use-subagent-details-store';
-import { RoomActionsMenu } from '@/features/sessions/RoomActionsMenu';
-import { RoomRenameInput } from '@/features/sessions/RoomRenameInput';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
 
 export function ChatPanel() {
   const room = useSessionsStore((state) => state.rooms.find((r) => r.id === state.selectedRoomId));
   const select = useSessionsStore((state) => state.select);
-  const renaming = useSessionsStore((state) => state.renaming);
   const openSubagent = useSubagentDetailsStore((state) => state.open);
   const closeDetails = useSubagentDetailsStore((state) => state.closeDetails);
   const mcpRoomId = useMcpStore((state) => state.openRoomId);
   const closeMcp = useMcpStore((state) => state.closePanel);
+  const openMcp = useMcpStore((state) => state.openPanel);
   const roomId = room?.id ?? null;
 
   useEffect(() => {
@@ -40,15 +38,11 @@ export function ChatPanel() {
     <main className="chat-panel">
       <div className="chat-panel__header">
         <IconButton icon="arrow-left" label="Back" onClick={() => select(null)} />
-        {renaming?.roomId === room.id && renaming.place === 'header' ? (
-          <RoomRenameInput room={room} className="flex-grow-1" />
-        ) : (
-          <div className="chat-panel__title fw-semibold text-truncate" title={room.folder}>
-            {roomLabel(room)}
-          </div>
-        )}
+        <div className="chat-panel__title fw-semibold text-truncate" title={room.folder}>
+          {roomLabel(room)}
+        </div>
         <div className="ms-auto flex-shrink-0">
-          <RoomActionsMenu room={room} place="header" showMcp />
+          <IconButton icon="plug" label="MCP servers" onClick={() => openMcp(room.id)} />
         </div>
       </div>
       {showDetails ? (

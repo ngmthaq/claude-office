@@ -9,7 +9,7 @@ export function isFakeRoomId(roomId: string): boolean {
 
 export type ScreenRect = { x: number; y: number; width: number; height: number };
 
-export type RenamePlace = 'sidebar' | 'header' | 'office';
+export type RenamePlace = 'sidebar' | 'office';
 
 export type RenameTarget = { roomId: string; place: RenamePlace; rect: ScreenRect | null };
 

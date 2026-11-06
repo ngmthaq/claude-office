@@ -5,23 +5,19 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { roomLabel, type RoomSummary } from '@claude-office/shared';
 import { CloseConfirmDialog } from '@/features/chat/CloseConfirmDialog';
 import { sendClientEvent } from '@/features/connection/ws-client';
-import { useMcpStore } from '@/features/mcp/use-mcp-store';
-import { useSessionsStore, type RenamePlace } from '@/features/sessions/use-sessions-store';
+import { useSessionsStore } from '@/features/sessions/use-sessions-store';
 
 type RoomActionsMenuProps = {
   room: RoomSummary;
-  place: Exclude<RenamePlace, 'office'>;
-  showMcp?: boolean;
 };
 
 type Confirming = 'close' | 'archive' | 'remove';
 
-export function RoomActionsMenu({ room, place, showMcp = false }: RoomActionsMenuProps) {
+export function RoomActionsMenu({ room }: RoomActionsMenuProps) {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const [confirming, setConfirming] = useState<Confirming | null>(null);
   const startRename = useSessionsStore((state) => state.startRename);
-  const openMcp = useMcpStore((state) => state.openPanel);
   const label = `Actions for ${roomLabel(room)}`;
   const closed = room.state === 'closed';
   const needsConfirm = room.state === 'working' || room.state === 'waiting';
@@ -66,16 +62,10 @@ export function RoomActionsMenu({ room, place, showMcp = false }: RoomActionsMen
           </Dropdown.Toggle>
         </OverlayTrigger>
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => startRename(room.id, place)}>
+          <Dropdown.Item onClick={() => startRename(room.id, 'sidebar')}>
             <i className="bi bi-pencil me-2" aria-hidden="true" />
             Rename
           </Dropdown.Item>
-          {showMcp && (
-            <Dropdown.Item onClick={() => openMcp(room.id)}>
-              <i className="bi bi-plug me-2" aria-hidden="true" />
-              MCP servers
-            </Dropdown.Item>
-          )}
           <Dropdown.Item onClick={() => request('archive')}>
             <i className="bi bi-box-arrow-in-down me-2" aria-hidden="true" />
             Archive

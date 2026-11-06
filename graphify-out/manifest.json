@@ -822,9 +822,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/ChatPanel.tsx": {
-    "mtime": 1793937024.8639326,
-    "seen": 1793937049.578651,
-    "ast_hash": "9a947641fc2da311659780dddf4456f8",
+    "mtime": 1793937829.2715561,
+    "seen": 1793937853.208721,
+    "ast_hash": "e3e70578c719fe3e872d17076426abeb",
     "semantic_hash": ""
   },
   "apps/web/src/features/chat/MessageList.tsx": {
@@ -858,15 +858,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/SessionList.tsx": {
-    "mtime": 1793937024.8628187,
-    "seen": 1793937049.579361,
-    "ast_hash": "f60ad167e023e11d65bab4d11a92f8da",
+    "mtime": 1793937829.2717016,
+    "seen": 1793937853.209457,
+    "ast_hash": "517ad27476d73f45a2ed733e67ee68fe",
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/use-sessions-store.ts": {
-    "mtime": 1793936986.9993508,
-    "seen": 1793937049.5793622,
-    "ast_hash": "1e2efc8c51a38318ba4a080bf5d6d68a",
+    "mtime": 1793937665.480282,
+    "seen": 1793937675.14385,
+    "ast_hash": "fefa5318b3891baf7052535cad7861dc",
     "semantic_hash": ""
   },
   "apps/web/src/game/GameCanvas.tsx": {
@@ -1176,15 +1176,27 @@
     "semantic_hash": ""
   },
   "apps/web/src/features/sessions/RoomActionsMenu.tsx": {
-    "mtime": 1793937038.0279622,
-    "seen": 1793937049.579318,
-    "ast_hash": "2ff03cf83038e4539d25cc8436b52777",
+    "mtime": 1793937844.193614,
+    "seen": 1793937853.2094212,
+    "ast_hash": "16207b128c104fd02625b3d500ea56ed",
     "semantic_hash": ""
   },
   "plans/2026-11-06-10-47-54-room-actions-menu.md": {
-    "mtime": 1793936897.2175918,
-    "seen": 1793937049.5837529,
-    "ast_hash": "9c2e8d5d6eac5c90fd43338370373300",
+    "mtime": 1793937370.5076044,
+    "seen": 1793937675.148345,
+    "ast_hash": "7af22d8bd2f2be637928f6c1cf44dc8b",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-00-53-remove-header-rename.md": {
+    "mtime": 1793937691.9349995,
+    "seen": 1793937823.456196,
+    "ast_hash": "cb91c18b3e82a34bc2adbd7f47a17be9",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-06-11-03-08-header-mcp-only.md": {
+    "mtime": 1793937788.247172,
+    "seen": 1793937823.456198,
+    "ast_hash": "93fd70867dbc4076c61ba77de44ed2fb",
     "semantic_hash": ""
   }
 }
