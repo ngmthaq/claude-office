@@ -67,7 +67,7 @@ export function GameCanvas() {
   return (
     <div className="game-canvas">
       <div ref={hostRef} className="game-canvas__host" />
-      {renaming?.rect && renamingRoom && (
+      {renaming?.place === 'office' && renaming.rect && renamingRoom && (
         <RoomRenameInput
           key={renamingRoom.id}
           room={renamingRoom}

@@ -9,11 +9,13 @@ export function isFakeRoomId(roomId: string): boolean {
 
 export type ScreenRect = { x: number; y: number; width: number; height: number };
 
-export type RenameTarget = { roomId: string; rect: ScreenRect | null };
+export type RenamePlace = 'sidebar' | 'header' | 'office';
+
+export type RenameTarget = { roomId: string; place: RenamePlace; rect: ScreenRect | null };
 
 type SessionsState = {
   renaming: RenameTarget | null;
-  startRename: (roomId: string, rect: ScreenRect | null) => void;
+  startRename: (roomId: string, place: RenamePlace, rect?: ScreenRect | null) => void;
   moveRename: (roomId: string, rect: ScreenRect) => void;
   stopRename: () => void;
   rooms: RoomSummary[];
@@ -37,10 +39,12 @@ type SessionsState = {
 
 export const useSessionsStore = create<SessionsState>((set) => ({
   renaming: null,
-  startRename: (roomId, rect) => set({ renaming: { roomId, rect } }),
+  startRename: (roomId, place, rect = null) => set({ renaming: { roomId, place, rect } }),
   moveRename: (roomId, rect) =>
     set((current) =>
-      current.renaming?.roomId === roomId ? { renaming: { roomId, rect } } : current,
+      current.renaming?.roomId === roomId
+        ? { renaming: { roomId, place: current.renaming.place, rect } }
+        : current,
     ),
   stopRename: () => set({ renaming: null }),
   rooms: [],

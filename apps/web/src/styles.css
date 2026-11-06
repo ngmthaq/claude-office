@@ -384,3 +384,7 @@ body.chat-resizing .chat-drawer--open {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+.room-actions-toggle::after {
+  display: none;
+}

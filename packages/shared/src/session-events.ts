@@ -153,6 +153,11 @@ export const RoomArchiveEventSchema = z.object({
   roomId: z.string().min(1),
 });
 
+export const RoomRemoveEventSchema = z.object({
+  type: z.literal('room_remove'),
+  roomId: z.string().min(1),
+});
+
 export const RoomRestoreEventSchema = z.object({
   type: z.literal('room_restore'),
   roomId: z.string().min(1),
@@ -334,6 +339,7 @@ export type RoomRenameEvent = z.infer<typeof RoomRenameEventSchema>;
 export type PermissionMode = z.infer<typeof PermissionModeSchema>;
 export type RoomPermissionModeEvent = z.infer<typeof RoomPermissionModeEventSchema>;
 export type RoomArchiveEvent = z.infer<typeof RoomArchiveEventSchema>;
+export type RoomRemoveEvent = z.infer<typeof RoomRemoveEventSchema>;
 export type RoomRestoreEvent = z.infer<typeof RoomRestoreEventSchema>;
 export type ArchivedListEvent = z.infer<typeof ArchivedListEventSchema>;
 export type ArchivedRoom = z.infer<typeof ArchivedRoomSchema>;

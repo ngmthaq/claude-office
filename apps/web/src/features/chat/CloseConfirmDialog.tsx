@@ -6,6 +6,7 @@ import { useChatStore } from '@/features/chat/use-chat-store';
 type CloseConfirmDialogProps = {
   message: string;
   confirmLabel: string;
+  confirmIcon?: string;
   onConfirm: () => void;
   onCancel: () => void;
 };
@@ -13,6 +14,7 @@ type CloseConfirmDialogProps = {
 export function CloseConfirmDialog({
   message,
   confirmLabel,
+  confirmIcon = 'x-circle',
   onConfirm,
   onCancel,
 }: CloseConfirmDialogProps) {
@@ -46,7 +48,7 @@ export function CloseConfirmDialog({
           onClick={onCancel}
         />
         <IconButton
-          icon="x-circle"
+          icon={confirmIcon}
           label={confirmLabel}
           variant="danger"
           size={undefined}

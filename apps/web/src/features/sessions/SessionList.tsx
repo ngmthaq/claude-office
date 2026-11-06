@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import { roomLabel } from '@claude-office/shared';
-import { IconButton } from '@/components/IconButton';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
+import { RoomActionsMenu } from '@/features/sessions/RoomActionsMenu';
 import { RoomRenameInput } from '@/features/sessions/RoomRenameInput';
 
 export function SessionList() {
@@ -12,7 +12,6 @@ export function SessionList() {
   const selectedRoomId = useSessionsStore((state) => state.selectedRoomId);
   const select = useSessionsStore((state) => state.select);
   const renaming = useSessionsStore((state) => state.renaming);
-  const startRename = useSessionsStore((state) => state.startRename);
 
   return (
     <aside className="sidebar">
@@ -25,7 +24,7 @@ export function SessionList() {
       <ListGroup className="session-list">
         {rooms.map((room) => {
           const label = roomLabel(room);
-          const renamingHere = renaming?.roomId === room.id && renaming.rect === null;
+          const renamingHere = renaming?.roomId === room.id && renaming.place === 'sidebar';
           return (
             <ListGroup.Item key={room.id} className="d-flex align-items-center gap-2 p-1">
               {renamingHere ? (
@@ -58,12 +57,7 @@ export function SessionList() {
                       />
                     )}
                   </Button>
-                  <IconButton
-                    icon="pencil"
-                    label={`Rename ${label}`}
-                    variant="outline-secondary"
-                    onClick={() => startRename(room.id, null)}
-                  />
+                  <RoomActionsMenu room={room} place="sidebar" />
                 </>
               )}
             </ListGroup.Item>

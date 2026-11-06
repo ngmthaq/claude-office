@@ -303,6 +303,20 @@ export class SessionManager {
     this.notifyArchivedChanged();
   }
 
+  remove(roomId: string): void {
+    const session = this.sessions.get(roomId);
+    if (!session) {
+      this.log.info({ roomId }, 'remove ignored: unknown room');
+      return;
+    }
+    if (!session.closed) this.close(roomId);
+    this.clearStopTimer(session);
+    this.sessions.delete(roomId);
+    this.repo.delete(roomId);
+    this.log.info({ roomId }, 'room removed');
+    this.notifyChanged();
+  }
+
   listArchived(): ArchivedRoom[] {
     const seen = new Set<string>();
     const rooms: ArchivedRoom[] = [];

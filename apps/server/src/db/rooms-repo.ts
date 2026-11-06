@@ -30,6 +30,7 @@ export class RoomsRepo {
   private readonly listWithSessionStmt;
   private readonly setNameStmt;
   private readonly setArchivedStmt;
+  private readonly deleteStmt;
   private readonly setPermissionModeStmt;
   private readonly listArchivedStmt;
   private readonly newestBySessionStmt;
@@ -45,6 +46,7 @@ export class RoomsRepo {
     );
     this.setNameStmt = db.prepare('UPDATE rooms SET name = ? WHERE id = ?');
     this.setArchivedStmt = db.prepare('UPDATE rooms SET archived_at = ? WHERE id = ?');
+    this.deleteStmt = db.prepare('DELETE FROM rooms WHERE id = ?');
     this.setPermissionModeStmt = db.prepare('UPDATE rooms SET permission_mode = ? WHERE id = ?');
     this.listArchivedStmt = db.prepare<[], RawRoomRow>(
       `SELECT ${COLUMNS} FROM rooms WHERE archived_at IS NOT NULL ORDER BY archived_at DESC`,
@@ -68,6 +70,10 @@ export class RoomsRepo {
 
   setArchived(id: string, archivedAt: number | null): void {
     this.setArchivedStmt.run(archivedAt, id);
+  }
+
+  delete(id: string): void {
+    this.deleteStmt.run(id);
   }
 
   setPermissionMode(id: string, mode: PermissionMode): void {

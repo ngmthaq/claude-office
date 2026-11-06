@@ -184,6 +184,9 @@ function handleClientEvent(
     case 'room_archive':
       sessions.archive(event.roomId);
       return;
+    case 'room_remove':
+      sessions.remove(event.roomId);
+      return;
     case 'room_restore':
       sessions.restore(event.roomId);
       return;

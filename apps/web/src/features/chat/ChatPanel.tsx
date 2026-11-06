@@ -1,24 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { IconButton } from '@/components/IconButton';
 import { roomLabel } from '@claude-office/shared';
 import { ChatInput } from '@/features/chat/ChatInput';
-import { CloseConfirmDialog } from '@/features/chat/CloseConfirmDialog';
 import { MessageList } from '@/features/chat/MessageList';
-import { sendClientEvent } from '@/features/connection/ws-client';
 import { McpStatusPanel } from '@/features/mcp/McpStatusPanel';
 import { useMcpStore } from '@/features/mcp/use-mcp-store';
 import { SubagentDetails } from '@/features/subagents/SubagentDetails';
 import { useSubagentDetailsStore } from '@/features/subagents/use-subagent-details-store';
+import { RoomActionsMenu } from '@/features/sessions/RoomActionsMenu';
+import { RoomRenameInput } from '@/features/sessions/RoomRenameInput';
 import { useSessionsStore } from '@/features/sessions/use-sessions-store';
 
 export function ChatPanel() {
   const room = useSessionsStore((state) => state.rooms.find((r) => r.id === state.selectedRoomId));
   const select = useSessionsStore((state) => state.select);
-  const [confirming, setConfirming] = useState<'close' | 'archive' | null>(null);
+  const renaming = useSessionsStore((state) => state.renaming);
   const openSubagent = useSubagentDetailsStore((state) => state.open);
   const closeDetails = useSubagentDetailsStore((state) => state.closeDetails);
   const mcpRoomId = useMcpStore((state) => state.openRoomId);
-  const openMcp = useMcpStore((state) => state.openPanel);
   const closeMcp = useMcpStore((state) => state.closePanel);
   const roomId = room?.id ?? null;
 
@@ -36,41 +35,20 @@ export function ChatPanel() {
 
   const showDetails = openSubagent !== null && openSubagent.roomId === room.id;
   const closed = room.state === 'closed';
-  const needsConfirm = room.state === 'working' || room.state === 'waiting';
-
-  function sendClose(): void {
-    if (!room) return;
-    sendClientEvent({ type: 'session_close', roomId: room.id });
-    setConfirming(null);
-  }
-
-  function sendArchive(): void {
-    if (!room) return;
-    sendClientEvent({ type: 'room_archive', roomId: room.id });
-    setConfirming(null);
-  }
 
   return (
     <main className="chat-panel">
       <div className="chat-panel__header">
         <IconButton icon="arrow-left" label="Back" onClick={() => select(null)} />
-        <div className="chat-panel__title fw-semibold text-truncate" title={room.folder}>
-          {roomLabel(room)}
-        </div>
-        <div className="ms-auto d-flex gap-2 flex-shrink-0">
-          <IconButton icon="plug" label="MCP servers" onClick={() => openMcp(room.id)} />
-          {!closed && (
-            <IconButton
-              icon="x-circle"
-              label="Close session"
-              onClick={() => (needsConfirm ? setConfirming('close') : sendClose())}
-            />
-          )}
-          <IconButton
-            icon="box-arrow-in-down"
-            label="Archive session"
-            onClick={() => (needsConfirm ? setConfirming('archive') : sendArchive())}
-          />
+        {renaming?.roomId === room.id && renaming.place === 'header' ? (
+          <RoomRenameInput room={room} className="flex-grow-1" />
+        ) : (
+          <div className="chat-panel__title fw-semibold text-truncate" title={room.folder}>
+            {roomLabel(room)}
+          </div>
+        )}
+        <div className="ms-auto flex-shrink-0">
+          <RoomActionsMenu room={room} place="header" showMcp />
         </div>
       </div>
       {showDetails ? (
@@ -86,22 +64,6 @@ export function ChatPanel() {
             closed={closed}
           />
         </>
-      )}
-      {confirming === 'close' && needsConfirm && (
-        <CloseConfirmDialog
-          message="Claude is working. Close this session?"
-          confirmLabel="Close"
-          onConfirm={sendClose}
-          onCancel={() => setConfirming(null)}
-        />
-      )}
-      {confirming === 'archive' && needsConfirm && (
-        <CloseConfirmDialog
-          message="Claude is working. Close and archive this session?"
-          confirmLabel="Archive"
-          onConfirm={sendArchive}
-          onCancel={() => setConfirming(null)}
-        />
       )}
     </main>
   );

@@ -123,11 +123,11 @@ export class OfficeScene {
   private readonly handleCameraChange = (): void => {
     this.updateLabels();
     const renaming = useSessionsStore.getState().renaming;
-    if (renaming?.rect) this.reportRenameRect(renaming.roomId);
+    if (renaming?.place === 'office' && renaming.rect) this.reportRenameRect(renaming.roomId);
   };
 
   private readonly startRename = (roomId: string, label: Text): void => {
-    useSessionsStore.getState().startRename(roomId, labelRect(label));
+    useSessionsStore.getState().startRename(roomId, 'office', labelRect(label));
   };
 
   private reportRenameRect(roomId: string): void {
