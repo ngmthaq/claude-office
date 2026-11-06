@@ -1,0 +1,9 @@
+.claude/
+plans/
+spikes/
+assets/
+graphify-out/
+dist/
+node_modules/
+pnpm-lock.yaml
+apps/server/data/

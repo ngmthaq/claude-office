@@ -1,0 +1,20 @@
+{
+  "name": "agent-sdk-spike",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "login": "tsx src/login-check.ts",
+    "subagents": "tsx src/subagents-check.ts",
+    "permission": "tsx src/permission-check.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.318"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
