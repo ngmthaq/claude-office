@@ -1,0 +1,25 @@
+.app-header {
+  --claude-primary: #d77757;
+  --claude-primary-hover: #c2654a;
+  border-bottom: 2px solid var(--claude-primary) !important;
+}
+
+.app-header h1 {
+  color: var(--claude-primary);
+}
+
+.app-header .btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--claude-primary);
+  --bs-btn-border-color: var(--claude-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--claude-primary-hover);
+  --bs-btn-hover-border-color: var(--claude-primary-hover);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--claude-primary-hover);
+  --bs-btn-active-border-color: var(--claude-primary-hover);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--claude-primary);
+  --bs-btn-disabled-border-color: var(--claude-primary);
+  --bs-btn-focus-shadow-rgb: 215, 119, 87;
+}
