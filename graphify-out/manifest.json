@@ -2178,9 +2178,9 @@
     "semantic_hash": ""
   },
   "apps/cli/src/cli.ts": {
-    "mtime": 1794031174.4802701,
-    "seen": 1794031225.635773,
-    "ast_hash": "4caf880cf5def7d4150aeec038372382",
+    "mtime": 1794031552.4236517,
+    "seen": 1794041691.664237,
+    "ast_hash": "618199aa062fda21478acfc05f65f13f",
     "semantic_hash": ""
   },
   "apps/cli/src/commands/install.command.ts": {
@@ -2220,9 +2220,9 @@
     "semantic_hash": ""
   },
   "apps/cli/src/utils/npm.util.ts": {
-    "mtime": 1794031173.8494859,
-    "seen": 1794031225.63578,
-    "ast_hash": "564796b3f9255eb2e33185df0f9d59b3",
+    "mtime": 1794031551.9211497,
+    "seen": 1794041691.664386,
+    "ast_hash": "363eb6c93e297613e44d5eeb36c4daf1",
     "semantic_hash": ""
   },
   "apps/cli/src/utils/port.util.ts": {
@@ -2256,9 +2256,9 @@
     "semantic_hash": ""
   },
   "apps/cli/README.md": {
-    "mtime": 1794031192.3656106,
-    "seen": 1794031225.6425972,
-    "ast_hash": "3e8bc3534352f99b8df54465dbaaf558",
+    "mtime": 1794031552.4239209,
+    "seen": 1794041691.671198,
+    "ast_hash": "7a406341d612e802781226b41e166a07",
     "semantic_hash": ""
   },
   "plans/2026-11-07-12-18-55-web-test-subagent-labels-top-layer-report.md": {
@@ -2292,9 +2292,15 @@
     "semantic_hash": ""
   },
   "plans/2026-11-07-12-57-22-npm-cli-package.md": {
-    "mtime": 1794031063.906743,
-    "seen": 1794031225.6440792,
-    "ast_hash": "ecc1badd7b024f5e0de8e43363bbb625",
+    "mtime": 1794031356.1993663,
+    "seen": 1794041691.672715,
+    "ast_hash": "a21c8d83b17f68d91e5aa519a56a83b6",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/commands/upgrade.command.ts": {
+    "mtime": 1794031561.442076,
+    "seen": 1794041691.664313,
+    "ast_hash": "c2f562cd93238aff06c11f0851e09faa",
     "semantic_hash": ""
   }
 }

@@ -88,7 +88,6 @@
   "139": "Authentication & Access Control",
   "140": "Title: Plan — S5 Permission prompts in the UI",
   "141": "Title: Plan — Add space between the Prompt box and \"Tool calls\"",
-  "151": "Coding Conventions",
   "152": "Title: Web Test Plan — Live result card title (debug log run)",
   "154": "Title: Web Test Report — Live result card title (debug log run)",
   "157": "Title: Web Test Report — Web app after the layered refactor",
@@ -96,6 +95,5 @@
   "160": "Title: Web Test Report — Sub-agent result card",
   "162": "Title: Web Test Report — Re-run sub-agent result card fixes",
   "164": "Title: Web Test Plan — Re-run live sub-agent result card",
-  "168": "Graphify Setup",
-  "172": "Step 2 — Brainstorming"
+  "168": "Graphify Setup"
 }
