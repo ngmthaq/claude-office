@@ -6,6 +6,11 @@ export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
   answer(_socket: WebSocket, event: Extract<ClientEvent, { type: 'permission_answer' }>): void {
-    this.permissionService.answerPermission(event.roomId, event.requestId, event.decision);
+    this.permissionService.answerPermission(
+      event.roomId,
+      event.requestId,
+      event.decision,
+      event.answers,
+    );
   }
 }

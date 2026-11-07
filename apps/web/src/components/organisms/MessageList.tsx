@@ -7,7 +7,9 @@ import { ExternalLink } from '@/components/atoms/ExternalLink';
 import { PeerMessageCard } from '@/components/atoms/PeerMessageCard';
 import { SubagentCard } from '@/components/atoms/SubagentCard';
 import { ToolCard } from '@/components/atoms/ToolCard';
+import { AskUserQuestionCard } from '@/components/molecules/AskUserQuestionCard';
 import { PermissionCard } from '@/components/molecules/PermissionCard';
+import { parseAskUserQuestionInput } from '@/dtos/ask-user-question.dto';
 import type { ChatItem } from '@/dtos/chat-item.dto';
 import { useAutoScroll } from '@/hooks/feature/useAutoScroll';
 import { selectRoomItems, useChatStore } from '@/hooks/store/useChatStore';
@@ -25,9 +27,19 @@ export function MessageList({ roomId }: MessageListProps) {
   );
   const endRef = useAutoScroll(items);
 
-  function answerPermission(requestId: string, decision: 'allow' | 'deny'): void {
-    useChatStore.getState().markPermissionSending(roomId, requestId);
-    wsClientService.send({ type: 'permission_answer', roomId, requestId, decision });
+  function answerPermission(
+    requestId: string,
+    decision: 'allow' | 'deny',
+    answers?: Record<string, string>,
+  ): void {
+    useChatStore.getState().markPermissionSending(roomId, requestId, answers);
+    wsClientService.send({
+      type: 'permission_answer',
+      roomId,
+      requestId,
+      decision,
+      ...(answers === undefined ? {} : { answers }),
+    });
   }
 
   return (
@@ -49,7 +61,11 @@ export function MessageList({ roomId }: MessageListProps) {
 type ChatItemViewProps = {
   item: ChatItem;
   subagentIds: ReadonlySet<string>;
-  onAnswerPermission: (requestId: string, decision: 'allow' | 'deny') => void;
+  onAnswerPermission: (
+    requestId: string,
+    decision: 'allow' | 'deny',
+    answers?: Record<string, string>,
+  ) => void;
   onOpenSubagent: (subagentId: string) => void;
 };
 
@@ -88,13 +104,26 @@ function ChatItemView({
           {item.notice === 'stopped' ? 'Stopped' : 'Session closed'}
         </div>
       );
-    case 'permission':
+    case 'permission': {
+      const questions =
+        item.toolName === 'AskUserQuestion' ? parseAskUserQuestionInput(item.input) : null;
+      if (questions !== null) {
+        return (
+          <AskUserQuestionCard
+            item={item}
+            questions={questions}
+            onSubmit={(answers) => onAnswerPermission(item.id, 'allow', answers)}
+            onSkip={() => onAnswerPermission(item.id, 'deny')}
+          />
+        );
+      }
       return (
         <PermissionCard
           item={item}
           onAnswer={(decision) => onAnswerPermission(item.id, decision)}
         />
       );
+    }
     case 'peer':
       return (
         <PeerMessageCard

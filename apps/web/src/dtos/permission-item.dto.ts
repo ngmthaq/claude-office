@@ -13,6 +13,7 @@ export const PermissionItemSchema = z.object({
   input: z.unknown(),
   fromSubagent: z.boolean(),
   status: PermissionStatusSchema,
+  answers: z.record(z.string(), z.string()).optional(),
 });
 
 export type PermissionItem = z.infer<typeof PermissionItemSchema>;

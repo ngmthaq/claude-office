@@ -12,7 +12,11 @@ export type ChatState = {
   setConfirmingClose: (confirmingClose: boolean) => void;
   applyEvent: (event: RoomEvent) => void;
   replaceHistory: (roomId: string, events: RoomEvent[]) => void;
-  markPermissionSending: (roomId: string, requestId: string) => void;
+  markPermissionSending: (
+    roomId: string,
+    requestId: string,
+    answers?: Record<string, string>,
+  ) => void;
 };
 
 const EMPTY_ITEMS: ChatItem[] = [];
@@ -38,11 +42,17 @@ export const useChatStore = create<ChatState>((set) => ({
     set((state) => ({
       byRoom: { ...state.byRoom, [roomId]: events.reduce<ChatItem[]>(applyRoomEvent, []) },
     })),
-  markPermissionSending: (roomId, requestId) =>
+  markPermissionSending: (roomId, requestId, answers) =>
     set((state) => ({
       byRoom: {
         ...state.byRoom,
-        [roomId]: setPermissionStatus(state.byRoom[roomId], requestId, 'sending', 'pending'),
+        [roomId]: setPermissionStatus(
+          state.byRoom[roomId],
+          requestId,
+          'sending',
+          'pending',
+          answers,
+        ),
       },
     })),
 }));
@@ -190,13 +200,14 @@ function setPermissionStatus(
   requestId: string,
   status: PermissionStatus,
   onlyFrom?: PermissionStatus,
+  answers?: Record<string, string>,
 ): ChatItem[] {
   const current = items ?? EMPTY_ITEMS;
   return current.map((item) =>
     item.kind === 'permission' &&
     item.id === requestId &&
     (onlyFrom === undefined || item.status === onlyFrom)
-      ? { ...item, status }
+      ? { ...item, status, ...(answers === undefined ? {} : { answers }) }
       : item,
   );
 }
