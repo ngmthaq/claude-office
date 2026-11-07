@@ -11,6 +11,7 @@ export class EventBusService {
   private readonly stateListeners = new Set<SessionStateListener>();
   private readonly changeListeners = new Set<() => void>();
   private readonly archivedListeners = new Set<() => void>();
+  private readonly usageLimitListeners = new Set<() => void>();
 
   onRoomEvent(listener: RoomEventListener): void {
     this.eventListeners.add(listener);
@@ -26,6 +27,10 @@ export class EventBusService {
 
   onArchivedChanged(listener: () => void): void {
     this.archivedListeners.add(listener);
+  }
+
+  onUsageLimitChanged(listener: () => void): void {
+    this.usageLimitListeners.add(listener);
   }
 
   emit(session: Session, event: RoomEvent): void {
@@ -60,5 +65,9 @@ export class EventBusService {
 
   notifyArchivedChanged(): void {
     for (const listener of this.archivedListeners) listener();
+  }
+
+  notifyUsageLimitChanged(): void {
+    for (const listener of this.usageLimitListeners) listener();
   }
 }

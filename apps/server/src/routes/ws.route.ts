@@ -14,6 +14,7 @@ import type { SystemController } from '@/controllers/system.controller.ts';
 import type { OriginCheckMiddleware } from '@/middlewares/origin-check.middleware.ts';
 import type { EventBusService } from '@/services/event-bus.service.ts';
 import type { RoomService } from '@/services/room.service.ts';
+import type { UsageLimitService } from '@/services/usage-limit.service.ts';
 import type { SessionService } from '@/services/session.service.ts';
 import { WsSendUtil } from '@/utils/ws-send.util.ts';
 
@@ -22,6 +23,7 @@ export type WsRouteOptions = {
   eventBusService: EventBusService;
   sessionService: SessionService;
   roomService: RoomService;
+  usageLimitService: UsageLimitService;
   systemController: SystemController;
   sessionController: SessionController;
   roomController: RoomController;
@@ -37,7 +39,8 @@ export async function registerWsRoute(
   app: FastifyInstance,
   options: WsRouteOptions,
 ): Promise<void> {
-  const { originCheckMiddleware, eventBusService, sessionService, roomService } = options;
+  const { originCheckMiddleware, eventBusService, sessionService, roomService, usageLimitService } =
+    options;
   const sockets = new Set<WebSocket>();
 
   eventBusService.onRoomEvent((event) => WsSendUtil.broadcast(sockets, event));
@@ -49,6 +52,11 @@ export async function registerWsRoute(
     WsSendUtil.broadcast(sockets, { type: 'archived', rooms: roomService.listArchived() }),
   );
 
+  eventBusService.onUsageLimitChanged(() => {
+    const limit = usageLimitService.current();
+    if (limit) WsSendUtil.broadcast(sockets, { type: 'usage_limit', limit });
+  });
+
   app.get(
     '/ws',
     { websocket: true, onRequest: originCheckMiddleware.handle },
@@ -58,6 +66,8 @@ export async function registerWsRoute(
       try {
         WsSendUtil.send(socket, { type: 'hello', serverVersion: SERVER_VERSION, time: Date.now() });
         WsSendUtil.send(socket, { type: 'sessions', rooms: sessionService.list() });
+        const limit = usageLimitService.current();
+        if (limit) WsSendUtil.send(socket, { type: 'usage_limit', limit });
       } catch (error) {
         log.error({ err: error }, 'failed to send hello');
       }

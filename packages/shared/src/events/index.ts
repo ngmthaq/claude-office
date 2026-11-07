@@ -47,5 +47,6 @@ export * from './subagent-tool-result.ts';
 export * from './tool-call.ts';
 export * from './tool-result.ts';
 export * from './turn-done.ts';
+export * from './usage-limit.ts';
 export * from './user-message.ts';
 export type { ParseFailure, ParseResult } from './parse.ts';

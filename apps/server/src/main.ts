@@ -29,6 +29,7 @@ import { EventBusService } from '@/services/event-bus.service.ts';
 import { PermissionService } from '@/services/permission.service.ts';
 import { RoomService } from '@/services/room.service.ts';
 import { SdkEventMapperService } from '@/services/sdk-event-mapper.service.ts';
+import { UsageLimitService } from '@/services/usage-limit.service.ts';
 import { SessionInfoService } from '@/services/session-info.service.ts';
 import { SessionService } from '@/services/session.service.ts';
 
@@ -64,6 +65,7 @@ async function main(): Promise<void> {
   const eventBusService = new EventBusService();
   const permissionService = new PermissionService(sessionStoreRepository, eventBusService, app.log);
   const sessionInfoService = new SessionInfoService(gitRepository, eventBusService, app.log);
+  const usageLimitService = new UsageLimitService(eventBusService, app.log);
   const sessionService = new SessionService(
     roomRepository,
     sessionStoreRepository,
@@ -74,6 +76,7 @@ async function main(): Promise<void> {
     eventBusService,
     permissionService,
     sessionInfoService,
+    usageLimitService,
     app.log,
   );
   const roomService = new RoomService(
@@ -91,6 +94,7 @@ async function main(): Promise<void> {
     eventBusService,
     sessionService,
     roomService,
+    usageLimitService,
     systemController: new SystemController(),
     sessionController: new SessionController(sessionService),
     roomController: new RoomController(roomService),

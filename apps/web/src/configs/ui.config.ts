@@ -119,3 +119,11 @@ export const SESSION_INFO_TEXT = {
   context: 'Context',
   back: 'Back to chat',
 } as const;
+
+export const USAGE_LIMIT_TEXT = {
+  resetsIn: 'resets in',
+  resetNow: 'reset',
+  used: 'used',
+  titleAt: '5-hour limit resets at',
+  titleDefault: '5-hour usage limit',
+} as const;

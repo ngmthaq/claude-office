@@ -27,6 +27,7 @@ import { SubagentToolResultEventSchema } from './subagent-tool-result.ts';
 import { ToolCallEventSchema } from './tool-call.ts';
 import { ToolResultEventSchema } from './tool-result.ts';
 import { TurnDoneEventSchema } from './turn-done.ts';
+import { UsageLimitEventSchema } from './usage-limit.ts';
 import { UserMessageEventSchema } from './user-message.ts';
 
 export const ServerEventSchema = z.discriminatedUnion('type', [
@@ -58,6 +59,7 @@ export const ServerEventSchema = z.discriminatedUnion('type', [
   CommandsEventSchema,
   FilesEventSchema,
   McpStatusEventSchema,
+  UsageLimitEventSchema,
 ]);
 
 export type ServerEvent = z.infer<typeof ServerEventSchema>;

@@ -7,6 +7,7 @@ import { useConnectionStore } from '@/hooks/store/useConnectionStore';
 import { useHistoryStore } from '@/hooks/store/useHistoryStore';
 import { useMcpStore } from '@/hooks/store/useMcpStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
+import { useUsageLimitStore } from '@/hooks/store/useUsageLimitStore';
 
 export class WsClientService {
   private activeSocket: WebSocket | null = null;
@@ -73,6 +74,9 @@ export class WsClientService {
           break;
         case 'history':
           useHistoryStore.getState().setEntries(event.entries);
+          break;
+        case 'usage_limit':
+          useUsageLimitStore.getState().setLimit(event.limit);
           break;
         case 'archived':
           useArchivedStore.getState().setRooms(event.rooms);

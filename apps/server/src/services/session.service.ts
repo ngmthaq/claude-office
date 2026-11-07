@@ -22,6 +22,7 @@ import type { EventBusService } from '@/services/event-bus.service.ts';
 import type { PermissionService } from '@/services/permission.service.ts';
 import type { SessionInfoService } from '@/services/session-info.service.ts';
 import type { SdkEventMapperService } from '@/services/sdk-event-mapper.service.ts';
+import type { UsageLimitService } from '@/services/usage-limit.service.ts';
 import { ErrorUtil } from '@/utils/error.util.ts';
 import { InputQueue } from '@/utils/input-queue.util.ts';
 import { SessionMapperUtil } from '@/utils/session-mapper.util.ts';
@@ -41,6 +42,7 @@ export class SessionService {
     private readonly eventBusService: EventBusService,
     private readonly permissionService: PermissionService,
     private readonly sessionInfoService: SessionInfoService,
+    private readonly usageLimitService: UsageLimitService,
     private readonly log: FastifyBaseLogger,
   ) {}
 
@@ -441,6 +443,10 @@ export class SessionService {
           this.sessionInfoService.setModel(session, message.model);
           continue;
         }
+        if (message.type === 'rate_limit_event') {
+          this.usageLimitService.fromRateLimitEvent(message.rate_limit_info);
+          continue;
+        }
         const description =
           message.type === 'system' && message.subtype === 'task_notification'
             ? this.sdkEventMapperService.subagentDescription(
@@ -466,6 +472,7 @@ export class SessionService {
             this.setBusy(session, false);
             void this.sessionInfoService.refreshContext(session);
             void this.sessionInfoService.refreshWorkspace(session);
+            if (session.query) void this.usageLimitService.refresh(session.query);
           }
         }
         if (message.type === 'result') void this.refreshTitle(session);

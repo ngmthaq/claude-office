@@ -13,3 +13,4 @@ export * from './session-state.ts';
 export * from './slash-command-entry.ts';
 export * from './subagent-ref.ts';
 export * from './subagent-status.ts';
+export * from './usage-limit.ts';
