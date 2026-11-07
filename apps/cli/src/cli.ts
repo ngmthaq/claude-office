@@ -2,12 +2,14 @@ import { BIN_NAME, DEFAULT_PORT, MIN_NODE_MAJOR, PACKAGE_NAME } from '@/configs/
 import { installCommand } from '@/commands/install.command.ts';
 import { openCommand } from '@/commands/open.command.ts';
 import { uninstallCommand } from '@/commands/uninstall.command.ts';
+import { upgradeCommand } from '@/commands/upgrade.command.ts';
 import { NodeVersionUtil } from '@/utils/node-version.util.ts';
 
 const USAGE = `Usage: ${BIN_NAME} <command>
 
 Commands:
   install             Create the data folder, set up the database, and install ${PACKAGE_NAME} globally
+  upgrade             Install the latest ${PACKAGE_NAME} globally and run new database migrations
   uninstall [--yes]   Remove the global package (asks before deleting the data folder; --yes skips the question)
   open [PORT]         Start Claude Office and open it in the browser (default port ${DEFAULT_PORT})
   help                Show this message`;
@@ -16,6 +18,8 @@ const run = async (command: string | undefined, args: string[]): Promise<number>
   switch (command) {
     case 'install':
       return installCommand();
+    case 'upgrade':
+      return upgradeCommand();
     case 'uninstall':
       return uninstallCommand(args);
     case 'open':
