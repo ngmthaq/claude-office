@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { parseWith, type ParseResult } from './parse.ts';
 import { ArchivedListEventSchema } from './archived-list.ts';
+import { CodeFileGetEventSchema } from './code-file-get.ts';
+import { CodeTreeListEventSchema } from './code-tree-list.ts';
 import { CommandsListEventSchema } from './commands-list.ts';
 import { FilesListEventSchema } from './files-list.ts';
 import { FoldersListEventSchema } from './folders-list.ts';
@@ -40,6 +42,8 @@ export const ClientEventSchema = z.discriminatedUnion('type', [
   CommandsListEventSchema,
   FilesListEventSchema,
   McpListEventSchema,
+  CodeTreeListEventSchema,
+  CodeFileGetEventSchema,
 ]);
 
 export type ClientEvent = z.infer<typeof ClientEventSchema>;

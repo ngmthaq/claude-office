@@ -2,12 +2,14 @@ import { useEffect } from 'react';
 import { roomLabel } from '@claude-office/shared';
 import { IconButton } from '@/components/atoms/IconButton';
 import { ChatInput } from '@/components/organisms/ChatInput';
+import { CodeViewerDialog } from '@/components/organisms/CodeViewerDialog';
 import { McpStatusPanel } from '@/components/organisms/McpStatusPanel';
 import { MessageList } from '@/components/organisms/MessageList';
 import { SessionInfoPanel } from '@/components/organisms/SessionInfoPanel';
 import { SubagentDetails } from '@/components/organisms/SubagentDetails';
-import { SESSION_INFO_TEXT } from '@/configs/ui.config';
+import { CODE_VIEWER_TEXT, SESSION_INFO_TEXT } from '@/configs/ui.config';
 import { useMcpStatus } from '@/hooks/feature/useMcpStatus';
+import { useCodeViewerStore } from '@/hooks/store/useCodeViewerStore';
 import { useMcpStore } from '@/hooks/store/useMcpStore';
 import { useSessionInfoStore } from '@/hooks/store/useSessionInfoStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
@@ -23,6 +25,9 @@ export function ChatPanel() {
   const infoRoomId = useSessionInfoStore((state) => state.openRoomId);
   const openInfo = useSessionInfoStore((state) => state.open);
   const closeInfo = useSessionInfoStore((state) => state.close);
+  const codeRoomId = useCodeViewerStore((state) => state.openRoomId);
+  const openCode = useCodeViewerStore((state) => state.open);
+  const closeCode = useCodeViewerStore((state) => state.close);
   const { openPanel: openMcp } = useMcpStatus();
   const roomId = room?.id ?? null;
 
@@ -37,6 +42,10 @@ export function ChatPanel() {
   useEffect(() => {
     if (infoRoomId !== null && infoRoomId !== roomId) closeInfo();
   }, [infoRoomId, roomId, closeInfo]);
+
+  useEffect(() => {
+    if (codeRoomId !== null && codeRoomId !== roomId) closeCode();
+  }, [codeRoomId, roomId, closeCode]);
 
   useEffect(() => {
     if (openSubagent === null) return;
@@ -78,6 +87,11 @@ export function ChatPanel() {
             onClick={() => openInfo(room.id)}
           />
           <IconButton
+            icon="file-earmark-code"
+            label={CODE_VIEWER_TEXT.title}
+            onClick={() => openCode(room.id)}
+          />
+          <IconButton
             icon="plug"
             label="MCP servers"
             onClick={() => {
@@ -87,6 +101,7 @@ export function ChatPanel() {
           />
         </div>
       </div>
+      <CodeViewerDialog />
       <MessageList key={`list-${room.id}`} roomId={room.id} />
       <ChatInput
         key={`input-${room.id}`}

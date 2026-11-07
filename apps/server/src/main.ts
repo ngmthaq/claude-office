@@ -5,6 +5,7 @@ import fastifyStatic from '@fastify/static';
 import websocket from '@fastify/websocket';
 import { HOST, IS_PRODUCTION, LOG_LEVEL, PORT, WEB_DIST_DIR } from '@/configs/app.config.ts';
 import { openDatabase, runMigrations } from '@/configs/database.config.ts';
+import { CodeViewerController } from '@/controllers/code-viewer.controller.ts';
 import { CommandController } from '@/controllers/command.controller.ts';
 import { FileController } from '@/controllers/file.controller.ts';
 import { FolderController } from '@/controllers/folder.controller.ts';
@@ -101,6 +102,12 @@ async function main(): Promise<void> {
     permissionController: new PermissionController(permissionService),
     folderController: new FolderController(folderRepository),
     fileController: new FileController(sessionService, folderRepository, fileRepository),
+    codeViewerController: new CodeViewerController(
+      sessionService,
+      folderRepository,
+      fileRepository,
+      gitRepository,
+    ),
     commandController: new CommandController(catalogService),
     mcpController: new McpController(catalogService),
     historyController: new HistoryController(sessionService),

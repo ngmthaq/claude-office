@@ -16,3 +16,7 @@
 .muted {
   color: var(--bs-secondary-color);
 }
+
+.tooltip {
+  pointer-events: none;
+}

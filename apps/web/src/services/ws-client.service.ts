@@ -3,6 +3,7 @@ import { INITIAL_BACKOFF_MS, MAX_BACKOFF_MS, buildWsUrl } from '@/configs/ws.con
 import { useArchivedStore } from '@/hooks/store/useArchivedStore';
 import { useAutocompleteStore } from '@/hooks/store/useAutocompleteStore';
 import { useChatStore } from '@/hooks/store/useChatStore';
+import { useCodeViewerStore } from '@/hooks/store/useCodeViewerStore';
 import { useConnectionStore } from '@/hooks/store/useConnectionStore';
 import { useHistoryStore } from '@/hooks/store/useHistoryStore';
 import { useMcpStore } from '@/hooks/store/useMcpStore';
@@ -90,6 +91,8 @@ export class WsClientService {
             useHistoryStore.getState().setError(event.message);
           else if (event.code === 'commands_failed' || event.code === 'files_failed')
             failPendingList(event.code);
+          else if (event.code === 'code_tree_failed' || event.code === 'code_file_failed')
+            useCodeViewerStore.getState().setError(event.message);
           else if (event.code === 'mcp_failed') failPendingMcp();
           else if (event.code === 'room_not_found' || event.code === 'folder_invalid')
             failPendingList(event.code);
@@ -103,6 +106,12 @@ export class WsClientService {
           break;
         case 'mcp_status':
           useMcpStore.getState().setStatus(event.roomId, event.live, event.servers);
+          break;
+        case 'code_tree':
+          useCodeViewerStore.getState().setTree(event);
+          break;
+        case 'code_file':
+          useCodeViewerStore.getState().setFile(event);
           break;
         case 'session_history':
           useChatStore.getState().replaceHistory(event.roomId, event.events);

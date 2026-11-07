@@ -127,3 +127,18 @@ export const USAGE_LIMIT_TEXT = {
   titleAt: '5-hour limit resets at',
   titleDefault: '5-hour usage limit',
 } as const;
+
+export const CODE_VIEWER_TEXT = {
+  title: 'Code viewer',
+  diff: 'Diff',
+  file: 'File',
+  modeLabel: 'View mode',
+  refresh: 'Refresh',
+  files: 'Files',
+  selectFile: 'Select a file',
+  tooLarge: 'Cannot preview: file is larger than 1 MB',
+  binary: 'Cannot preview: binary file',
+  notFound: 'File not found',
+  truncated: 'List is cut at 5000 entries',
+  noGit: 'Not a git repository — no change marks',
+} as const;

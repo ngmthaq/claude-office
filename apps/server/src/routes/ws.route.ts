@@ -3,6 +3,7 @@ import type { WebSocket } from 'ws';
 import { parseClientEvent, type ClientEvent } from '@claude-office/shared';
 import { SERVER_VERSION } from '@/configs/app.config.ts';
 import type { CommandController } from '@/controllers/command.controller.ts';
+import type { CodeViewerController } from '@/controllers/code-viewer.controller.ts';
 import type { FileController } from '@/controllers/file.controller.ts';
 import type { FolderController } from '@/controllers/folder.controller.ts';
 import type { HistoryController } from '@/controllers/history.controller.ts';
@@ -30,6 +31,7 @@ export type WsRouteOptions = {
   permissionController: PermissionController;
   folderController: FolderController;
   fileController: FileController;
+  codeViewerController: CodeViewerController;
   commandController: CommandController;
   mcpController: McpController;
   historyController: HistoryController;
@@ -118,6 +120,10 @@ function dispatch(
       return options.mcpController.list(socket, event, log);
     case 'files_list':
       return options.fileController.list(socket, event, log);
+    case 'code_tree_list':
+      return options.codeViewerController.tree(socket, event, log);
+    case 'code_file_get':
+      return options.codeViewerController.file(socket, event, log);
     case 'session_start':
       return options.sessionController.start(socket, event);
     case 'session_send':

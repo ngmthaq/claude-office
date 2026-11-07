@@ -3,6 +3,8 @@ import { parseWith, type ParseResult } from './parse.ts';
 import { ArchivedEventSchema } from './archived.ts';
 import { AssistantTextEventSchema } from './assistant-text.ts';
 import { AuthErrorEventSchema } from './auth-error.ts';
+import { CodeFileEventSchema } from './code-file.ts';
+import { CodeTreeEventSchema } from './code-tree.ts';
 import { CommandsEventSchema } from './commands.ts';
 import { ErrorEventSchema } from './error.ts';
 import { FilesEventSchema } from './files.ts';
@@ -60,6 +62,8 @@ export const ServerEventSchema = z.discriminatedUnion('type', [
   FilesEventSchema,
   McpStatusEventSchema,
   UsageLimitEventSchema,
+  CodeTreeEventSchema,
+  CodeFileEventSchema,
 ]);
 
 export type ServerEvent = z.infer<typeof ServerEventSchema>;

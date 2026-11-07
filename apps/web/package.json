@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@claude-office/shared": "workspace:*",
+    "@monaco-editor/react": "^4.7.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.2",
+    "monaco-editor": "^0.57.0",
     "pixi.js": "^8.22.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.10",

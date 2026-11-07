@@ -1,6 +1,7 @@
 export * from './archived-room.ts';
 export * from './file-entry.ts';
 export * from './folder-entry.ts';
+export * from './git-file-status.ts';
 export * from './history-entry.ts';
 export * from './mcp-server-entry.ts';
 export * from './mcp-server-status-value.ts';

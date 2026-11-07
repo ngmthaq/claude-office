@@ -16,6 +16,7 @@ import '@/styles/chat-drawer.css';
 import '@/styles/mcp.css';
 import '@/styles/room-actions.css';
 import '@/styles/header.css';
+import '@/styles/code-viewer.css';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Root element not found');

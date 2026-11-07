@@ -1,11 +1,17 @@
 import { execFile } from 'node:child_process';
-import { readdir } from 'node:fs/promises';
-import { join, posix } from 'node:path';
+import { readdir, readFile, realpath, stat } from 'node:fs/promises';
+import { join, posix, sep } from 'node:path';
 import type { FileEntry } from '@claude-office/shared';
+import { CODE_VIEWER_MAX_FILE_BYTES } from '@/configs/limits.config.ts';
 
 export type FileListing = { files: FileEntry[]; truncated: boolean };
 
+export type FileUnavailable = 'too_large' | 'binary' | 'not_found';
+
+export type TextResult = { ok: true; text: string } | { ok: false; reason: FileUnavailable };
+
 export class FileRepository {
+  private static readonly binarySniffBytes = 8192;
   private static readonly maxEntries = 5000;
   private static readonly cacheTtlMs = 30_000;
   private static readonly gitTimeoutMs = 3000;
@@ -22,13 +28,41 @@ export class FileRepository {
 
   private readonly cache = new Map<string, { at: number; listing: FileListing }>();
 
-  async listFiles(folder: string): Promise<FileListing> {
+  async listFiles(folder: string, options: { fresh?: boolean } = {}): Promise<FileListing> {
     const hit = this.cache.get(folder);
-    if (hit && Date.now() - hit.at < FileRepository.cacheTtlMs) return hit.listing;
+    if (!options.fresh && hit && Date.now() - hit.at < FileRepository.cacheTtlMs) {
+      return hit.listing;
+    }
     const paths = (await this.gitPaths(folder)) ?? (await this.walkPaths(folder));
     const listing = this.buildListing(paths);
     this.cache.set(folder, { at: Date.now(), listing });
     return listing;
+  }
+
+  static decode(data: Buffer): TextResult {
+    if (data.length > CODE_VIEWER_MAX_FILE_BYTES) return { ok: false, reason: 'too_large' };
+    if (data.subarray(0, FileRepository.binarySniffBytes).includes(0)) {
+      return { ok: false, reason: 'binary' };
+    }
+    return { ok: true, text: data.toString('utf8') };
+  }
+
+  async readText(folder: string, rawPath: string): Promise<TextResult> {
+    const path = this.normalize(rawPath);
+    if (path === null) return { ok: false, reason: 'not_found' };
+    try {
+      const root = await realpath(folder);
+      const real = await realpath(join(root, path));
+      if (!real.startsWith(root.endsWith(sep) ? root : root + sep)) {
+        return { ok: false, reason: 'not_found' };
+      }
+      const info = await stat(real);
+      if (!info.isFile()) return { ok: false, reason: 'not_found' };
+      if (info.size > CODE_VIEWER_MAX_FILE_BYTES) return { ok: false, reason: 'too_large' };
+      return FileRepository.decode(await readFile(real));
+    } catch {
+      return { ok: false, reason: 'not_found' };
+    }
   }
 
   private buildListing(paths: string[]): FileListing {
