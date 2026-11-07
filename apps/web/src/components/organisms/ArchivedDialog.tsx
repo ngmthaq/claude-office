@@ -1,7 +1,7 @@
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Modal from 'react-bootstrap/Modal';
 import { roomLabel } from '@claude-office/shared';
-import { IconButton } from '@/components/atoms/IconButton';
 import { useArchivedStore } from '@/hooks/store/useArchivedStore';
 import { wsClientService } from '@/services/ws-client.service';
 
@@ -47,11 +47,13 @@ export function ArchivedDialog() {
                   {new Date(room.archivedAt).toLocaleString()}
                 </small>
               </div>
-              <IconButton
-                icon="arrow-counterclockwise"
-                label="Restore"
+              <Button
+                variant="outline-secondary"
+                size="sm"
                 onClick={() => wsClientService.send({ type: 'room_restore', roomId: room.id })}
-              />
+              >
+                Restore
+              </Button>
             </ListGroup.Item>
           ))}
         </ListGroup>

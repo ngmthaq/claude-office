@@ -1,6 +1,6 @@
 import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { IconButton } from '@/components/atoms/IconButton';
 import { PERMISSION_STATUS_BG, PERMISSION_STATUS_LABELS } from '@/configs/ui.config';
 import type { PermissionItem } from '@/dtos/permission-item.dto';
 
@@ -31,20 +31,22 @@ export function PermissionCard({ item, onAnswer }: PermissionCardProps) {
         <pre className="small mb-2">{inputText}</pre>
         {item.status === 'pending' || item.status === 'sending' ? (
           <div className="d-flex justify-content-end gap-2">
-            <IconButton
-              icon="x-lg"
-              label="Deny"
+            <Button
               variant="outline-danger"
+              size="sm"
               disabled={item.status === 'sending'}
               onClick={() => onAnswer('deny')}
-            />
-            <IconButton
-              icon="check-lg"
-              label="Allow"
+            >
+              Deny
+            </Button>
+            <Button
               variant="success"
+              size="sm"
               disabled={item.status === 'sending'}
               onClick={() => onAnswer('allow')}
-            />
+            >
+              Allow
+            </Button>
           </div>
         ) : (
           <Badge bg={PERMISSION_STATUS_BG[item.status]}>

@@ -110,9 +110,9 @@ export function RoomActionsMenu({
       )}
       {confirming === 'remove' && (
         <CloseConfirmDialog
+          title="Remove session"
           message="Remove this room from Claude Office? The Claude session stays in History."
           confirmLabel="Remove"
-          confirmIcon="trash"
           onConfirm={() => send('room_remove')}
           onCancel={() => setConfirming(null)}
           onOpenChange={onConfirmingChange}

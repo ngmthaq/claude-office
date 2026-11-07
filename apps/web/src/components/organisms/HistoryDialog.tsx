@@ -1,7 +1,7 @@
 import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Modal from 'react-bootstrap/Modal';
-import { IconButton } from '@/components/atoms/IconButton';
 import { useHistoryStore } from '@/hooks/store/useHistoryStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { wsClientService } from '@/services/ws-client.service';
@@ -66,21 +66,22 @@ export function HistoryDialog() {
                     )}
                   </div>
                   {entry.openRoomId !== null ? (
-                    <IconButton
-                      icon="box-arrow-in-right"
-                      label="Open"
+                    <Button
+                      variant="outline-secondary"
+                      size="sm"
                       onClick={() => {
                         select(entry.openRoomId);
                         close();
                       }}
-                    />
+                    >
+                      Open
+                    </Button>
                   ) : !entry.canResume ? (
                     <small className="text-body-secondary text-nowrap">Folder not available</small>
                   ) : (
-                    <IconButton
-                      icon={resumingId === entry.sessionId ? 'hourglass-split' : 'play-fill'}
-                      label={resumingId === entry.sessionId ? 'Resuming…' : 'Resume'}
+                    <Button
                       variant="primary"
+                      size="sm"
                       disabled={resumingId === entry.sessionId}
                       onClick={() => {
                         startResume(entry.sessionId);
@@ -89,7 +90,9 @@ export function HistoryDialog() {
                           sessionId: entry.sessionId,
                         });
                       }}
-                    />
+                    >
+                      {resumingId === entry.sessionId ? 'Resuming…' : 'Resume'}
+                    </Button>
                   )}
                 </ListGroup.Item>
               ))}

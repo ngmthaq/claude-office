@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
+import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { IconButton } from '@/components/atoms/IconButton';
 import { FolderPicker } from '@/components/molecules/FolderPicker';
 import { useRequestOnOpen } from '@/hooks/feature/useRequestOnOpen';
 import { useConnectionStore } from '@/hooks/store/useConnectionStore';
@@ -53,17 +53,18 @@ export function NewSessionDialog() {
         />
       </Modal.Body>
       <Modal.Footer>
-        <IconButton icon="x-lg" label="Cancel" size={undefined} onClick={closeDialog} />
-        <IconButton
-          icon="play-fill"
-          label="Start session here"
+        <Button variant="outline-secondary" onClick={closeDialog}>
+          Cancel
+        </Button>
+        <Button
           variant="primary"
-          size={undefined}
           disabled={path === null}
           onClick={() =>
             path !== null && wsClientService.send({ type: 'session_start', folder: path })
           }
-        />
+        >
+          Start session here
+        </Button>
       </Modal.Footer>
     </Modal>
   );

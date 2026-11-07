@@ -1,20 +1,21 @@
 import { useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { IconButton } from '@/components/atoms/IconButton';
 
 type CloseConfirmDialogProps = {
+  /** When set, it heads the dialog and `message` moves into the body. */
+  title?: string;
   message: string;
   confirmLabel: string;
-  confirmIcon?: string;
   onConfirm: () => void;
   onCancel: () => void;
   onOpenChange: (open: boolean) => void;
 };
 
 export function CloseConfirmDialog({
+  title,
   message,
   confirmLabel,
-  confirmIcon = 'x-circle',
   onConfirm,
   onCancel,
   onOpenChange,
@@ -35,25 +36,17 @@ export function CloseConfirmDialog({
     >
       <Modal.Header closeButton>
         <Modal.Title as="h2" id="close-confirm-title" className="fs-5">
-          {message}
+          {title ?? message}
         </Modal.Title>
       </Modal.Header>
+      {title !== undefined && <Modal.Body>{message}</Modal.Body>}
       <Modal.Footer>
-        <IconButton
-          icon="x-lg"
-          label="Cancel"
-          variant="secondary"
-          size={undefined}
-          autoFocus
-          onClick={onCancel}
-        />
-        <IconButton
-          icon={confirmIcon}
-          label={confirmLabel}
-          variant="danger"
-          size={undefined}
-          onClick={onConfirm}
-        />
+        <Button variant="secondary" autoFocus onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button variant="danger" onClick={onConfirm}>
+          {confirmLabel}
+        </Button>
       </Modal.Footer>
     </Modal>
   );
