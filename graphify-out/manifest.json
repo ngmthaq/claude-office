@@ -12,9 +12,9 @@
     "semantic_hash": ""
   },
   "apps/server/package.json": {
-    "mtime": 1794042587.4864976,
-    "seen": 1794042630.6764271,
-    "ast_hash": "6150ba2a3f4715da65cb9a7ce4f91d53",
+    "mtime": 1794043044.040988,
+    "seen": 1794045284.000183,
+    "ast_hash": "653662e0d4164cee80e9c67941341ee1",
     "semantic_hash": ""
   },
   "apps/server/src/main.ts": {
@@ -30,9 +30,9 @@
     "semantic_hash": ""
   },
   "apps/web/package.json": {
-    "mtime": 1794042587.4865906,
-    "seen": 1794042630.677679,
-    "ast_hash": "1230d4fd598a6739d32dfeae15d8c32e",
+    "mtime": 1794043044.0412319,
+    "seen": 1794045284.0012732,
+    "ast_hash": "fa9b54e7e0845d6bf47033d83d806cdf",
     "semantic_hash": ""
   },
   "apps/web/src/main.tsx": {
@@ -60,15 +60,15 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1794042581.2998264,
-    "seen": 1794042630.6796968,
-    "ast_hash": "2fcc96220869e565cb75a4c3173d131a",
+    "mtime": 1794043044.0407112,
+    "seen": 1794045284.003178,
+    "ast_hash": "5013468bd345fb296fffad6c19d9c3e8",
     "semantic_hash": ""
   },
   "packages/shared/package.json": {
-    "mtime": 1794042587.4866717,
-    "seen": 1794042630.679698,
-    "ast_hash": "d2c0c8a11b92e277e6d1169340ba3716",
+    "mtime": 1794043044.0414605,
+    "seen": 1794045284.003179,
+    "ast_hash": "b86f971d09d255e4a1fa423bd5211f1e",
     "semantic_hash": ""
   },
   "packages/shared/src/index.ts": {
@@ -930,9 +930,9 @@
     "semantic_hash": ""
   },
   "packages/shared/src/events/permission-answer.ts": {
-    "mtime": 1794023955.510656,
-    "seen": 1794024742.115532,
-    "ast_hash": "2018ae476b5fd3b08d07f62a75e8560c",
+    "mtime": 1794045269.0413878,
+    "seen": 1794045284.003637,
+    "ast_hash": "e7784b3e179767c0e448d24279e51091",
     "semantic_hash": ""
   },
   "packages/shared/src/events/permission-request.ts": {
@@ -1248,9 +1248,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/configs/sdk.config.ts": {
-    "mtime": 1794023955.477226,
-    "seen": 1794024742.115388,
-    "ast_hash": "59fdaa5d10634d13472660f6d90e61cb",
+    "mtime": 1794045269.1359527,
+    "seen": 1794045284.0003,
+    "ast_hash": "7abc4b32b195aabf5e17eecbaa3aaf03",
     "semantic_hash": ""
   },
   "apps/server/src/controllers/command.controller.ts": {
@@ -1284,9 +1284,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/controllers/permission.controller.ts": {
-    "mtime": 1794023955.4777951,
-    "seen": 1794024742.115395,
-    "ast_hash": "36c38cb9356b9fbdbf0977cd6f91fa30",
+    "mtime": 1794045269.136059,
+    "seen": 1794045284.000421,
+    "ast_hash": "615759754da4203564b122cc790ac24a",
     "semantic_hash": ""
   },
   "apps/server/src/controllers/room.controller.ts": {
@@ -1404,9 +1404,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/services/permission.service.ts": {
-    "mtime": 1794023955.4820988,
-    "seen": 1794024742.115419,
-    "ast_hash": "39c995da815b0acea1653f60d52ec8b2",
+    "mtime": 1794045269.6428971,
+    "seen": 1794045284.00095,
+    "ast_hash": "d690a682b4ab6c9f2dd0ca1c8ee8087d",
     "semantic_hash": ""
   },
   "apps/server/src/services/room.service.ts": {
@@ -1596,9 +1596,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/MessageList.tsx": {
-    "mtime": 1794023998.3504243,
-    "seen": 1794024742.115457,
-    "ast_hash": "6bbbc3f1755000e1e79f930f2af345a5",
+    "mtime": 1794045834.0523376,
+    "seen": 1794045860.545386,
+    "ast_hash": "7bb0d27140df5b534e5e5dd29d730dfc",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/NewSessionDialog.tsx": {
@@ -1680,9 +1680,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/dtos/permission-item.dto.ts": {
-    "mtime": 1794023955.4870121,
-    "seen": 1794024742.1154711,
-    "ast_hash": "69987cf53ff4cef4561876a87f69886d",
+    "mtime": 1794045285.093595,
+    "seen": 1794045300.40926,
+    "ast_hash": "bfaf5e136ac324b0b8a57fdbda87b3b9",
     "semantic_hash": ""
   },
   "apps/web/src/dtos/rename-target.dto.ts": {
@@ -1764,9 +1764,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useChatStore.ts": {
-    "mtime": 1794026221.693915,
-    "seen": 1794026260.460592,
-    "ast_hash": "67b8dcc41fe57e492033010c6cb4b78c",
+    "mtime": 1794045285.094047,
+    "seen": 1794045300.409767,
+    "ast_hash": "afd8192dba527eed1954167f76057b06",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useChatWidthStore.ts": {
@@ -2166,9 +2166,9 @@
     "semantic_hash": ""
   },
   "apps/cli/package.json": {
-    "mtime": 1794042587.4863672,
-    "seen": 1794042630.676063,
-    "ast_hash": "5a152f97fb6e497933e47ec2214d989f",
+    "mtime": 1794043044.0408704,
+    "seen": 1794045283.999855,
+    "ast_hash": "c7c1611e5e736ff72a42f5ccfdce19f7",
     "semantic_hash": ""
   },
   "apps/cli/scripts/build.mjs": {
@@ -2304,15 +2304,57 @@
     "semantic_hash": ""
   },
   "scripts/version.js": {
-    "mtime": 1794042583.3847995,
-    "seen": 1794042630.6814148,
-    "ast_hash": "2728e364f00ff65a2619bdbc9621839b",
+    "mtime": 1794042958.5039077,
+    "seen": 1794045284.004826,
+    "ast_hash": "cf71049072f14294b92948e1af4a810a",
     "semantic_hash": ""
   },
   "plans/2026-11-07-16-08-43-sync-versions-husky-bump.md": {
-    "mtime": 1794042555.9704337,
-    "seen": 1794042630.6847339,
-    "ast_hash": "31a8a462d2b6214ab2473b0fced625ca",
+    "mtime": 1794042636.240246,
+    "seen": 1794045284.00811,
+    "ast_hash": "1869b91d4e1bf0a88f716c8f7c3feb0a",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-16-53-20-ask-user-question-ui.md": {
+    "mtime": 1794045652.8994474,
+    "seen": 1794045860.551865,
+    "ast_hash": "07763d95ac00c08e610dae6732720c30",
+    "semantic_hash": ""
+  },
+  "apps/web/src/components/molecules/AskUserQuestionCard.tsx": {
+    "mtime": 1794045848.224099,
+    "seen": 1794045860.545032,
+    "ast_hash": "a2d615496f6a893dbf4e11ccb5a6b92e",
+    "semantic_hash": ""
+  },
+  "apps/web/src/dtos/ask-user-question.dto.ts": {
+    "mtime": 1794045816.2026095,
+    "seen": 1794045860.545632,
+    "ast_hash": "607d9d11b98a75b96c6e7184c7ba3ddf",
+    "semantic_hash": ""
+  },
+  "apps/web/src/utils/ask-user-question.util.ts": {
+    "mtime": 1794045834.8146577,
+    "seen": 1794045860.5465212,
+    "ast_hash": "339b8560b7ba0734202197932fe49af0",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-16-57-33-web-test-ask-user-question-card-report.md": {
+    "mtime": 1794045664.0887847,
+    "seen": 1794045860.551866,
+    "ast_hash": "ea7a2d5edaa9a1902b349da5f04b162f",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-16-57-33-web-test-ask-user-question-card.md": {
+    "mtime": 1794045652.8883832,
+    "seen": 1794045860.5518668,
+    "ast_hash": "f8b9e1c7604e95bf685714a991a5cf34",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-17-02-51-ask-user-question-stepper.md": {
+    "mtime": 1794045800.8487475,
+    "seen": 1794045860.551868,
+    "ast_hash": "808566e011cff7d98e95697d50eca381",
     "semantic_hash": ""
   }
 }
