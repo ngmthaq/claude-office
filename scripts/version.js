@@ -98,15 +98,28 @@ function computeNextVersion(current, arg) {
   return `${major}.${minor}.${patch + 1}`;
 }
 
+const git = (args, options = {}) =>
+  execFileSync('git', args, { cwd: ROOT_DIR, stdio: 'inherit', ...options });
+
+function tagExists(tag) {
+  try {
+    git(['rev-parse', '--verify', '--quiet', `refs/tags/${tag}`], { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function bump(arg) {
   const next = computeNextVersion(readJson(rootManifest()).version, arg);
+  const tag = `v${next}`;
+  if (tagExists(tag)) {
+    throw new Error(`Tag ${tag} already exists`);
+  }
   const files = [rootManifest(), ...findWorkspaceManifests()];
   for (const file of files) setVersion(file, next);
-  execFileSync(
-    'git',
-    ['commit', '-m', `chore: bump version to ${next}`, '--', ...files.map(displayPath)],
-    { cwd: ROOT_DIR, stdio: 'inherit' },
-  );
+  git(['commit', '-m', `chore: bump version to ${next}`, '--', ...files.map(displayPath)]);
+  git(['tag', '-a', tag, '-m', tag]);
 }
 
 function main(command, arg) {
