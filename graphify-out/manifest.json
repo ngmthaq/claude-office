@@ -18,8 +18,8 @@
     "semantic_hash": ""
   },
   "apps/server/src/main.ts": {
-    "mtime": 1794027141.380681,
-    "seen": 1794027181.140197,
+    "mtime": 1794027520.3906734,
+    "seen": 1794027837.880272,
     "ast_hash": "7b040daeed820b6facc2178bd79dcd6f",
     "semantic_hash": ""
   },
@@ -672,9 +672,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/agent-sprite.ts": {
-    "mtime": 1794025161.4000866,
-    "seen": 1794025179.551237,
-    "ast_hash": "57cff3051804e3908b38ddfb6f6f3457",
+    "mtime": 1794027827.9299493,
+    "seen": 1794027837.881715,
+    "ast_hash": "a354324f808f8bc7417f0f9ebdfe45ae",
     "semantic_hash": ""
   },
   "apps/web/src/game/asset-loader.ts": {
@@ -702,9 +702,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/room-view.ts": {
-    "mtime": 1794025185.3140764,
-    "seen": 1794025200.6170502,
-    "ast_hash": "62d4a9f03e04646f23af63bb6e442c5f",
+    "mtime": 1794027827.9303403,
+    "seen": 1794027837.881809,
+    "ast_hash": "3c668d79c2de56968026b3514fba847a",
     "semantic_hash": ""
   },
   "plans/2026-11-06-06-01-49-s4-office-map-rooms-root-agents.md": {
@@ -738,9 +738,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/subagent-sprite.ts": {
-    "mtime": 1794025185.3144436,
-    "seen": 1794025200.617051,
-    "ast_hash": "ff876ae2f0173523c79e159062b2ee7b",
+    "mtime": 1794028688.400394,
+    "seen": 1794028697.583494,
+    "ast_hash": "b9e03c1ccf9c4286de2a0b0651ae3e86",
     "semantic_hash": ""
   },
   "plans/2026-11-06-07-25-33-s9-s10-subagents-in-room-with-details.md": {
@@ -996,8 +996,8 @@
     "semantic_hash": ""
   },
   "packages/shared/src/events/server-event.ts": {
-    "mtime": 1794027141.2995148,
-    "seen": 1794027181.143261,
+    "mtime": 1794027520.403234,
+    "seen": 1794027837.883104,
     "ast_hash": "dab5be548e0775db38ce85ca43358360",
     "semantic_hash": ""
   },
@@ -1170,8 +1170,8 @@
     "semantic_hash": ""
   },
   "packages/shared/src/models/room-summary.ts": {
-    "mtime": 1794025617.7951949,
-    "seen": 1794025657.1537988,
+    "mtime": 1794027520.4036865,
+    "seen": 1794027837.883778,
     "ast_hash": "ecce132c3b6de6d3f1ac7be6b4dd8148",
     "semantic_hash": ""
   },
@@ -1218,14 +1218,14 @@
     "semantic_hash": ""
   },
   "packages/shared/src/events/index.ts": {
-    "mtime": 1794027141.2974975,
-    "seen": 1794027181.142911,
+    "mtime": 1794027520.403091,
+    "seen": 1794027837.8827531,
     "ast_hash": "3e8813dc875f4a6d4d36df28fd3a428f",
     "semantic_hash": ""
   },
   "packages/shared/src/models/index.ts": {
-    "mtime": 1794027141.2953694,
-    "seen": 1794027181.143838,
+    "mtime": 1794027520.403511,
+    "seen": 1794027837.883683,
     "ast_hash": "c0365df6c8239eced973df4ea28da75e",
     "semantic_hash": ""
   },
@@ -1380,14 +1380,14 @@
     "semantic_hash": ""
   },
   "apps/server/src/repositories/session-store.repository.ts": {
-    "mtime": 1794025617.796198,
-    "seen": 1794025657.15017,
+    "mtime": 1794027520.3917043,
+    "seen": 1794027837.880417,
     "ast_hash": "54f35fb08a6cfcb7c2024c05ceabb363",
     "semantic_hash": ""
   },
   "apps/server/src/routes/ws.route.ts": {
-    "mtime": 1794027141.3783393,
-    "seen": 1794027181.140408,
+    "mtime": 1794027520.3918867,
+    "seen": 1794027837.8804421,
     "ast_hash": "9ca95e1a3bb189378b3d84db0d6aab9a",
     "semantic_hash": ""
   },
@@ -1398,8 +1398,8 @@
     "semantic_hash": ""
   },
   "apps/server/src/services/event-bus.service.ts": {
-    "mtime": 1794027141.3762596,
-    "seen": 1794027181.1404328,
+    "mtime": 1794027520.3920624,
+    "seen": 1794027837.880467,
     "ast_hash": "8e0e0147ed8c2435ccd6ff642b9286b1",
     "semantic_hash": ""
   },
@@ -1422,8 +1422,8 @@
     "semantic_hash": ""
   },
   "apps/server/src/services/session.service.ts": {
-    "mtime": 1794027153.9950724,
-    "seen": 1794027181.1405299,
+    "mtime": 1794027520.3924544,
+    "seen": 1794027837.8805408,
     "ast_hash": "d0b4a018963ce8858b8818cff165b2e5",
     "semantic_hash": ""
   },
@@ -1566,8 +1566,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatPanel.tsx": {
-    "mtime": 1794026795.1426547,
-    "seen": 1794026809.5134552,
+    "mtime": 1794027520.3929253,
+    "seen": 1794027837.881204,
     "ast_hash": "4035dfab094a353f0e46bcc3417c93d2",
     "semantic_hash": ""
   },
@@ -1578,8 +1578,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/HeaderActions.tsx": {
-    "mtime": 1794027154.0781898,
-    "seen": 1794027181.141247,
+    "mtime": 1794027520.3930838,
+    "seen": 1794027837.881231,
     "ast_hash": "10add9feb6c860716e80432979d0f3d9",
     "semantic_hash": ""
   },
@@ -1644,8 +1644,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/configs/ui.config.ts": {
-    "mtime": 1794027427.196215,
-    "seen": 1794027445.696955,
+    "mtime": 1794027520.3934832,
+    "seen": 1794027837.881481,
     "ast_hash": "eff53d9512cd0aabafb0b0fbdb91603a",
     "semantic_hash": ""
   },
@@ -1734,8 +1734,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/hooks/feature/useEscapeClose.ts": {
-    "mtime": 1794026216.5478768,
-    "seen": 1794026260.460491,
+    "mtime": 1794027520.393691,
+    "seen": 1794027837.881911,
     "ast_hash": "e8bffccbe0bca1932ed4fc899029ffcc",
     "semantic_hash": ""
   },
@@ -1806,8 +1806,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/services/ws-client.service.ts": {
-    "mtime": 1794027154.077481,
-    "seen": 1794027181.142356,
+    "mtime": 1794027520.3942509,
+    "seen": 1794027837.882213,
     "ast_hash": "85b87c9081696e3720caa6c54db2f58c",
     "semantic_hash": ""
   },
@@ -2004,135 +2004,165 @@
     "semantic_hash": ""
   },
   "apps/server/src/repositories/git.repository.ts": {
-    "mtime": 1794025905.0949202,
-    "seen": 1794025928.922697,
+    "mtime": 1794027520.390954,
+    "seen": 1794027837.880369,
     "ast_hash": "afde15218673c9f1272c5130424a2ab1",
     "semantic_hash": ""
   },
   "apps/server/src/services/session-info.service.ts": {
-    "mtime": 1794025916.8303177,
-    "seen": 1794025928.922957,
+    "mtime": 1794027520.3922207,
+    "seen": 1794027837.88054,
     "ast_hash": "38028abd46e2bfaafd440d944fc73f8a",
     "semantic_hash": ""
   },
   "apps/web/src/utils/token-format.util.ts": {
-    "mtime": 1794025634.5500045,
-    "seen": 1794025657.152286,
+    "mtime": 1794027520.3947296,
+    "seen": 1794027837.8823092,
     "ast_hash": "f9e6e2be30231c573accdebd5e239c5f",
     "semantic_hash": ""
   },
   "packages/shared/src/models/session-info.ts": {
-    "mtime": 1794025905.0854726,
-    "seen": 1794025928.9272,
+    "mtime": 1794027520.4038181,
+    "seen": 1794027837.883779,
     "ast_hash": "57fe1d3ebc554f9bc1df9838fe0ed826",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-25-27-session-info-strip.md": {
-    "mtime": 1794025711.1364744,
-    "seen": 1794025928.931618,
+    "mtime": 1794027520.4041011,
+    "seen": 1794027837.8868322,
     "ast_hash": "c4ee6aae3d87695f99ffc2906230bf05",
     "semantic_hash": ""
   },
   "apps/server/src/configs/git.config.ts": {
-    "mtime": 1794025905.0931437,
-    "seen": 1794025928.922154,
+    "mtime": 1794027520.3904896,
+    "seen": 1794027837.879864,
     "ast_hash": "b5d43a1dc4bf23e5a2808099628fd174",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-30-45-session-info-fixes-gitlab-mr.md": {
-    "mtime": 1794025973.8852856,
-    "seen": 1794026260.465527,
+    "mtime": 1794027520.404246,
+    "seen": 1794027837.886833,
     "ast_hash": "91e890bd5f49e0165277507ef9826590",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useSessionInfoStore.ts": {
-    "mtime": 1794026545.4901547,
-    "seen": 1794026561.550394,
+    "mtime": 1794027520.3939605,
+    "seen": 1794027837.882139,
     "ast_hash": "7ef1ae37491b535b7d8543e8ce19445d",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-35-47-session-info-overlay-panel.md": {
-    "mtime": 1794026296.7702737,
-    "seen": 1794026472.369947,
+    "mtime": 1794027520.404393,
+    "seen": 1794027837.886834,
     "ast_hash": "ed972fd1a94a6aa30bd037bcaf9eda6c",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-40-26-session-info-panel-align-cleanup.md": {
-    "mtime": 1794026487.637913,
-    "seen": 1794026561.5553129,
+    "mtime": 1794027520.4045563,
+    "seen": 1794027837.8868349,
     "ast_hash": "ab5e1526f67f26be135e176c2dd0df46",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/SessionInfoPanel.tsx": {
-    "mtime": 1794026545.1663659,
-    "seen": 1794026561.549493,
+    "mtime": 1794027520.3932798,
+    "seen": 1794027837.881332,
     "ast_hash": "626012412df93aa0b8e61b70c967f6df",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-41-39-session-info-full-panel.md": {
-    "mtime": 1794026592.3390515,
-    "seen": 1794026809.520096,
+    "mtime": 1794027520.4047275,
+    "seen": 1794027837.886836,
     "ast_hash": "c99d8664eff433405b85ef281b185e35",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-46-09-close-panels-on-subagent-open.md": {
-    "mtime": 1794026827.4024787,
-    "seen": 1794027181.1471128,
+    "mtime": 1794027520.4048824,
+    "seen": 1794027837.886837,
     "ast_hash": "2c5bd40951cb931b6e0edfc5be9b826d",
     "semantic_hash": ""
   },
   "apps/server/src/services/usage-limit.service.ts": {
-    "mtime": 1794027234.374784,
-    "seen": 1794027445.695851,
+    "mtime": 1794027520.392591,
+    "seen": 1794027837.880542,
     "ast_hash": "e599964cb53aebf12a6593b2e18045a2",
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/UsageLimitBadge.tsx": {
-    "mtime": 1794027427.1960948,
-    "seen": 1794027445.696461,
+    "mtime": 1794027520.3927276,
+    "seen": 1794027837.881152,
     "ast_hash": "1c7f2bc7becc2436b3ed3ad3de061f8e",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/feature/useNow.ts": {
-    "mtime": 1794027154.0003128,
-    "seen": 1794027181.142061,
+    "mtime": 1794027520.3938088,
+    "seen": 1794027837.8819368,
     "ast_hash": "d2074876b403b84c7e90757e41056602",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useUsageLimitStore.ts": {
-    "mtime": 1794027153.9987516,
-    "seen": 1794027181.142333,
+    "mtime": 1794027520.3940809,
+    "seen": 1794027837.88219,
     "ast_hash": "9d895178c27042d8c811a7c2abf52d85",
     "semantic_hash": ""
   },
   "apps/web/src/utils/countdown.util.ts": {
-    "mtime": 1794027154.0018556,
-    "seen": 1794027181.142402,
+    "mtime": 1794027520.3945968,
+    "seen": 1794027837.882261,
     "ast_hash": "e575e76bbb4572b62f5187b3c7baf824",
     "semantic_hash": ""
   },
   "packages/shared/src/events/usage-limit.ts": {
-    "mtime": 1794027141.2950723,
-    "seen": 1794027181.1437,
+    "mtime": 1794027520.4033597,
+    "seen": 1794027837.883543,
     "ast_hash": "9716f35df81c7b5fcbf76fe4fcddd4e6",
     "semantic_hash": ""
   },
   "packages/shared/src/models/usage-limit.ts": {
-    "mtime": 1794027141.2933354,
-    "seen": 1794027181.1440918,
+    "mtime": 1794027520.4039302,
+    "seen": 1794027837.8838952,
     "ast_hash": "9e7e40c7b453a49b8e14fa867754058f",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-50-57-five-hour-usage-limit-header.md": {
-    "mtime": 1794027258.5992703,
-    "seen": 1794027445.702755,
+    "mtime": 1794027520.4050207,
+    "seen": 1794027837.886838,
     "ast_hash": "299bbcffdf8d396daed1247f3b15dd10",
     "semantic_hash": ""
   },
   "plans/2026-11-07-11-56-41-usage-badge-text-and-spacing.md": {
-    "mtime": 1794027415.0569155,
-    "seen": 1794027445.7027571,
-    "ast_hash": "9bee10eea54195f4ee3033fd95297f35",
+    "mtime": 1794027520.4051347,
+    "seen": 1794027837.8868392,
+    "ast_hash": "d0d950139d4bc8e06b24ceae59bc106e",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-03-02-subagent-label-size-and-bubble-layer.md": {
+    "mtime": 1794027806.8831954,
+    "seen": 1794027837.88684,
+    "ast_hash": "5ff7a63b1211476a0d59f5ccafe2bb1e",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-09-32-stack-send-stop-buttons.md": {
+    "mtime": 1794028188.1962166,
+    "seen": 1794028208.692294,
+    "ast_hash": "b68623fd5132a4d88167771f115a18ab",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-11-23-web-test-bubble-layer-and-stacked-buttons-report.md": {
+    "mtime": 1794028553.881221,
+    "seen": 1794028697.5890439,
+    "ast_hash": "9227071d01a05663c1706dbf456fecc6",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-11-23-web-test-bubble-layer-and-stacked-buttons.md": {
+    "mtime": 1794028541.2121613,
+    "seen": 1794028697.589045,
+    "ast_hash": "855dbc9dec90036a50300fb262cfb3b4",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-17-42-subagent-labels-on-top-layer.md": {
+    "mtime": 1794028680.557756,
+    "seen": 1794028697.589046,
+    "ast_hash": "29aa213b33c56f94b3873d744a8d9a64",
     "semantic_hash": ""
   }
 }
