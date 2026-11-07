@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { PermissionModeSchema } from './permission-mode.ts';
+import { SessionInfoSchema } from './session-info.ts';
 import { SessionStateSchema } from './session-state.ts';
 import { SubagentRefSchema } from './subagent-ref.ts';
 
@@ -16,6 +17,7 @@ export const RoomSummarySchema = z.object({
   state: SessionStateSchema,
   subagents: z.array(SubagentRefSchema),
   permissionMode: PermissionModeSchema,
+  info: SessionInfoSchema,
 });
 
 export type RoomSummary = z.infer<typeof RoomSummarySchema>;

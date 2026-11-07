@@ -17,6 +17,7 @@ import { SystemController } from '@/controllers/system.controller.ts';
 import { OriginCheckMiddleware } from '@/middlewares/origin-check.middleware.ts';
 import { CommandRepository } from '@/repositories/command.repository.ts';
 import { FileRepository } from '@/repositories/file.repository.ts';
+import { GitRepository } from '@/repositories/git.repository.ts';
 import { FolderRepository } from '@/repositories/folder.repository.ts';
 import { HistoryRepository } from '@/repositories/history.repository.ts';
 import { RoomRepository } from '@/repositories/room.repository.ts';
@@ -28,6 +29,7 @@ import { EventBusService } from '@/services/event-bus.service.ts';
 import { PermissionService } from '@/services/permission.service.ts';
 import { RoomService } from '@/services/room.service.ts';
 import { SdkEventMapperService } from '@/services/sdk-event-mapper.service.ts';
+import { SessionInfoService } from '@/services/session-info.service.ts';
 import { SessionService } from '@/services/session.service.ts';
 
 const app = Fastify({ logger: { level: LOG_LEVEL } });
@@ -57,9 +59,11 @@ async function main(): Promise<void> {
   const commandRepository = new CommandRepository();
   const historyRepository = new HistoryRepository(folderRepository);
   const subagentTranscriptRepository = new SubagentTranscriptRepository();
+  const gitRepository = new GitRepository();
   const sdkEventMapperService = new SdkEventMapperService();
   const eventBusService = new EventBusService();
   const permissionService = new PermissionService(sessionStoreRepository, eventBusService, app.log);
+  const sessionInfoService = new SessionInfoService(gitRepository, eventBusService, app.log);
   const sessionService = new SessionService(
     roomRepository,
     sessionStoreRepository,
@@ -69,6 +73,7 @@ async function main(): Promise<void> {
     sdkEventMapperService,
     eventBusService,
     permissionService,
+    sessionInfoService,
     app.log,
   );
   const roomService = new RoomService(

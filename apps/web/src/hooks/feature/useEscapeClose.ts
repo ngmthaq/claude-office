@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useArchivedStore } from '@/hooks/store/useArchivedStore';
 import { useChatStore } from '@/hooks/store/useChatStore';
 import { useHistoryStore } from '@/hooks/store/useHistoryStore';
+import { useSessionInfoStore } from '@/hooks/store/useSessionInfoStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { useSubagentDetailsStore } from '@/hooks/store/useSubagentDetailsStore';
 
@@ -16,6 +17,10 @@ export function useEscapeClose(): void {
         useSessionsStore.getState().dialogOpen ||
         useChatStore.getState().confirmingClose
       ) {
+        return;
+      }
+      if (useSessionInfoStore.getState().openRoomId !== null) {
+        useSessionInfoStore.getState().close();
         return;
       }
       if (useSubagentDetailsStore.getState().open !== null) {

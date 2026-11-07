@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/main.ts": {
-    "mtime": 1794023998.3492846,
-    "seen": 1794024742.115406,
-    "ast_hash": "93efdffe879b9243841033b4ef698b20",
+    "mtime": 1794025617.8931015,
+    "seen": 1794025657.150023,
+    "ast_hash": "1c1335e8e8560ea74b541973d3faa3dc",
     "semantic_hash": ""
   },
   "apps/server/tsconfig.json": {
@@ -1170,9 +1170,9 @@
     "semantic_hash": ""
   },
   "packages/shared/src/models/room-summary.ts": {
-    "mtime": 1794024724.553974,
-    "seen": 1794024742.1155741,
-    "ast_hash": "89f686f3152de5a8988218af55ad386e",
+    "mtime": 1794025617.7951949,
+    "seen": 1794025657.1537988,
+    "ast_hash": "ecce132c3b6de6d3f1ac7be6b4dd8148",
     "semantic_hash": ""
   },
   "packages/shared/src/models/session-notice-kind.ts": {
@@ -1224,9 +1224,9 @@
     "semantic_hash": ""
   },
   "packages/shared/src/models/index.ts": {
-    "mtime": 1794023955.5142424,
-    "seen": 1794024742.1155689,
-    "ast_hash": "f334f544b42f7d8e1baa91ad7f1ee0d9",
+    "mtime": 1794025617.7955885,
+    "seen": 1794025657.153704,
+    "ast_hash": "5689271bb3839a8bc7d461d3bfb40ca3",
     "semantic_hash": ""
   },
   "apps/server/src/configs/app.config.ts": {
@@ -1242,8 +1242,8 @@
     "semantic_hash": ""
   },
   "apps/server/src/configs/limits.config.ts": {
-    "mtime": 1794023998.3491333,
-    "seen": 1794024742.115387,
+    "mtime": 1794025905.085126,
+    "seen": 1794025928.922156,
     "ast_hash": "10e47f1d532a28676ae93a72d2212fdf",
     "semantic_hash": ""
   },
@@ -1380,9 +1380,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/repositories/session-store.repository.ts": {
-    "mtime": 1794024724.556427,
-    "seen": 1794024742.115414,
-    "ast_hash": "f972d370d063b4268d775158bfa7a14f",
+    "mtime": 1794025617.796198,
+    "seen": 1794025657.15017,
+    "ast_hash": "54f35fb08a6cfcb7c2024c05ceabb363",
     "semantic_hash": ""
   },
   "apps/server/src/routes/ws.route.ts": {
@@ -1422,9 +1422,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/services/session.service.ts": {
-    "mtime": 1794024724.5580778,
-    "seen": 1794024742.115422,
-    "ast_hash": "0b39415e90c9c508e78e863f38e48513",
+    "mtime": 1794025905.0866842,
+    "seen": 1794025928.9229581,
+    "ast_hash": "c5d34be5c4b058628e8a036dfe319167",
     "semantic_hash": ""
   },
   "apps/server/src/utils/async.util.ts": {
@@ -1566,9 +1566,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatPanel.tsx": {
-    "mtime": 1794023955.4853437,
-    "seen": 1794024742.1154518,
-    "ast_hash": "20816333e3517b543e4293d0ec3c0b4d",
+    "mtime": 1794026795.1426547,
+    "seen": 1794026809.5134552,
+    "ast_hash": "4035dfab094a353f0e46bcc3417c93d2",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/GameCanvas.tsx": {
@@ -1644,9 +1644,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/configs/ui.config.ts": {
-    "mtime": 1794023998.3505468,
-    "seen": 1794024742.115465,
-    "ast_hash": "47fbe27b1b9a4a5dc78caa75f8ac4c84",
+    "mtime": 1794026545.4903858,
+    "seen": 1794026561.549643,
+    "ast_hash": "9962f6a2255ad4700271fbfcb49e83bb",
     "semantic_hash": ""
   },
   "apps/web/src/configs/ws.config.ts": {
@@ -1734,9 +1734,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/hooks/feature/useEscapeClose.ts": {
-    "mtime": 1794023955.4887087,
-    "seen": 1794024742.115488,
-    "ast_hash": "a16a2d0ab67c1bf92c1c956b175d758a",
+    "mtime": 1794026216.5478768,
+    "seen": 1794026260.460491,
+    "ast_hash": "e8bffccbe0bca1932ed4fc899029ffcc",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/feature/useMcpStatus.ts": {
@@ -1764,9 +1764,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useChatStore.ts": {
-    "mtime": 1794025152.9254284,
-    "seen": 1794025179.551521,
-    "ast_hash": "b7cea5b6fa0c37f503246dea479418e3",
+    "mtime": 1794026221.693915,
+    "seen": 1794026260.460592,
+    "ast_hash": "67b8dcc41fe57e492033010c6cb4b78c",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useChatWidthStore.ts": {
@@ -2001,6 +2001,84 @@
     "mtime": 1794024779.185701,
     "seen": 1794025179.556397,
     "ast_hash": "6d1b79d5cf194c271d1ce9e7076250d7",
+    "semantic_hash": ""
+  },
+  "apps/server/src/repositories/git.repository.ts": {
+    "mtime": 1794025905.0949202,
+    "seen": 1794025928.922697,
+    "ast_hash": "afde15218673c9f1272c5130424a2ab1",
+    "semantic_hash": ""
+  },
+  "apps/server/src/services/session-info.service.ts": {
+    "mtime": 1794025916.8303177,
+    "seen": 1794025928.922957,
+    "ast_hash": "38028abd46e2bfaafd440d944fc73f8a",
+    "semantic_hash": ""
+  },
+  "apps/web/src/utils/token-format.util.ts": {
+    "mtime": 1794025634.5500045,
+    "seen": 1794025657.152286,
+    "ast_hash": "f9e6e2be30231c573accdebd5e239c5f",
+    "semantic_hash": ""
+  },
+  "packages/shared/src/models/session-info.ts": {
+    "mtime": 1794025905.0854726,
+    "seen": 1794025928.9272,
+    "ast_hash": "57fe1d3ebc554f9bc1df9838fe0ed826",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-11-25-27-session-info-strip.md": {
+    "mtime": 1794025711.1364744,
+    "seen": 1794025928.931618,
+    "ast_hash": "c4ee6aae3d87695f99ffc2906230bf05",
+    "semantic_hash": ""
+  },
+  "apps/server/src/configs/git.config.ts": {
+    "mtime": 1794025905.0931437,
+    "seen": 1794025928.922154,
+    "ast_hash": "b5d43a1dc4bf23e5a2808099628fd174",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-11-30-45-session-info-fixes-gitlab-mr.md": {
+    "mtime": 1794025973.8852856,
+    "seen": 1794026260.465527,
+    "ast_hash": "91e890bd5f49e0165277507ef9826590",
+    "semantic_hash": ""
+  },
+  "apps/web/src/hooks/store/useSessionInfoStore.ts": {
+    "mtime": 1794026545.4901547,
+    "seen": 1794026561.550394,
+    "ast_hash": "7ef1ae37491b535b7d8543e8ce19445d",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-11-35-47-session-info-overlay-panel.md": {
+    "mtime": 1794026296.7702737,
+    "seen": 1794026472.369947,
+    "ast_hash": "ed972fd1a94a6aa30bd037bcaf9eda6c",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-11-40-26-session-info-panel-align-cleanup.md": {
+    "mtime": 1794026487.637913,
+    "seen": 1794026561.5553129,
+    "ast_hash": "ab5e1526f67f26be135e176c2dd0df46",
+    "semantic_hash": ""
+  },
+  "apps/web/src/components/organisms/SessionInfoPanel.tsx": {
+    "mtime": 1794026545.1663659,
+    "seen": 1794026561.549493,
+    "ast_hash": "626012412df93aa0b8e61b70c967f6df",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-11-41-39-session-info-full-panel.md": {
+    "mtime": 1794026592.3390515,
+    "seen": 1794026809.520096,
+    "ast_hash": "c99d8664eff433405b85ef281b185e35",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-11-46-09-close-panels-on-subagent-open.md": {
+    "mtime": 1794026784.8427114,
+    "seen": 1794026809.520097,
+    "ast_hash": "4d12f369d996319cd28d8c3babc2a6cc",
     "semantic_hash": ""
   }
 }

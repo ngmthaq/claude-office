@@ -1,5 +1,11 @@
 import type { PermissionResult, Query } from '@anthropic-ai/claude-agent-sdk';
-import type { PermissionMode, RoomEvent, SessionState } from '@claude-office/shared';
+import {
+  EMPTY_SESSION_INFO,
+  type PermissionMode,
+  type RoomEvent,
+  type SessionInfo,
+  type SessionState,
+} from '@claude-office/shared';
 import type { RoomSummary, SubagentRef } from '@claude-office/shared';
 import type { RoomRow } from '@/dtos/room-row.dto.ts';
 import type { InputQueue } from '@/utils/input-queue.util.ts';
@@ -51,6 +57,7 @@ export type Session = {
   pending: Map<string, PendingPermission>;
   terminalCommands: Set<string>;
   permissionMode: PermissionMode;
+  info: SessionInfo;
 };
 
 export class SessionStoreRepository {
@@ -98,6 +105,7 @@ export class SessionStoreRepository {
       pending: new Map(),
       terminalCommands: new Set(),
       permissionMode: row.permissionMode,
+      info: { ...EMPTY_SESSION_INFO },
     };
   }
 
@@ -113,6 +121,7 @@ export class SessionStoreRepository {
       state: session.state,
       subagents,
       permissionMode: session.permissionMode,
+      info: session.info,
     };
   }
 

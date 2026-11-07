@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { getSessionInfo, query, type Query, type SDKMessage } from '@anthropic-ai/claude-agent-sdk';
 import {
+  EMPTY_SESSION_INFO,
   ROOM_NAME_MAX,
   type HistoryEntry,
   type RoomEvent,
@@ -19,6 +20,7 @@ import type { RoomRepository } from '@/repositories/room.repository.ts';
 import type { Session, SessionStoreRepository } from '@/repositories/session-store.repository.ts';
 import type { EventBusService } from '@/services/event-bus.service.ts';
 import type { PermissionService } from '@/services/permission.service.ts';
+import type { SessionInfoService } from '@/services/session-info.service.ts';
 import type { SdkEventMapperService } from '@/services/sdk-event-mapper.service.ts';
 import { ErrorUtil } from '@/utils/error.util.ts';
 import { InputQueue } from '@/utils/input-queue.util.ts';
@@ -38,6 +40,7 @@ export class SessionService {
     private readonly sdkEventMapperService: SdkEventMapperService,
     private readonly eventBusService: EventBusService,
     private readonly permissionService: PermissionService,
+    private readonly sessionInfoService: SessionInfoService,
     private readonly log: FastifyBaseLogger,
   ) {}
 
@@ -66,9 +69,11 @@ export class SessionService {
       pending: new Map(),
       terminalCommands: new Set(),
       permissionMode: 'default',
+      info: { ...EMPTY_SESSION_INFO },
     };
     this.roomRepository.insert(session.id, session.folder, session.createdAt);
     this.sessionStoreRepository.set(session.id, session);
+    void this.sessionInfoService.refreshWorkspace(session);
     this.log.info({ roomId: session.id }, 'session started');
     this.eventBusService.notifyChanged();
     return { ok: true, room: this.toSummary(session) };
@@ -162,6 +167,7 @@ export class SessionService {
       );
       this.sessionStoreRepository.set(row.id, session);
     }
+    void this.sessionInfoService.refreshWorkspace(session);
     this.log.info({ roomId: session.id }, 'session restored');
     this.eventBusService.notifyChanged();
     this.eventBusService.notifyArchivedChanged();
@@ -236,6 +242,7 @@ export class SessionService {
   async history(roomId: string): Promise<RoomEvent[] | null> {
     const session = this.sessionStoreRepository.get(roomId);
     if (!session) return null;
+    void this.sessionInfoService.refreshWorkspace(session);
     if (!session.historyLoaded) {
       session.historyLoading ??= this.loadHistory(session).finally(() => {
         session.historyLoading = null;
@@ -352,10 +359,12 @@ export class SessionService {
       pending: new Map(),
       terminalCommands: new Set(),
       permissionMode: 'default',
+      info: { ...EMPTY_SESSION_INFO },
     };
     this.roomRepository.insert(session.id, session.folder, session.createdAt, sessionId);
     if (session.title !== null) this.roomRepository.setTitle(session.id, session.title);
     this.sessionStoreRepository.set(session.id, session);
+    void this.sessionInfoService.refreshWorkspace(session);
     this.log.info({ roomId: id, sessionId, eventCount: events.length }, 'session resumed');
     this.eventBusService.notifyChanged();
     return { ok: true, room: this.toSummary(session) };
@@ -400,6 +409,19 @@ export class SessionService {
         permissionMode: session.permissionMode,
         canUseTool: (toolName, toolInput, options) =>
           this.permissionService.requestPermission(session, toolName, toolInput, options),
+        hooks: {
+          Stop: [
+            {
+              hooks: [
+                (hookInput) => {
+                  const level = hookInput.effort?.level;
+                  if (level) this.sessionInfoService.setEffort(session, level);
+                  return Promise.resolve({});
+                },
+              ],
+            },
+          ],
+        },
         ...(session.sessionId ? { resume: session.sessionId } : {}),
       },
     });
@@ -416,6 +438,7 @@ export class SessionService {
         if (message.type === 'system' && message.subtype === 'init') {
           this.setSessionId(session, message.session_id);
           session.terminalCommands = new Set(message.terminal_slash_commands ?? []);
+          this.sessionInfoService.setModel(session, message.model);
           continue;
         }
         const description =
@@ -441,6 +464,8 @@ export class SessionService {
           if (event.type === 'turn_done') {
             this.clearStopTimer(session);
             this.setBusy(session, false);
+            void this.sessionInfoService.refreshContext(session);
+            void this.sessionInfoService.refreshWorkspace(session);
           }
         }
         if (message.type === 'result') void this.refreshTitle(session);

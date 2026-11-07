@@ -1,4 +1,4 @@
-import type { McpServerStatusValue, PermissionMode } from '@claude-office/shared';
+import type { GitProvider, McpServerStatusValue, PermissionMode } from '@claude-office/shared';
 import type { ConnectionStatus } from '@/dtos/connection-status.dto';
 import type { ReportStatus } from '@/utils/report-status.util';
 import type { SubagentItem } from '@/dtos/subagent-item.dto';
@@ -97,3 +97,25 @@ export const PERMISSION_MODE_BY_VALUE: Record<PermissionMode, ModeOption> = {
 };
 
 export const PERMISSION_MODE_OPTIONS = Object.values(PERMISSION_MODE_BY_VALUE);
+
+export const PR_LABEL_BY_PROVIDER: Record<GitProvider, string> = {
+  github: 'PR #',
+  gitlab: 'MR !',
+};
+
+export const PR_TITLE_BY_PROVIDER: Record<GitProvider, string> = {
+  github: 'Pull request',
+  gitlab: 'Merge request',
+};
+
+export const SESSION_INFO_TEXT = {
+  empty: '—',
+  title: 'Session info',
+  folder: 'Working dir',
+  branch: 'Branch',
+  pr: 'Pull request',
+  model: 'Model',
+  effort: 'Effort',
+  context: 'Context',
+  back: 'Back to chat',
+} as const;

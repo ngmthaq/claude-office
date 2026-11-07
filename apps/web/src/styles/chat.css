@@ -20,6 +20,40 @@
   color: var(--bs-secondary-color);
 }
 
+.session-info__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.session-info__list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 0.375rem 1rem;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.session-info__label {
+  color: var(--bs-secondary-color);
+}
+
+.session-info__value {
+  min-width: 0;
+  margin: 0;
+  font-family: var(--bs-font-monospace);
+  overflow-wrap: anywhere;
+}
+
+.session-info__path {
+  word-break: break-all;
+}
+
 .message-list {
   display: flex;
   flex: 1;

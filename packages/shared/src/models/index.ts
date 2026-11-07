@@ -7,6 +7,7 @@ export * from './mcp-server-status-value.ts';
 export * from './permission-decision.ts';
 export * from './permission-mode.ts';
 export * from './room-summary.ts';
+export * from './session-info.ts';
 export * from './session-notice-kind.ts';
 export * from './session-state.ts';
 export * from './slash-command-entry.ts';
