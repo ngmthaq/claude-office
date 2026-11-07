@@ -13,8 +13,8 @@ export class SubagentSprite extends Container {
   static readonly doorPosition: Point = { x: 64, y: 80 };
   private static readonly walkMs = 600;
   private static readonly markMs = 1500;
-  private static readonly labelMaxChars = 12;
-  private static readonly labelFontSize = 6;
+  private static readonly labelMaxChars = 9;
+  private static readonly labelFontSize = 5;
   private static readonly labelResolutionBoost = 4;
   private static readonly markX = 8;
   private static readonly markY = -12;
@@ -77,6 +77,10 @@ export class SubagentSprite extends Container {
 
   get needsTick(): boolean {
     return !this.destroyed;
+  }
+
+  get overlays(): Container[] {
+    return [...this.agent.overlays, this.errorMark, this.typeLabel];
   }
 
   get isLeaving(): boolean {

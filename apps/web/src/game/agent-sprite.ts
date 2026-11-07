@@ -69,6 +69,10 @@ export class AgentSprite extends Container {
     }
   }
 
+  get overlays(): Container[] {
+    return [this.workingBubble, this.waitingBubble];
+  }
+
   get needsTick(): boolean {
     return this.state === 'working' || this.state === 'waiting';
   }

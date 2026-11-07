@@ -1,4 +1,4 @@
-import { Container, Graphics, Rectangle, Sprite, Text } from 'pixi.js';
+import { Container, Graphics, Rectangle, RenderLayer, Sprite, Text } from 'pixi.js';
 import { roomLabel, type RoomSummary, type SessionState } from '@claude-office/shared';
 import { useChatStore } from '@/hooks/store/useChatStore';
 import { AgentSprite } from './agent-sprite';
@@ -61,6 +61,7 @@ export class RoomView extends Container {
   private readonly lamp = new Graphics();
   private readonly darkLayer = new Graphics();
   private readonly subagentLayer = new Container();
+  private readonly overlayLayer = new RenderLayer();
   private readonly subagents = new Map<string, SubagentSprite>();
   private readonly usedSpots = new Set<number>();
   private readonly badge = new Container();
@@ -94,6 +95,9 @@ export class RoomView extends Container {
     this.badge.eventMode = 'none';
     this.badge.visible = false;
     this.addChild(this.badge);
+    this.overlayLayer.eventMode = 'none';
+    this.addChild(this.overlayLayer);
+    this.overlayLayer.attach(...this.agent.overlays);
     this.darkLayer
       .rect(0, 0, RoomView.roomWidth, RoomView.roomHeight)
       .fill({ color: 0x000000, alpha: RoomView.darkAlpha });
@@ -189,11 +193,13 @@ export class RoomView extends Container {
     sprite.setLabelVisible(this.labelsVisible);
     this.subagents.set(id, sprite);
     this.subagentLayer.addChild(sprite);
+    this.overlayLayer.attach(...sprite.overlays);
   }
 
   private readonly removeSubagent = (sprite: SubagentSprite): void => {
     this.subagents.delete(sprite.subagentId);
     this.usedSpots.delete(sprite.spotIndex);
+    this.overlayLayer.detach(...sprite.overlays);
     sprite.destroy({ children: true });
   };
 
