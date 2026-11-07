@@ -22,7 +22,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['apps/server/**/*.ts', '*.js', 'apps/web/vite.config.ts'],
+    files: ['apps/server/**/*.ts', '*.js', 'scripts/**/*.js', 'apps/web/vite.config.ts'],
     languageOptions: { globals: globals.node },
   },
   {

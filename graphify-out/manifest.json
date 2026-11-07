@@ -12,9 +12,9 @@
     "semantic_hash": ""
   },
   "apps/server/package.json": {
-    "mtime": 1794023998.348611,
-    "seen": 1794024742.11538,
-    "ast_hash": "085bc5c9b885ee90e7908a0d7e498062",
+    "mtime": 1794042587.4864976,
+    "seen": 1794042630.6764271,
+    "ast_hash": "6150ba2a3f4715da65cb9a7ce4f91d53",
     "semantic_hash": ""
   },
   "apps/server/src/main.ts": {
@@ -30,9 +30,9 @@
     "semantic_hash": ""
   },
   "apps/web/package.json": {
-    "mtime": 1794023955.4835494,
-    "seen": 1794024742.115433,
-    "ast_hash": "20653cc526a6bc79869f9957494d9c2c",
+    "mtime": 1794042587.4865906,
+    "seen": 1794042630.677679,
+    "ast_hash": "1230d4fd598a6739d32dfeae15d8c32e",
     "semantic_hash": ""
   },
   "apps/web/src/main.tsx": {
@@ -54,21 +54,21 @@
     "semantic_hash": ""
   },
   "eslint.config.js": {
-    "mtime": 1794023955.491631,
-    "seen": 1794024742.115509,
-    "ast_hash": "e7415e382813b77b28155d9d2db07ccd",
+    "mtime": 1794042573.0134468,
+    "seen": 1794042630.6796958,
+    "ast_hash": "e49ff1056b54551b9bc9769146b3ddb1",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1794023998.3601353,
-    "seen": 1794024742.11551,
-    "ast_hash": "0c24a12b98236d8c81505cdd9278ab10",
+    "mtime": 1794042581.2998264,
+    "seen": 1794042630.6796968,
+    "ast_hash": "2fcc96220869e565cb75a4c3173d131a",
     "semantic_hash": ""
   },
   "packages/shared/package.json": {
-    "mtime": 1793889530.5275955,
-    "seen": 1794024742.115511,
-    "ast_hash": "678b05daf5d96bb95de0c4f725df2658",
+    "mtime": 1794042587.4866717,
+    "seen": 1794042630.679698,
+    "ast_hash": "d2c0c8a11b92e277e6d1169340ba3716",
     "semantic_hash": ""
   },
   "packages/shared/src/index.ts": {
@@ -2166,8 +2166,8 @@
     "semantic_hash": ""
   },
   "apps/cli/package.json": {
-    "mtime": 1794031124.5909414,
-    "seen": 1794031225.63577,
+    "mtime": 1794042587.4863672,
+    "seen": 1794042630.676063,
     "ast_hash": "5a152f97fb6e497933e47ec2214d989f",
     "semantic_hash": ""
   },
@@ -2256,9 +2256,9 @@
     "semantic_hash": ""
   },
   "apps/cli/README.md": {
-    "mtime": 1794031552.4239209,
-    "seen": 1794041691.671198,
-    "ast_hash": "7a406341d612e802781226b41e166a07",
+    "mtime": 1794041785.9485743,
+    "seen": 1794042630.683188,
+    "ast_hash": "2dff04b87245178b599dd168d73324b5",
     "semantic_hash": ""
   },
   "plans/2026-11-07-12-18-55-web-test-subagent-labels-top-layer-report.md": {
@@ -2301,6 +2301,18 @@
     "mtime": 1794031561.442076,
     "seen": 1794041691.664313,
     "ast_hash": "c2f562cd93238aff06c11f0851e09faa",
+    "semantic_hash": ""
+  },
+  "scripts/version.js": {
+    "mtime": 1794042583.3847995,
+    "seen": 1794042630.6814148,
+    "ast_hash": "2728e364f00ff65a2619bdbc9621839b",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-16-08-43-sync-versions-husky-bump.md": {
+    "mtime": 1794042555.9704337,
+    "seen": 1794042630.6847339,
+    "ast_hash": "31a8a462d2b6214ab2473b0fced625ca",
     "semantic_hash": ""
   }
 }
