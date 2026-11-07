@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/main.tsx": {
-    "mtime": 1794023955.4902308,
-    "seen": 1794024742.1155,
-    "ast_hash": "8bbb0776f212b43c86a0fe071f45ae7e",
+    "mtime": 1794029618.782857,
+    "seen": 1794031225.638734,
+    "ast_hash": "7ea148941088efdd5500f0a63f04c3dd",
     "semantic_hash": ""
   },
   "apps/web/tsconfig.json": {
@@ -1230,15 +1230,15 @@
     "semantic_hash": ""
   },
   "apps/server/src/configs/app.config.ts": {
-    "mtime": 1794023998.3488996,
-    "seen": 1794024742.115385,
-    "ast_hash": "16fbb29817b2a272596048fe181eeab0",
+    "mtime": 1794031174.5356827,
+    "seen": 1794031225.635817,
+    "ast_hash": "5a5c9fbfca9cab636f15e8c954e79e85",
     "semantic_hash": ""
   },
   "apps/server/src/configs/database.config.ts": {
-    "mtime": 1794023998.3490274,
-    "seen": 1794024742.115386,
-    "ast_hash": "fbb2a954947b621c3069bea6077bb35c",
+    "mtime": 1794031116.41562,
+    "seen": 1794031225.635818,
+    "ast_hash": "2305154662a456151eb47fad1c533708",
     "semantic_hash": ""
   },
   "apps/server/src/configs/limits.config.ts": {
@@ -1524,9 +1524,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/CloseConfirmDialog.tsx": {
-    "mtime": 1794023955.484606,
-    "seen": 1794024742.115444,
-    "ast_hash": "d5d62aabbe179500ae6a61470220af54",
+    "mtime": 1794029950.304369,
+    "seen": 1794031225.6373608,
+    "ast_hash": "fedb07698f0193b2a391da1dca3b3ea8",
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/FolderPicker.tsx": {
@@ -1536,15 +1536,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/PermissionCard.tsx": {
-    "mtime": 1794023955.484754,
-    "seen": 1794024742.115446,
-    "ast_hash": "8c5acca0368d45c1363fac85d954b6d9",
+    "mtime": 1794029723.1307585,
+    "seen": 1794031225.6373901,
+    "ast_hash": "0eaa80bbb83590e375eae657678bcd97",
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/RoomActionsMenu.tsx": {
-    "mtime": 1794023955.4848926,
-    "seen": 1794024742.115448,
-    "ast_hash": "ab3da791788df234b913eb6f7bf40e8b",
+    "mtime": 1794029950.304624,
+    "seen": 1794031225.637391,
+    "ast_hash": "96004fa297f24609640981a7bda7694b",
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/RoomRenameInput.tsx": {
@@ -1554,9 +1554,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ArchivedDialog.tsx": {
-    "mtime": 1794023955.485108,
-    "seen": 1794024742.1154501,
-    "ast_hash": "6dcae0ab6099c5370e2d1968e8a5e739",
+    "mtime": 1794030438.242718,
+    "seen": 1794031225.637449,
+    "ast_hash": "2e2908c7c9d5c165cd0708ec3baf2ea7",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatInput.tsx": {
@@ -1584,9 +1584,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/HistoryDialog.tsx": {
-    "mtime": 1794023955.4856138,
-    "seen": 1794024742.115455,
-    "ast_hash": "cb70506fffaa8dfe6c4ba814d09129ee",
+    "mtime": 1794030438.2423337,
+    "seen": 1794031225.637564,
+    "ast_hash": "4f037f1e695cefab1d056e4f82797b56",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/McpStatusPanel.tsx": {
@@ -1602,9 +1602,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/NewSessionDialog.tsx": {
-    "mtime": 1794023955.485864,
-    "seen": 1794024742.115458,
-    "ast_hash": "34254d4ae95b040c51660a2ecb9fd381",
+    "mtime": 1794030264.464179,
+    "seen": 1794031225.637619,
+    "ast_hash": "d9ee638b75e1c82f72fcf7f207b58d27",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/SessionList.tsx": {
@@ -1836,9 +1836,9 @@
     "semantic_hash": ""
   },
   "apps/server/scripts/build.mjs": {
-    "mtime": 1794023998.3487637,
-    "seen": 1794024742.115382,
-    "ast_hash": "75863ae252e508849243705ce277b254",
+    "mtime": 1794031116.4158063,
+    "seen": 1794031225.6358159,
+    "ast_hash": "7293cd95213b77419c3cecd8db041078",
     "semantic_hash": ""
   },
   "plans/2026-11-06-15-23-51-web-test-web-layered-refactor-report.md": {
@@ -2163,6 +2163,138 @@
     "mtime": 1794028680.557756,
     "seen": 1794028697.589046,
     "ast_hash": "29aa213b33c56f94b3873d744a8d9a64",
+    "semantic_hash": ""
+  },
+  "apps/cli/package.json": {
+    "mtime": 1794031124.5909414,
+    "seen": 1794031225.63577,
+    "ast_hash": "5a152f97fb6e497933e47ec2214d989f",
+    "semantic_hash": ""
+  },
+  "apps/cli/scripts/build.mjs": {
+    "mtime": 1794031124.5945377,
+    "seen": 1794031225.635772,
+    "ast_hash": "899961fcf00f2cc406589540a862ac9e",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/cli.ts": {
+    "mtime": 1794031174.4802701,
+    "seen": 1794031225.635773,
+    "ast_hash": "4caf880cf5def7d4150aeec038372382",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/commands/install.command.ts": {
+    "mtime": 1794031151.4933727,
+    "seen": 1794031225.635774,
+    "ast_hash": "1061efdf95d4f9f24c319b72f5c952a3",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/commands/open.command.ts": {
+    "mtime": 1794031174.4934328,
+    "seen": 1794031225.635775,
+    "ast_hash": "49745708351b3164d7921148dd0a0370",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/commands/uninstall.command.ts": {
+    "mtime": 1794031151.4949296,
+    "seen": 1794031225.635776,
+    "ast_hash": "ba38a49f7b2d96bcc475acffbb486c4a",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/configs/cli.config.ts": {
+    "mtime": 1794031151.480543,
+    "seen": 1794031225.635777,
+    "ast_hash": "aecf9a74297e1f37458917b76de30837",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/utils/browser.util.ts": {
+    "mtime": 1794031173.845328,
+    "seen": 1794031225.635778,
+    "ast_hash": "a577da1d6e5428a31fd38c0e3a9509fc",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/utils/node-version.util.ts": {
+    "mtime": 1794031173.8474917,
+    "seen": 1794031225.6357791,
+    "ast_hash": "d8f71a8db6ba25570357480a52059056",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/utils/npm.util.ts": {
+    "mtime": 1794031173.8494859,
+    "seen": 1794031225.63578,
+    "ast_hash": "564796b3f9255eb2e33185df0f9d59b3",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/utils/port.util.ts": {
+    "mtime": 1794031173.8513966,
+    "seen": 1794031225.635781,
+    "ast_hash": "168dfab2df645a21e04000400e71dd8d",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/utils/prompt.util.ts": {
+    "mtime": 1794031173.8532195,
+    "seen": 1794031225.635782,
+    "ast_hash": "591b5bc4b10ef114e9a87efb67845dc9",
+    "semantic_hash": ""
+  },
+  "apps/cli/src/utils/server-process.util.ts": {
+    "mtime": 1794031173.8550537,
+    "seen": 1794031225.635783,
+    "ast_hash": "97fe287df5555b70dceedbad5be77f0a",
+    "semantic_hash": ""
+  },
+  "apps/cli/tsconfig.json": {
+    "mtime": 1794031124.592747,
+    "seen": 1794031225.635784,
+    "ast_hash": "c01543d126f53500f5992a36cff05909",
+    "semantic_hash": ""
+  },
+  "apps/server/src/migrate.ts": {
+    "mtime": 1794031116.4190912,
+    "seen": 1794031225.636411,
+    "ast_hash": "96302af4c55f6895b14adb94d9d6ea54",
+    "semantic_hash": ""
+  },
+  "apps/cli/README.md": {
+    "mtime": 1794031192.3656106,
+    "seen": 1794031225.6425972,
+    "ast_hash": "3e8bc3534352f99b8df54465dbaaf558",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-18-55-web-test-subagent-labels-top-layer-report.md": {
+    "mtime": 1794028949.764726,
+    "seen": 1794031225.6440718,
+    "ast_hash": "c5221561a47440f062188f3413d16fd0",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-18-55-web-test-subagent-labels-top-layer.md": {
+    "mtime": 1794028949.630876,
+    "seen": 1794031225.644074,
+    "ast_hash": "af858b83457504e2a35f81df17ee104c",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-33-09-header-claude-orange-accent.md": {
+    "mtime": 1794029609.9960167,
+    "seen": 1794031225.644075,
+    "ast_hash": "b6907fd7f639cd89e61dab4010f49ca9",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-36-53-web-test-header-accent-and-text-ctas-report.md": {
+    "mtime": 1794029907.1040022,
+    "seen": 1794031225.644076,
+    "ast_hash": "45e593b4b8091ced9c16161e32eb19a1",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-36-53-web-test-header-accent-and-text-ctas.md": {
+    "mtime": 1794029906.9457078,
+    "seen": 1794031225.644078,
+    "ast_hash": "f5461f9f4faf714c41e9d0e3c80d157c",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-07-12-57-22-npm-cli-package.md": {
+    "mtime": 1794031063.906743,
+    "seen": 1794031225.6440792,
+    "ast_hash": "ecc1badd7b024f5e0de8e43363bbb625",
     "semantic_hash": ""
   }
 }
