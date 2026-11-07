@@ -1,10 +1,12 @@
 import { mkdirSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import Database from 'better-sqlite3';
-import { DATA_DIR, SERVER_ROOT } from '@/configs/app.config.ts';
+import { DATA_DIR, resolveDir } from '@/configs/app.config.ts';
 
 export const DB_PATH = `${DATA_DIR}/claude-office.db`;
-export const MIGRATIONS_DIR = join(SERVER_ROOT, 'src', 'migrations');
+export const MIGRATIONS_DIR = resolveDir('CLAUDE_OFFICE_MIGRATIONS_DIR', (root) =>
+  join(root, 'src', 'migrations'),
+);
 
 export const openDatabase = (): Database.Database => {
   mkdirSync(DATA_DIR, { recursive: true });

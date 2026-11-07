@@ -7,8 +7,8 @@ const external = Object.entries(dependencies)
   .map(([name]) => name);
 
 await build({
-  entryPoints: ['src/main.ts'],
-  outfile: 'dist/main.js',
+  entryPoints: { main: 'src/main.ts', migrate: 'src/migrate.ts' },
+  outdir: 'dist',
   bundle: true,
   format: 'esm',
   platform: 'node',

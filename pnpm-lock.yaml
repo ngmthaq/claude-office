@@ -30,6 +30,40 @@ importers:
         specifier: ^8.0.0
         version: 8.72.1(eslint@10.14.0)(typescript@5.9.3)
 
+  apps/cli:
+    dependencies:
+      '@anthropic-ai/claude-agent-sdk':
+        specifier: 0.3.318
+        version: 0.3.318(@anthropic-ai/sdk@1.5.0(zod@4.6.7))(@modelcontextprotocol/sdk@1.32.2(zod@4.6.7))(zod@4.6.7)
+      '@fastify/static':
+        specifier: ^10.1.10
+        version: 10.1.10
+      '@fastify/websocket':
+        specifier: ^11.0.0
+        version: 11.3.7
+      better-sqlite3:
+        specifier: ^13.0.0
+        version: 13.0.3
+      fastify:
+        specifier: ^5.0.0
+        version: 5.12.8
+      zod:
+        specifier: ^4.0.0
+        version: 4.6.7
+    devDependencies:
+      '@claude-office/server':
+        specifier: workspace:*
+        version: link:../server
+      '@claude-office/web':
+        specifier: workspace:*
+        version: link:../web
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.19.2
+      esbuild:
+        specifier: ^0.28.2
+        version: 0.28.2
+
   apps/server:
     dependencies:
       '@anthropic-ai/claude-agent-sdk':

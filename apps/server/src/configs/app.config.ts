@@ -33,13 +33,18 @@ const readLogLevel = (): LogLevel => {
 
 export const LOG_LEVEL: LogLevel = readLogLevel();
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-export const SERVER_ROOT = findServerRoot();
-export const DATA_DIR = join(SERVER_ROOT, 'data');
-export const WEB_DIST_DIR = join(SERVER_ROOT, '..', 'web', 'dist');
+
+/** Env override wins; the server package root is only searched for when it is unset. */
+export const resolveDir = (envName: string, fromServerRoot: (root: string) => string): string =>
+  process.env[envName] || fromServerRoot(findServerRoot());
+
+export const DATA_DIR = resolveDir('CLAUDE_OFFICE_DATA_DIR', (root) => join(root, 'data'));
+export const WEB_DIST_DIR = resolveDir('CLAUDE_OFFICE_WEB_DIST_DIR', (root) =>
+  join(root, '..', 'web', 'dist'),
+);
 export const ALLOWED_ORIGINS: readonly string[] = [
-  'http://127.0.0.1:5173',
-  'http://localhost:5173',
-  'http://127.0.0.1:4317',
-  'http://localhost:4317',
+  ...new Set(
+    [5173, PORT].flatMap((port) => [`http://127.0.0.1:${port}`, `http://localhost:${port}`]),
+  ),
 ];
 export const HOME_DIR = homedir();
