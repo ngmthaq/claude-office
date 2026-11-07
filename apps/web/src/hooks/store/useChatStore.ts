@@ -17,10 +17,7 @@ export type ChatState = {
 
 const EMPTY_ITEMS: ChatItem[] = [];
 
-const TASK_STATUS_TO_SUBAGENT: Record<
-  'completed' | 'failed' | 'killed',
-  SubagentItem['status']
-> = {
+const TASK_STATUS_TO_SUBAGENT: Record<'completed' | 'failed' | 'killed', SubagentItem['status']> = {
   completed: 'done',
   failed: 'error',
   killed: 'stopped',
