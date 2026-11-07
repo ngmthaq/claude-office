@@ -16,6 +16,7 @@ export function ArchivedDialog() {
       show={open}
       onHide={close}
       onEscapeKeyDown={(event) => event.stopPropagation()}
+      size="lg"
       scrollable
       aria-labelledby="archived-title"
     >
@@ -34,7 +35,7 @@ export function ArchivedDialog() {
           {rooms.map((room) => (
             <ListGroup.Item
               key={room.id}
-              className="d-flex align-items-center justify-content-between gap-2"
+              className="d-flex align-items-center justify-content-between gap-5"
             >
               <div className="d-flex flex-column overflow-hidden">
                 <span className="text-truncate" title={room.folder}>

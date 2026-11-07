@@ -35,6 +35,7 @@ export function NewSessionDialog() {
       show={open}
       onHide={closeDialog}
       onEscapeKeyDown={(event) => event.stopPropagation()}
+      size="lg"
       centered
       aria-labelledby="new-session-title"
     >
