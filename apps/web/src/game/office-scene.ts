@@ -3,13 +3,13 @@ import type { RoomSummary } from '@claude-office/shared';
 import type { ScreenRect } from '@/dtos/rename-target.dto';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { CameraController, type WorldRect } from './camera-controller';
-import { RoomView, ROOM_HEIGHT, ROOM_WIDTH } from './room-view';
-
-const GAP_X = 16;
-const GAP_Y = 28;
-const LABEL_OFFSET_PX = 2;
+import { RoomView } from './room-view';
 
 export class OfficeScene {
+  private static readonly gapX = 16;
+  private static readonly gapY = 28;
+  private static readonly labelOffsetPx = 2;
+
   private readonly world = new Container();
   private readonly labelLayer = new Container();
   private readonly camera: CameraController;
@@ -64,7 +64,7 @@ export class OfficeScene {
     sorted.forEach((room, index) => {
       let view = this.views.get(room.id);
       if (!view) {
-        view = new RoomView(room, selectRoom, this.startRename);
+        view = new RoomView(room, OfficeScene.selectRoom, this.startRename);
         this.views.set(room.id, view);
         this.world.addChild(view);
         this.labelLayer.addChild(view.nameLabel);
@@ -72,14 +72,14 @@ export class OfficeScene {
         view.setRoom(room);
       }
       view.position.set(
-        (index % columns) * (ROOM_WIDTH + GAP_X),
-        Math.floor(index / columns) * (ROOM_HEIGHT + GAP_Y),
+        (index % columns) * (RoomView.roomWidth + OfficeScene.gapX),
+        Math.floor(index / columns) * (RoomView.roomHeight + OfficeScene.gapY),
       );
       if (view.needsTick) this.animated.add(view);
       else this.animated.delete(view);
     });
 
-    this.bounds = sorted.length > 0 ? computeBounds(sorted.length, columns) : null;
+    this.bounds = sorted.length > 0 ? OfficeScene.computeBounds(sorted.length, columns) : null;
     if (this.animated.size > 0) this.startTicking();
     else this.stopTicking();
 
@@ -105,7 +105,7 @@ export class OfficeScene {
     const selected = selectedId ? this.views.get(selectedId) : undefined;
     this.camera.frame(
       selected
-        ? { x: selected.x, y: selected.y, width: ROOM_WIDTH, height: ROOM_HEIGHT }
+        ? { x: selected.x, y: selected.y, width: RoomView.roomWidth, height: RoomView.roomHeight }
         : this.bounds,
       animate,
     );
@@ -115,8 +115,8 @@ export class OfficeScene {
     const { x, y, scale } = this.world;
     for (const view of this.views.values()) {
       view.nameLabel.position.set(
-        Math.round(x + (view.x + ROOM_WIDTH / 2) * scale.x),
-        Math.round(y + view.y * scale.y) - LABEL_OFFSET_PX,
+        Math.round(x + (view.x + RoomView.roomWidth / 2) * scale.x),
+        Math.round(y + view.y * scale.y) - OfficeScene.labelOffsetPx,
       );
     }
   };
@@ -128,12 +128,12 @@ export class OfficeScene {
   };
 
   private readonly startRename = (roomId: string, label: Text): void => {
-    useSessionsStore.getState().startRename(roomId, 'office', labelRect(label));
+    useSessionsStore.getState().startRename(roomId, 'office', OfficeScene.labelRect(label));
   };
 
   private reportRenameRect(roomId: string): void {
     const view = this.views.get(roomId);
-    if (view) useSessionsStore.getState().moveRename(roomId, labelRect(view.nameLabel));
+    if (view) useSessionsStore.getState().moveRename(roomId, OfficeScene.labelRect(view.nameLabel));
   }
 
   private readonly tick = (ticker: Ticker): void => {
@@ -155,23 +155,23 @@ export class OfficeScene {
     this.ticking = false;
     this.app.ticker.remove(this.tick);
   }
-}
 
-function selectRoom(roomId: string): void {
-  useSessionsStore.getState().select(roomId);
-}
+  private static selectRoom(roomId: string): void {
+    useSessionsStore.getState().select(roomId);
+  }
 
-function labelRect(label: Text): ScreenRect {
-  const { x, y, width, height } = label.getBounds();
-  return { x, y, width, height };
-}
+  private static labelRect(label: Text): ScreenRect {
+    const { x, y, width, height } = label.getBounds();
+    return { x, y, width, height };
+  }
 
-function computeBounds(count: number, columns: number): WorldRect {
-  const rows = Math.ceil(count / columns);
-  return {
-    x: 0,
-    y: 0,
-    width: columns * ROOM_WIDTH + (columns - 1) * GAP_X,
-    height: rows * ROOM_HEIGHT + (rows - 1) * GAP_Y,
-  };
+  private static computeBounds(count: number, columns: number): WorldRect {
+    const rows = Math.ceil(count / columns);
+    return {
+      x: 0,
+      y: 0,
+      width: columns * RoomView.roomWidth + (columns - 1) * OfficeScene.gapX,
+      height: rows * RoomView.roomHeight + (rows - 1) * OfficeScene.gapY,
+    };
+  }
 }

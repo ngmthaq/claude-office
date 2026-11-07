@@ -7,36 +7,33 @@ import { TextUtil } from '@/utils/text.util.ts';
 
 type SubagentStatus = 'done' | 'error' | 'stopped';
 
-const NOTIFICATION_STATUS = {
-  completed: 'done',
-  failed: 'error',
-  stopped: 'stopped',
-} as const satisfies Record<string, SubagentStatus>;
-
-const TASK_CARD_STATUS = {
-  completed: 'completed',
-  failed: 'failed',
-  stopped: 'killed',
-} as const;
-
-const SUBAGENT_TOOL_NAMES: ReadonlySet<string> = new Set(['Agent', 'Task']);
-const DEFAULT_AGENT_TYPE = 'general-purpose';
-
-const AUTH_ERRORS: ReadonlySet<SDKAssistantMessageError> = new Set([
-  'authentication_failed',
-  'oauth_org_not_allowed',
-  'verification_required',
-  'cloud_credential_error',
-]);
-const ACCOUNT_ERRORS: ReadonlySet<SDKAssistantMessageError> = new Set([
-  'account_on_hold',
-  'billing_error',
-]);
-
-const NOT_LOGGED_IN_MESSAGE = 'Claude is not logged in on this device.';
-const ACCOUNT_MESSAGE = 'Your Claude account cannot be used right now (billing or account issue).';
-
 export class SdkEventMapperService {
+  private static readonly notificationStatus = {
+    completed: 'done',
+    failed: 'error',
+    stopped: 'stopped',
+  } as const satisfies Record<string, SubagentStatus>;
+  private static readonly taskCardStatus = {
+    completed: 'completed',
+    failed: 'failed',
+    stopped: 'killed',
+  } as const;
+  private static readonly subagentToolNames: ReadonlySet<string> = new Set(['Agent', 'Task']);
+  private static readonly defaultAgentType = 'general-purpose';
+  private static readonly authErrors: ReadonlySet<SDKAssistantMessageError> = new Set([
+    'authentication_failed',
+    'oauth_org_not_allowed',
+    'verification_required',
+    'cloud_credential_error',
+  ]);
+  private static readonly accountErrors: ReadonlySet<SDKAssistantMessageError> = new Set([
+    'account_on_hold',
+    'billing_error',
+  ]);
+  private static readonly notLoggedInMessage = 'Claude is not logged in on this device.';
+  private static readonly accountMessage =
+    'Your Claude account cannot be used right now (billing or account issue).';
+
   createMapperState(): MapperState {
     return { messageId: '', subagents: new Map(), cardedTasks: new Set() };
   }
@@ -61,7 +58,7 @@ export class SdkEventMapperService {
       subagentId: notification.tool_use_id ?? null,
       source: 'task',
       title: this.buildLiveTitle(notification.summary, description, isSubagent),
-      taskStatus: TASK_CARD_STATUS[notification.status],
+      taskStatus: SdkEventMapperService.taskCardStatus[notification.status],
       body,
       time: Date.now(),
     };
@@ -89,8 +86,9 @@ export class SdkEventMapperService {
 
   authErrorMessage(error: SDKAssistantMessageError | undefined): string | null {
     if (error === undefined) return null;
-    if (AUTH_ERRORS.has(error)) return NOT_LOGGED_IN_MESSAGE;
-    if (ACCOUNT_ERRORS.has(error)) return ACCOUNT_MESSAGE;
+    if (SdkEventMapperService.authErrors.has(error))
+      return SdkEventMapperService.notLoggedInMessage;
+    if (SdkEventMapperService.accountErrors.has(error)) return SdkEventMapperService.accountMessage;
     return null;
   }
 
@@ -156,7 +154,7 @@ export class SdkEventMapperService {
     if (message.subtype === 'task_notification') {
       const id = this.findSubagentId(state, message.tool_use_id, message.task_id);
       if (id === undefined) return [];
-      const status = NOTIFICATION_STATUS[message.status];
+      const status = SdkEventMapperService.notificationStatus[message.status];
       const event = this.finishSubagent(
         roomId,
         state,
@@ -209,7 +207,8 @@ export class SdkEventMapperService {
   }
 
   private startSubagent(roomId: string, id: string, input: unknown, state: MapperState): RoomEvent {
-    const agentType = this.readString(input, 'subagent_type') ?? DEFAULT_AGENT_TYPE;
+    const agentType =
+      this.readString(input, 'subagent_type') ?? SdkEventMapperService.defaultAgentType;
     const description = this.readString(input, 'description') ?? '';
     state.subagents.set(id, {
       agentType,
@@ -314,7 +313,7 @@ export class SdkEventMapperService {
     const events: RoomEvent[] = [];
     for (const block of message.message.content) {
       if (block.type !== 'tool_use') continue;
-      if (SUBAGENT_TOOL_NAMES.has(block.name)) {
+      if (SdkEventMapperService.subagentToolNames.has(block.name)) {
         events.push(this.startSubagent(roomId, block.id, block.input, state));
       } else {
         events.push({

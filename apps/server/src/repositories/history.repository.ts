@@ -6,12 +6,12 @@ import { TaskNotificationUtil } from '@/utils/task-notification.util.ts';
 import { PeerMessageUtil } from '@/utils/peer-message.util.ts';
 import { TextUtil } from '@/utils/text.util.ts';
 
-const WRAPPER_PREFIXES = ['<command-', '<local-command-', '<system-reminder>'];
-const INTERRUPT_PREFIX = '[Request interrupted by user';
-
 export type OpenRoomLookup = (sessionId: string) => string | null;
 
 export class HistoryRepository {
+  private static readonly wrapperPrefixes = ['<command-', '<local-command-', '<system-reminder>'];
+  private static readonly interruptPrefix = '[Request interrupted by user';
+
   constructor(private readonly folderRepository: FolderRepository) {}
 
   async listHistory(findOpenRoom: OpenRoomLookup): Promise<HistoryEntry[]> {
@@ -75,8 +75,12 @@ export class HistoryRepository {
 
   private pushUserText(roomId: string, messageId: string, text: string, events: RoomEvent[]): void {
     const start = text.trimStart();
-    if (start === '' || WRAPPER_PREFIXES.some((prefix) => start.startsWith(prefix))) return;
-    if (start.startsWith(INTERRUPT_PREFIX)) {
+    if (
+      start === '' ||
+      HistoryRepository.wrapperPrefixes.some((prefix) => start.startsWith(prefix))
+    )
+      return;
+    if (start.startsWith(HistoryRepository.interruptPrefix)) {
       events.push({ type: 'session_notice', roomId, kind: 'stopped', time: 0 });
       return;
     }

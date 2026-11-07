@@ -2,14 +2,14 @@ import type { Application, Container, Ticker } from 'pixi.js';
 
 export type WorldRect = { x: number; y: number; width: number; height: number };
 
-const TWEEN_MS = 300;
-const PAD_SIDE = 16;
-const PAD_TOP = 28;
-const PAD_BOTTOM = 16;
-
 type View = { x: number; y: number; scale: number };
 
 export class CameraController {
+  private static readonly tweenMs = 300;
+  private static readonly padSide = 16;
+  private static readonly padTop = 28;
+  private static readonly padBottom = 16;
+
   private target: WorldRect | null = null;
   private readonly from: View = { x: 0, y: 0, scale: 1 };
   private readonly to: View = { x: 0, y: 0, scale: 1 };
@@ -45,7 +45,7 @@ export class CameraController {
 
   private readonly tick = (ticker: Ticker): void => {
     this.elapsedMs += ticker.deltaMS;
-    const t = Math.min(1, this.elapsedMs / TWEEN_MS);
+    const t = Math.min(1, this.elapsedMs / CameraController.tweenMs);
     const eased = t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
     const { from, to } = this;
     this.apply(
@@ -88,12 +88,14 @@ export class CameraController {
 
   private computeView(rect: WorldRect, out: View): void {
     const { width, height } = this.app.screen;
-    const fullWidth = rect.width + PAD_SIDE * 2;
-    const fullHeight = rect.height + PAD_TOP + PAD_BOTTOM;
+    const fullWidth = rect.width + CameraController.padSide * 2;
+    const fullHeight = rect.height + CameraController.padTop + CameraController.padBottom;
     const fit = Math.max(Math.min(width / fullWidth, height / fullHeight), 0.05);
     const scale = fit >= 1 ? Math.floor(fit) : fit;
     out.scale = scale;
     out.x = Math.round((width - rect.width * scale) / 2 - rect.x * scale);
-    out.y = Math.round((height - fullHeight * scale) / 2 - (rect.y - PAD_TOP) * scale);
+    out.y = Math.round(
+      (height - fullHeight * scale) / 2 - (rect.y - CameraController.padTop) * scale,
+    );
   }
 }

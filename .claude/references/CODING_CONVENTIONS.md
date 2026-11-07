@@ -140,6 +140,7 @@ Web file names:
 | Variables and functions | `camelCase`          | `startSession`        |
 | Types and classes       | `PascalCase`         | `SessionEvent`        |
 | Constants               | `UPPER_SNAKE_CASE`   | `MAX_AGENTS_PER_ROOM` |
+| Class attributes (also static constants) | `camelCase` | `private static readonly maxEntries` |
 | React hooks             | start with `use`     | `useActiveRoom`       |
 | Zustand stores          | file name = hook name | `useChatStore.ts`     |
 | PixiJS classes          | end with their role  | `RoomScene`, `AgentSprite` |
@@ -157,9 +158,9 @@ Library instances keep their usual short names: `log`, `db`, `socket`, `app`.
 
 1. Imports
 2. Types
-3. Constants
-4. Main export
-5. Helpers
+3. Main export
+
+In a class file, put the file's constants and helpers inside the class, as `private static` fields and methods. Do not put them outside the class. A constant that other files use is a public `static readonly` field (`RoomView.roomWidth`). All class attributes use `camelCase`. Constants in `configs/` stay as exported `UPPER_SNAKE_CASE` values.
 
 ## Other rules
 

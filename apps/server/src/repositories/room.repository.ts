@@ -2,9 +2,10 @@ import type { PermissionMode } from '@claude-office/shared';
 import type Database from 'better-sqlite3';
 import { parseRoomRow, type RawRoomRow, type RoomRow } from '@/dtos/room-row.dto.ts';
 
-const COLUMNS = 'id, session_id, folder, created_at, name, title, archived_at, permission_mode';
-
 export class RoomRepository {
+  private static readonly columns =
+    'id, session_id, folder, created_at, name, title, archived_at, permission_mode';
+
   private readonly insertStmt;
   private readonly setSessionStmt;
   private readonly getStmt;
@@ -22,9 +23,11 @@ export class RoomRepository {
       'INSERT INTO rooms (id, session_id, folder, created_at) VALUES (?, ?, ?, ?)',
     );
     this.setSessionStmt = db.prepare('UPDATE rooms SET session_id = ? WHERE id = ?');
-    this.getStmt = db.prepare<[string], RawRoomRow>(`SELECT ${COLUMNS} FROM rooms WHERE id = ?`);
+    this.getStmt = db.prepare<[string], RawRoomRow>(
+      `SELECT ${RoomRepository.columns} FROM rooms WHERE id = ?`,
+    );
     this.listWithSessionStmt = db.prepare<[], RawRoomRow>(
-      `SELECT ${COLUMNS} FROM rooms WHERE session_id IS NOT NULL ORDER BY created_at DESC`,
+      `SELECT ${RoomRepository.columns} FROM rooms WHERE session_id IS NOT NULL ORDER BY created_at DESC`,
     );
     this.setNameStmt = db.prepare('UPDATE rooms SET name = ? WHERE id = ?');
     this.setTitleStmt = db.prepare('UPDATE rooms SET title = ? WHERE id = ?');
@@ -32,10 +35,10 @@ export class RoomRepository {
     this.deleteStmt = db.prepare('DELETE FROM rooms WHERE id = ?');
     this.setPermissionModeStmt = db.prepare('UPDATE rooms SET permission_mode = ? WHERE id = ?');
     this.listArchivedStmt = db.prepare<[], RawRoomRow>(
-      `SELECT ${COLUMNS} FROM rooms WHERE archived_at IS NOT NULL ORDER BY archived_at DESC`,
+      `SELECT ${RoomRepository.columns} FROM rooms WHERE archived_at IS NOT NULL ORDER BY archived_at DESC`,
     );
     this.newestBySessionStmt = db.prepare<[string], RawRoomRow>(
-      `SELECT ${COLUMNS} FROM rooms WHERE session_id = ? ORDER BY created_at DESC LIMIT 1`,
+      `SELECT ${RoomRepository.columns} FROM rooms WHERE session_id = ? ORDER BY created_at DESC LIMIT 1`,
     );
   }
 

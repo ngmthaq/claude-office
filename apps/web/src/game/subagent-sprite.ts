@@ -7,29 +7,28 @@ import { TILE_SIZE } from './asset-loader';
 export type SubagentEnd = 'done' | 'error' | 'stopped';
 export type Point = { readonly x: number; readonly y: number };
 
-export const DOOR_POSITION: Point = { x: 64, y: 80 };
-
-const WALK_MS = 600;
-const MARK_MS = 1500;
-const LABEL_MAX_CHARS = 12;
-const LABEL_FONT_SIZE = 6;
-const LABEL_RESOLUTION_BOOST = 4;
-const MARK_X = 8;
-const MARK_Y = -12;
-
 type Phase = 'entering' | 'working' | 'marking' | 'leaving';
 
 export class SubagentSprite extends Container {
+  static readonly doorPosition: Point = { x: 64, y: 80 };
+  private static readonly walkMs = 600;
+  private static readonly markMs = 1500;
+  private static readonly labelMaxChars = 12;
+  private static readonly labelFontSize = 6;
+  private static readonly labelResolutionBoost = 4;
+  private static readonly markX = 8;
+  private static readonly markY = -12;
+
   readonly subagentId: string;
   readonly spotIndex: number;
   private phase: Phase = 'entering';
   private phaseMs = 0;
-  private fromX = DOOR_POSITION.x;
-  private fromY = DOOR_POSITION.y;
+  private fromX = SubagentSprite.doorPosition.x;
+  private fromY = SubagentSprite.doorPosition.y;
   private toX: number;
   private toY: number;
   private readonly agent: AgentSprite;
-  private readonly errorMark = drawErrorMark();
+  private readonly errorMark = SubagentSprite.drawErrorMark();
   private readonly typeLabel: Text;
 
   constructor(
@@ -45,19 +44,23 @@ export class SubagentSprite extends Container {
     this.spotIndex = spotIndex;
     this.toX = spot.x;
     this.toY = spot.y;
-    this.position.set(DOOR_POSITION.x, DOOR_POSITION.y);
+    this.position.set(SubagentSprite.doorPosition.x, SubagentSprite.doorPosition.y);
 
     this.agent = new AgentSprite(agentType);
-    this.errorMark.position.set(MARK_X, MARK_Y);
+    this.errorMark.position.set(SubagentSprite.markX, SubagentSprite.markY);
     this.errorMark.visible = false;
     this.typeLabel = new Text({
-      text: truncate(agentType),
-      style: { fontFamily: 'system-ui, sans-serif', fontSize: LABEL_FONT_SIZE, fill: 0xe4e6ea },
-      resolution: window.devicePixelRatio * LABEL_RESOLUTION_BOOST,
+      text: SubagentSprite.truncate(agentType),
+      style: {
+        fontFamily: 'system-ui, sans-serif',
+        fontSize: SubagentSprite.labelFontSize,
+        fill: 0xe4e6ea,
+      },
+      resolution: window.devicePixelRatio * SubagentSprite.labelResolutionBoost,
       roundPixels: true,
     });
     this.typeLabel.anchor.set(0.5, 1);
-    this.typeLabel.position.set(TILE_SIZE / 2, MARK_Y);
+    this.typeLabel.position.set(TILE_SIZE / 2, SubagentSprite.markY);
     this.typeLabel.visible = false;
     this.addChild(this.agent, this.errorMark, this.typeLabel);
 
@@ -109,7 +112,7 @@ export class SubagentSprite extends Container {
         this.agent.tick(deltaMs);
         break;
       case 'marking':
-        if (this.phaseMs >= MARK_MS) this.startLeaving();
+        if (this.phaseMs >= SubagentSprite.markMs) this.startLeaving();
         break;
       case 'leaving':
         if (this.walk()) this.onGone(this);
@@ -122,34 +125,36 @@ export class SubagentSprite extends Container {
     this.phaseMs = 0;
     this.fromX = this.x;
     this.fromY = this.y;
-    this.toX = DOOR_POSITION.x;
-    this.toY = DOOR_POSITION.y;
+    this.toX = SubagentSprite.doorPosition.x;
+    this.toY = SubagentSprite.doorPosition.y;
     this.errorMark.visible = false;
     this.agent.setState('idle');
   }
 
   private walk(): boolean {
-    const progress = Math.min(1, this.phaseMs / WALK_MS);
+    const progress = Math.min(1, this.phaseMs / SubagentSprite.walkMs);
     this.position.set(
       Math.round(this.fromX + (this.toX - this.fromX) * progress),
       Math.round(this.fromY + (this.toY - this.fromY) * progress),
     );
     return progress >= 1;
   }
-}
 
-function truncate(name: string): string {
-  return name.length > LABEL_MAX_CHARS ? `${name.slice(0, LABEL_MAX_CHARS - 1)}…` : name;
-}
-
-function drawErrorMark(): Graphics {
-  const mark = new Graphics();
-  mark.rect(0, 0, 12, 9).fill(0x1b1d21);
-  mark.rect(1, 1, 10, 7).fill(0xe5484d);
-  mark.rect(2, 9, 2, 2).fill(0x1b1d21);
-  for (let step = 0; step < 5; step += 1) {
-    mark.rect(3 + step, 2 + step, 1, 1).fill(0xffffff);
-    mark.rect(7 - step, 2 + step, 1, 1).fill(0xffffff);
+  private static truncate(name: string): string {
+    return name.length > SubagentSprite.labelMaxChars
+      ? `${name.slice(0, SubagentSprite.labelMaxChars - 1)}…`
+      : name;
   }
-  return mark;
+
+  private static drawErrorMark(): Graphics {
+    const mark = new Graphics();
+    mark.rect(0, 0, 12, 9).fill(0x1b1d21);
+    mark.rect(1, 1, 10, 7).fill(0xe5484d);
+    mark.rect(2, 9, 2, 2).fill(0x1b1d21);
+    for (let step = 0; step < 5; step += 1) {
+      mark.rect(3 + step, 2 + step, 1, 1).fill(0xffffff);
+      mark.rect(7 - step, 2 + step, 1, 1).fill(0xffffff);
+    }
+    return mark;
+  }
 }

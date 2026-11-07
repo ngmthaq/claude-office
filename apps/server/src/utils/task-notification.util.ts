@@ -7,18 +7,19 @@ export type TaskNotification = {
   body: string;
 };
 
-const BLOCK_PATTERN = /<task-notification>([\s\S]*?)<\/task-notification>/;
-const STATUS_VALUES: readonly string[] = ['completed', 'failed', 'killed'];
-const AGENT_SUMMARY_PREFIX = 'Agent ';
-const AGENT_DESCRIPTION_PATTERN = /^Agent "([^"]*)"/;
-const TITLE_PREFIX = 'Result: ';
-const HANDBACK_POINTER_PREFIX = "This agent's report was delivered to you as a message from";
-
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class TaskNotificationUtil {
+  private static readonly blockPattern = /<task-notification>([\s\S]*?)<\/task-notification>/;
+  private static readonly statusValues: readonly string[] = ['completed', 'failed', 'killed'];
+  private static readonly agentSummaryPrefix = 'Agent ';
+  private static readonly agentDescriptionPattern = /^Agent "([^"]*)"/;
+  private static readonly titlePrefix = 'Result: ';
+  private static readonly handbackPointerPrefix =
+    "This agent's report was delivered to you as a message from";
+
   /** Reads a harness `<task-notification>` block. Returns null when there is none. */
   static parse(text: string): TaskNotification | null {
-    const block = BLOCK_PATTERN.exec(text)?.[1];
+    const block = TaskNotificationUtil.blockPattern.exec(text)?.[1];
     if (block === undefined) return null;
     const summary = TaskNotificationUtil.readTag(block, 'summary') ?? '';
     const rawStatus = TaskNotificationUtil.readTag(block, 'status');
@@ -26,7 +27,7 @@ export class TaskNotificationUtil {
     return {
       toolUseId: TaskNotificationUtil.readTag(block, 'tool-use-id'),
       status:
-        rawStatus !== null && STATUS_VALUES.includes(rawStatus)
+        rawStatus !== null && TaskNotificationUtil.statusValues.includes(rawStatus)
           ? (rawStatus as TaskNotificationStatus)
           : null,
       title: TaskNotificationUtil.buildTitle(summary),
@@ -36,13 +37,15 @@ export class TaskNotificationUtil {
 
   /** True when the body only points at a report that was already delivered as a message. */
   static isHandbackPointer(body: string): boolean {
-    return body.startsWith(HANDBACK_POINTER_PREFIX);
+    return body.startsWith(TaskNotificationUtil.handbackPointerPrefix);
   }
 
   private static buildTitle(summary: string): string | null {
-    const description = AGENT_DESCRIPTION_PATTERN.exec(summary)?.[1];
-    if (description !== undefined) return `${TITLE_PREFIX}${description}`;
-    return summary.startsWith(AGENT_SUMMARY_PREFIX) || summary === '' ? null : summary;
+    const description = TaskNotificationUtil.agentDescriptionPattern.exec(summary)?.[1];
+    if (description !== undefined) return `${TaskNotificationUtil.titlePrefix}${description}`;
+    return summary.startsWith(TaskNotificationUtil.agentSummaryPrefix) || summary === ''
+      ? null
+      : summary;
   }
 
   private static readTag(block: string, tag: string): string | null {

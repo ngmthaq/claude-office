@@ -3,13 +3,13 @@ import { join } from 'node:path';
 import type { SlashCommandEntry } from '@claude-office/shared';
 import { HOME_DIR } from '@/configs/app.config.ts';
 
-const READ_LIMIT_BYTES = 4096;
-const MAX_DEPTH = 5;
-const MAX_FILES_PER_ROOT = 500;
-
 type Frontmatter = Record<string, string>;
 
 export class CommandRepository {
+  private static readonly readLimitBytes = 4096;
+  private static readonly maxDepth = 5;
+  private static readonly maxFilesPerRoot = 500;
+
   async scanDiskCommands(folder: string): Promise<SlashCommandEntry[]> {
     const roots = [join(folder, '.claude'), join(HOME_DIR, '.claude')];
     const found: SlashCommandEntry[] = [];
@@ -53,7 +53,11 @@ export class CommandRepository {
   }
 
   private async collectMarkdown(base: string, segments: string[], out: string[]): Promise<void> {
-    if (segments.length > MAX_DEPTH || out.length >= MAX_FILES_PER_ROOT) return;
+    if (
+      segments.length > CommandRepository.maxDepth ||
+      out.length >= CommandRepository.maxFilesPerRoot
+    )
+      return;
     const items = await this.safeReaddir(join(base, ...segments));
     for (const item of items) {
       if (item.isSymbolicLink()) continue;
@@ -111,8 +115,8 @@ export class CommandRepository {
     let handle;
     try {
       handle = await open(path, 'r');
-      const buffer = Buffer.alloc(READ_LIMIT_BYTES);
-      const { bytesRead } = await handle.read(buffer, 0, READ_LIMIT_BYTES, 0);
+      const buffer = Buffer.alloc(CommandRepository.readLimitBytes);
+      const { bytesRead } = await handle.read(buffer, 0, CommandRepository.readLimitBytes, 0);
       return buffer.subarray(0, bytesRead).toString('utf8');
     } catch {
       return null;
