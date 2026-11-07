@@ -1,1 +1,3 @@
 pnpm version:check
+pnpm format:check
+pnpm lint
