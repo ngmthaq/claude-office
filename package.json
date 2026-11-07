@@ -11,6 +11,7 @@
     "build": "pnpm -r build",
     "start": "pnpm --filter @claude-office/server start",
     "prod": "pnpm build && pnpm start",
+    "publish:cli": "pnpm build && pnpm --filter @ngmthaq20/claude-office publish --access public",
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
     "format": "prettier --write .",

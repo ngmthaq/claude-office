@@ -28,10 +28,10 @@ Rooms and history are stored in `~/.@ngmthaq20-claude-office`. The server listen
 
 ## Publish
 
-From this folder, after `pnpm build` at the repo root:
+From the repo root (it builds everything first):
 
 ```sh
-pnpm publish --access public
+pnpm publish:cli
 ```
 
-Use `pnpm publish`, not `npm publish`. It replaces the `workspace:*` dev dependencies with real versions.
+Do not use `npm publish`. `pnpm publish` replaces the `workspace:*` dev dependencies with real versions.
