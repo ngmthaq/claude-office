@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const ArchivedRoomSchema = z.object({
   id: z.string(),
   name: z.string().nullable(),
+  title: z.string().nullable(),
   folder: z.string(),
   sessionId: z.string(),
   archivedAt: z.number(),

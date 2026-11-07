@@ -1,6 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { getSessionInfo, query, type Query, type SDKMessage } from '@anthropic-ai/claude-agent-sdk';
-import type { HistoryEntry, RoomEvent, RoomSummary } from '@claude-office/shared';
+import {
+  ROOM_NAME_MAX,
+  type HistoryEntry,
+  type RoomEvent,
+  type RoomSummary,
+} from '@claude-office/shared';
 import type { FastifyBaseLogger } from 'fastify';
 import { ROOM_EVENT_BUFFER_MAX, STOP_TIMEOUT_MS } from '@/configs/limits.config.ts';
 import { SDK_EXTRA_ARGS, SETTING_SOURCES } from '@/configs/sdk.config.ts';
@@ -43,6 +48,7 @@ export class SessionService {
     const session: Session = {
       id: randomUUID(),
       name: null,
+      title: null,
       folder: resolved.value,
       createdAt: Date.now(),
       sessionId: null,
@@ -133,14 +139,13 @@ export class SessionService {
       if (row.sessionId === null || seen.has(row.sessionId)) continue;
       seen.add(row.sessionId);
       if (row.archivedAt !== null) continue;
-      this.sessionStoreRepository.set(
-        row.id,
-        this.sessionStoreRepository.closedSession(
-          row,
-          row.sessionId,
-          this.sdkEventMapperService.createMapperState(),
-        ),
+      const session = this.sessionStoreRepository.closedSession(
+        row,
+        row.sessionId,
+        this.sdkEventMapperService.createMapperState(),
       );
+      this.sessionStoreRepository.set(row.id, session);
+      void this.refreshTitle(session);
     }
     this.log.info({ count: this.sessionStoreRepository.size }, 'closed rooms loaded');
   }
@@ -250,6 +255,28 @@ export class SessionService {
     session.stopTimer = null;
   }
 
+  async refreshTitle(session: Session): Promise<void> {
+    if (session.sessionId === null) return;
+    try {
+      const info = await getSessionInfo(session.sessionId, { dir: session.folder });
+      const title = SessionService.cleanTitle(info?.summary);
+      if (title === session.title) return;
+      session.title = title;
+      this.roomRepository.setTitle(session.id, title);
+      this.eventBusService.notifyChanged();
+    } catch (error) {
+      this.log.error(
+        { roomId: session.id, err: ErrorUtil.errorName(error) },
+        'title refresh failed',
+      );
+    }
+  }
+
+  private static cleanTitle(summary: string | undefined): string | null {
+    const title = summary?.trim().slice(0, ROOM_NAME_MAX) ?? '';
+    return title.length > 0 ? title : null;
+  }
+
   private toSummary(session: Session): RoomSummary {
     return this.sessionStoreRepository.toSummary(
       session,
@@ -307,6 +334,7 @@ export class SessionService {
     const session: Session = {
       id,
       name: null,
+      title: SessionService.cleanTitle(info.summary),
       folder: resolved.value,
       createdAt: Date.now(),
       sessionId,
@@ -326,6 +354,7 @@ export class SessionService {
       permissionMode: 'default',
     };
     this.roomRepository.insert(session.id, session.folder, session.createdAt, sessionId);
+    if (session.title !== null) this.roomRepository.setTitle(session.id, session.title);
     this.sessionStoreRepository.set(session.id, session);
     this.log.info({ roomId: id, sessionId, eventCount: events.length }, 'session resumed');
     this.eventBusService.notifyChanged();
@@ -414,6 +443,7 @@ export class SessionService {
             this.setBusy(session, false);
           }
         }
+        if (message.type === 'result') void this.refreshTitle(session);
         if (message.type === 'system' && message.subtype === 'task_notification') {
           this.emitTaskResultCard(session, message, events, description);
         }

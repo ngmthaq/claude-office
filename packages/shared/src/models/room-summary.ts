@@ -8,6 +8,7 @@ export const ROOM_NAME_MAX = 60;
 export const RoomSummarySchema = z.object({
   id: z.string(),
   name: z.string().nullable(),
+  title: z.string().nullable(),
   folder: z.string(),
   createdAt: z.number(),
   sessionId: z.string().nullable(),
@@ -19,8 +20,13 @@ export const RoomSummarySchema = z.object({
 
 export type RoomSummary = z.infer<typeof RoomSummarySchema>;
 
-export function roomLabel(room: { name: string | null; folder: string }): string {
+export function roomLabel(room: {
+  name: string | null;
+  title: string | null;
+  folder: string;
+}): string {
   if (room.name) return room.name;
+  if (room.title) return room.title;
   const segments = room.folder.split(/[/\\]/).filter((part) => part.length > 0);
   return segments[segments.length - 1] ?? room.folder;
 }

@@ -97,6 +97,7 @@ export class RoomService {
       rooms.push({
         id: row.id,
         name: row.name,
+        title: row.title,
         folder: row.folder,
         sessionId: row.sessionId,
         archivedAt: row.archivedAt,

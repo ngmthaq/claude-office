@@ -8,6 +8,7 @@ export const RoomRowSchema = z
     folder: z.string(),
     created_at: z.number(),
     name: z.string().nullable(),
+    title: z.string().nullable(),
     archived_at: z.number().nullable(),
     permission_mode: PermissionModeSchema,
   })
@@ -17,6 +18,7 @@ export const RoomRowSchema = z
     folder: row.folder,
     createdAt: row.created_at,
     name: row.name,
+    title: row.title,
     archivedAt: row.archived_at,
     permissionMode: row.permission_mode,
   }));

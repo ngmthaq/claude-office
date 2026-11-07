@@ -2,7 +2,7 @@ import type { PermissionMode } from '@claude-office/shared';
 import type Database from 'better-sqlite3';
 import { parseRoomRow, type RawRoomRow, type RoomRow } from '@/dtos/room-row.dto.ts';
 
-const COLUMNS = 'id, session_id, folder, created_at, name, archived_at, permission_mode';
+const COLUMNS = 'id, session_id, folder, created_at, name, title, archived_at, permission_mode';
 
 export class RoomRepository {
   private readonly insertStmt;
@@ -10,6 +10,7 @@ export class RoomRepository {
   private readonly getStmt;
   private readonly listWithSessionStmt;
   private readonly setNameStmt;
+  private readonly setTitleStmt;
   private readonly setArchivedStmt;
   private readonly deleteStmt;
   private readonly setPermissionModeStmt;
@@ -26,6 +27,7 @@ export class RoomRepository {
       `SELECT ${COLUMNS} FROM rooms WHERE session_id IS NOT NULL ORDER BY created_at DESC`,
     );
     this.setNameStmt = db.prepare('UPDATE rooms SET name = ? WHERE id = ?');
+    this.setTitleStmt = db.prepare('UPDATE rooms SET title = ? WHERE id = ?');
     this.setArchivedStmt = db.prepare('UPDATE rooms SET archived_at = ? WHERE id = ?');
     this.deleteStmt = db.prepare('DELETE FROM rooms WHERE id = ?');
     this.setPermissionModeStmt = db.prepare('UPDATE rooms SET permission_mode = ? WHERE id = ?');
@@ -47,6 +49,10 @@ export class RoomRepository {
 
   setName(id: string, name: string | null): void {
     this.setNameStmt.run(name, id);
+  }
+
+  setTitle(id: string, title: string | null): void {
+    this.setTitleStmt.run(title, id);
   }
 
   setArchived(id: string, archivedAt: number | null): void {

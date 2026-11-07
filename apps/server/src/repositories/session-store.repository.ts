@@ -33,6 +33,7 @@ export type PendingPermission = {
 export type Session = {
   id: string;
   name: string | null;
+  title: string | null;
   folder: string;
   createdAt: number;
   sessionId: string | null;
@@ -79,6 +80,7 @@ export class SessionStoreRepository {
     return {
       id: row.id,
       name: row.name,
+      title: row.title,
       folder: row.folder,
       createdAt: row.createdAt,
       sessionId,
@@ -103,6 +105,7 @@ export class SessionStoreRepository {
     return {
       id: session.id,
       name: session.name,
+      title: session.title,
       folder: session.folder,
       createdAt: session.createdAt,
       sessionId: session.sessionId,
