@@ -1,11 +1,20 @@
-import { PeerMessageSourceSchema, TaskStatusSchema } from '@claude-office/shared';
+import {
+  AttachmentInfoSchema,
+  PeerMessageSourceSchema,
+  TaskStatusSchema,
+} from '@claude-office/shared';
 import { z } from 'zod';
 import { PermissionItemSchema } from '@/dtos/permission-item.dto';
 import { SubagentItemSchema } from '@/dtos/subagent-item.dto';
 import { ToolResultSchema } from '@/dtos/tool-result.dto';
 
 export const ChatItemSchema = z.union([
-  z.object({ kind: z.literal('user'), id: z.string(), text: z.string() }),
+  z.object({
+    kind: z.literal('user'),
+    id: z.string(),
+    text: z.string(),
+    attachments: z.array(AttachmentInfoSchema).optional(),
+  }),
   z.object({ kind: z.literal('assistant'), id: z.string(), text: z.string() }),
   z.object({
     kind: z.literal('tool'),

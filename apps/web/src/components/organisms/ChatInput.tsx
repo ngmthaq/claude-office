@@ -2,12 +2,21 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type ClipboardEvent, type KeyboardEvent } from 'react';
 import type { PermissionMode } from '@claude-office/shared';
 import { IconButton } from '@/components/atoms/IconButton';
+import { AttachmentList } from '@/components/molecules/AttachmentList';
 import { AutocompletePopup } from '@/components/molecules/AutocompletePopup';
-import { PERMISSION_MODE_BY_VALUE, PERMISSION_MODE_OPTIONS } from '@/configs/ui.config';
+import {
+  ATTACHMENT_ACCEPT,
+  ATTACHMENT_SEND_TIMEOUT_MS,
+  ATTACHMENT_TEXT,
+  PERMISSION_MODE_BY_VALUE,
+  PERMISSION_MODE_OPTIONS,
+} from '@/configs/ui.config';
 import { useChatAutocomplete } from '@/hooks/feature/useChatAutocomplete';
+import type { ChatAttachments } from '@/hooks/feature/useChatAttachments';
+import { selectRoomItems, useChatStore } from '@/hooks/store/useChatStore';
 import { useConnectionStore } from '@/hooks/store/useConnectionStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { wsClientService } from '@/services/ws-client.service';
@@ -18,14 +27,21 @@ type ChatInputProps = {
   busy: boolean;
   subagentsActive: boolean;
   closed: boolean;
+  attachments: ChatAttachments;
 };
 
-export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputProps) {
+export function ChatInput({ roomId, busy, subagentsActive, closed, attachments }: ChatInputProps) {
   const [text, setText] = useState('');
   const [cursor, setCursor] = useState(0);
+  const [sendError, setSendError] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const baselineRef = useRef<Set<string>>(new Set());
+  const items = useChatStore(selectRoomItems(roomId));
+  const { drafts, uploads, reading, sending, setSending, clear } = attachments;
   const connected = useConnectionStore((state) => state.status === 'connected');
   const disabled = busy || !connected;
+  const locked = disabled || sending;
   const permissionMode = useSessionsStore(
     (state) => state.rooms.find((room) => room.id === roomId)?.permissionMode ?? 'default',
   );
@@ -35,7 +51,7 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
       roomId,
       text,
       cursor,
-      disabled,
+      disabled: locked,
       textareaRef,
       onTextChange: (nextText, nextCursor) => {
         setText(nextText);
@@ -50,12 +66,65 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
     wsClientService.send({ type: 'room_permission_mode', roomId, mode });
   }
 
+  useEffect(() => {
+    if (!sending) return;
+    if (!connected) {
+      setSending(false);
+      return;
+    }
+    const outcome = items.find(
+      (item) =>
+        (item.kind === 'user' || item.kind === 'error') &&
+        !baselineRef.current.has(`${item.kind}-${item.id}`),
+    );
+    if (outcome === undefined) return;
+    if (outcome.kind === 'user') {
+      setText('');
+      setCursor(0);
+      clear();
+    }
+    setSending(false);
+  }, [items, sending, connected, setSending, clear]);
+
+  useEffect(() => {
+    if (!sending) return;
+    const timer = setTimeout(() => {
+      setSending(false);
+      setSendError(true);
+    }, ATTACHMENT_SEND_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [sending, setSending]);
+
+  const trimmed = text.trim();
+  const canSend = !locked && !reading && (trimmed !== '' || uploads.length > 0);
+
   function submit(): void {
-    const trimmed = text.trim();
-    if (disabled || trimmed === '') return;
-    wsClientService.send({ type: 'session_send', roomId, text: trimmed });
-    setText('');
-    setCursor(0);
+    if (!canSend) return;
+    if (uploads.length === 0) {
+      wsClientService.send({ type: 'session_send', roomId, text: trimmed });
+      setText('');
+      setCursor(0);
+      return;
+    }
+    setSendError(false);
+    baselineRef.current = new Set(items.map((item) => `${item.kind}-${item.id}`));
+    setSending(true);
+    wsClientService.send({ type: 'session_send', roomId, text: trimmed, attachments: uploads });
+  }
+
+  function onPaste(event: ClipboardEvent<HTMLTextAreaElement>): void {
+    const { files, types } = event.clipboardData;
+    if (files.length === 0) return;
+    const hasRichText =
+      types.includes('text/html') && event.clipboardData.getData('text/plain').trim() !== '';
+    if (hasRichText) return;
+    event.preventDefault();
+    attachments.add(Array.from(files));
+  }
+
+  function onPickFiles(input: HTMLInputElement): void {
+    attachments.add(Array.from(input.files ?? []));
+    input.value = '';
   }
 
   function syncCursor(target: { selectionStart: number | null }): void {
@@ -82,13 +151,19 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
           onPick={pick}
         />
       )}
+      <AttachmentList items={drafts} onRemove={sending ? undefined : attachments.remove} />
+      {sendError && !sending && (
+        <div className="text-danger small" role="alert">
+          {ATTACHMENT_TEXT.sendFailed}
+        </div>
+      )}
       <div className="chat-input-row">
         <Form.Control
           as="textarea"
           ref={textareaRef}
           value={text}
           rows={2}
-          disabled={disabled}
+          disabled={locked}
           placeholder={
             busy
               ? 'Claude is working...'
@@ -104,6 +179,7 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
             setText(event.target.value);
             syncCursor(event.target);
           }}
+          onPaste={onPaste}
           onKeyDown={onKeyDown}
           onKeyUp={(event) => syncCursor(event.currentTarget)}
           onClick={(event) => syncCursor(event.currentTarget)}
@@ -111,13 +187,28 @@ export function ChatInput({ roomId, busy, subagentsActive, closed }: ChatInputPr
         />
         <div className="chat-input-actions">
           <div className="chat-input-buttons">
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              hidden
+              accept={ATTACHMENT_ACCEPT}
+              onChange={(event) => onPickFiles(event.currentTarget)}
+            />
+            <IconButton
+              icon="paperclip"
+              label={ATTACHMENT_TEXT.add}
+              size={undefined}
+              disabled={sending}
+              onClick={() => fileInputRef.current?.click()}
+            />
             {!busy && (
               <IconButton
                 icon="send"
                 label="Send message"
                 variant="primary"
                 size={undefined}
-                disabled={disabled || text.trim() === ''}
+                disabled={!canSend}
                 onClick={submit}
               />
             )}

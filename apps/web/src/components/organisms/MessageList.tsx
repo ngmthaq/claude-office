@@ -8,6 +8,7 @@ import { PeerMessageCard } from '@/components/atoms/PeerMessageCard';
 import { SubagentCard } from '@/components/atoms/SubagentCard';
 import { ToolCard } from '@/components/atoms/ToolCard';
 import { AskUserQuestionCard } from '@/components/molecules/AskUserQuestionCard';
+import { AttachmentList } from '@/components/molecules/AttachmentList';
 import { PermissionCard } from '@/components/molecules/PermissionCard';
 import { parseAskUserQuestionInput } from '@/dtos/ask-user-question.dto';
 import type { ChatItem } from '@/dtos/chat-item.dto';
@@ -77,7 +78,12 @@ function ChatItemView({
 }: ChatItemViewProps) {
   switch (item.kind) {
     case 'user':
-      return <div className="message message--user rounded-3">{item.text}</div>;
+      return (
+        <div className="message-user">
+          {item.text !== '' && <div className="message message--user rounded-3">{item.text}</div>}
+          {item.attachments !== undefined && <AttachmentList items={item.attachments} />}
+        </div>
+      );
     case 'assistant':
       return (
         <div className="message message--assistant rounded-3">

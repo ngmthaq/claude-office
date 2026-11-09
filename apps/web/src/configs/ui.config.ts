@@ -1,4 +1,11 @@
-import type { GitProvider, McpServerStatusValue, PermissionMode } from '@claude-office/shared';
+import {
+  ATTACHMENT_IMAGE_MEDIA_TYPES,
+  ATTACHMENT_PDF_MEDIA_TYPE,
+  ATTACHMENT_TEXT_EXTENSIONS,
+  type GitProvider,
+  type McpServerStatusValue,
+  type PermissionMode,
+} from '@claude-office/shared';
 import type { ConnectionStatus } from '@/dtos/connection-status.dto';
 import type { ReportStatus } from '@/utils/report-status.util';
 import type { SubagentItem } from '@/dtos/subagent-item.dto';
@@ -141,4 +148,33 @@ export const CODE_VIEWER_TEXT = {
   notFound: 'File not found',
   truncated: 'List is cut at 5000 entries',
   noGit: 'Not a git repository — no change marks',
+} as const;
+
+export const ATTACHMENT_ACCEPT = [
+  ...ATTACHMENT_IMAGE_MEDIA_TYPES,
+  ATTACHMENT_PDF_MEDIA_TYPE,
+  ...ATTACHMENT_TEXT_EXTENSIONS.map((extension) => `.${extension}`),
+].join(',');
+
+export const ATTACHMENT_RESIZE = {
+  maxEdge: 1568,
+  quality: 0.85,
+  shrinkFactor: 0.8,
+  maxAttempts: 8,
+} as const;
+
+export const ATTACHMENT_SEND_TIMEOUT_MS = 10000;
+
+export const ATTACHMENT_TEXT = {
+  add: 'Attach files',
+  remove: 'Remove',
+  dropHint: 'Drop files to attach',
+  typeNotSupported: 'Type not supported',
+  empty: 'File is empty',
+  tooMany: 'Too many files',
+  totalOver: 'Total size over limit',
+  readFailed: 'Could not read file',
+  resizeFailed: 'Could not shrink image',
+  tooBig: 'File too big',
+  sendFailed: 'Could not send the files. Try again.',
 } as const;

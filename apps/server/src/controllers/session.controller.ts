@@ -21,7 +21,7 @@ export class SessionController {
   }
 
   send(_socket: WebSocket, event: Extract<ClientEvent, { type: 'session_send' }>): void {
-    this.sessionService.send(event.roomId, event.text);
+    this.sessionService.send(event.roomId, event.text, event.attachments);
   }
 
   stop(_socket: WebSocket, event: Extract<ClientEvent, { type: 'session_stop' }>): void {

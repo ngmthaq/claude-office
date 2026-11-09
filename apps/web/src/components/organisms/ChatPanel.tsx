@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState, type DragEvent } from 'react';
 import { roomLabel } from '@claude-office/shared';
 import { IconButton } from '@/components/atoms/IconButton';
 import { ChatInput } from '@/components/organisms/ChatInput';
@@ -7,7 +7,8 @@ import { McpStatusPanel } from '@/components/organisms/McpStatusPanel';
 import { MessageList } from '@/components/organisms/MessageList';
 import { SessionInfoPanel } from '@/components/organisms/SessionInfoPanel';
 import { SubagentDetails } from '@/components/organisms/SubagentDetails';
-import { CODE_VIEWER_TEXT, SESSION_INFO_TEXT } from '@/configs/ui.config';
+import { ATTACHMENT_TEXT, CODE_VIEWER_TEXT, SESSION_INFO_TEXT } from '@/configs/ui.config';
+import { useChatAttachments } from '@/hooks/feature/useChatAttachments';
 import { useMcpStatus } from '@/hooks/feature/useMcpStatus';
 import { useCodeViewerStore } from '@/hooks/store/useCodeViewerStore';
 import { useMcpStore } from '@/hooks/store/useMcpStore';
@@ -30,6 +31,38 @@ export function ChatPanel() {
   const closeCode = useCodeViewerStore((state) => state.close);
   const { openPanel: openMcp } = useMcpStatus();
   const roomId = room?.id ?? null;
+  const attachments = useChatAttachments(roomId);
+  const [dragging, setDragging] = useState(false);
+  const dragDepth = useRef(0);
+
+  function hasFiles(event: DragEvent): boolean {
+    return event.dataTransfer.types.includes('Files');
+  }
+
+  function onDragEnter(event: DragEvent): void {
+    if (!hasFiles(event)) return;
+    event.preventDefault();
+    dragDepth.current += 1;
+    setDragging(true);
+  }
+
+  function onDragOver(event: DragEvent): void {
+    if (hasFiles(event)) event.preventDefault();
+  }
+
+  function onDragLeave(event: DragEvent): void {
+    if (!hasFiles(event)) return;
+    dragDepth.current = Math.max(0, dragDepth.current - 1);
+    if (dragDepth.current === 0) setDragging(false);
+  }
+
+  function onDrop(event: DragEvent): void {
+    if (!hasFiles(event)) return;
+    event.preventDefault();
+    dragDepth.current = 0;
+    setDragging(false);
+    attachments.add(Array.from(event.dataTransfer.files));
+  }
 
   useEffect(() => {
     if (openSubagent !== null && openSubagent.roomId !== roomId) closeDetails();
@@ -74,7 +107,14 @@ export function ChatPanel() {
   const closed = room.state === 'closed';
 
   return (
-    <main className="chat-panel">
+    <main
+      className={`chat-panel${dragging ? ' chat-panel--dragging' : ''}`}
+      data-drop-hint={ATTACHMENT_TEXT.dropHint}
+      onDragEnter={onDragEnter}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+    >
       <div className="chat-panel__header">
         <IconButton icon="arrow-left" label="Back" onClick={() => select(null)} />
         <div className="chat-panel__title fw-semibold text-truncate" title={room.folder}>
@@ -109,6 +149,7 @@ export function ChatPanel() {
         busy={room.busy}
         subagentsActive={room.subagents.length > 0}
         closed={closed}
+        attachments={attachments}
       />
     </main>
   );

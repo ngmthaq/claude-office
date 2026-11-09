@@ -1,6 +1,10 @@
 import { getSessionMessages, listSessions } from '@anthropic-ai/claude-agent-sdk';
 import type { HistoryEntry, RoomEvent } from '@claude-office/shared';
-import { HISTORY_TEXT_MAX, ROOM_EVENT_BUFFER_MAX } from '@/configs/limits.config.ts';
+import {
+  ATTACHED_FILE_TAG_PREFIX,
+  HISTORY_TEXT_MAX,
+  ROOM_EVENT_BUFFER_MAX,
+} from '@/configs/limits.config.ts';
 import type { FolderRepository } from '@/repositories/folder.repository.ts';
 import { TaskNotificationUtil } from '@/utils/task-notification.util.ts';
 import { PeerMessageUtil } from '@/utils/peer-message.util.ts';
@@ -9,7 +13,12 @@ import { TextUtil } from '@/utils/text.util.ts';
 export type OpenRoomLookup = (sessionId: string) => string | null;
 
 export class HistoryRepository {
-  private static readonly wrapperPrefixes = ['<command-', '<local-command-', '<system-reminder>'];
+  private static readonly wrapperPrefixes = [
+    '<command-',
+    '<local-command-',
+    '<system-reminder>',
+    ATTACHED_FILE_TAG_PREFIX,
+  ];
   private static readonly interruptPrefix = '[Request interrupted by user';
 
   constructor(private readonly folderRepository: FolderRepository) {}

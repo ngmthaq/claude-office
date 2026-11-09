@@ -67,7 +67,15 @@ export function applyRoomEvent(items: ChatItem[] | undefined, event: RoomEvent):
   const current = items ?? EMPTY_ITEMS;
   switch (event.type) {
     case 'user_message':
-      return [...current, { kind: 'user', id: event.messageId, text: event.text }];
+      return [
+        ...current,
+        {
+          kind: 'user',
+          id: event.messageId,
+          text: event.text,
+          ...(event.attachments === undefined ? {} : { attachments: event.attachments }),
+        },
+      ];
     case 'peer_message': {
       const peer: ChatItem = {
         kind: 'peer',

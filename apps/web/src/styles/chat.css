@@ -1,4 +1,5 @@
 .chat-panel {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -147,4 +148,32 @@
 .subagent-card {
   color: inherit;
   cursor: pointer;
+}
+
+.message-user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: flex-end;
+  gap: 0.25rem;
+  max-width: 48rem;
+}
+
+.message-user .attachment-list {
+  justify-content: flex-end;
+}
+
+.chat-panel--dragging::after {
+  content: attr(data-drop-hint);
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--bs-primary);
+  background: rgba(var(--bs-body-bg-rgb), 0.85);
+  color: var(--bs-primary);
+  font-weight: 600;
+  pointer-events: none;
 }

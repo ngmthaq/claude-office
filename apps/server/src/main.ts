@@ -5,6 +5,7 @@ import fastifyStatic from '@fastify/static';
 import websocket from '@fastify/websocket';
 import { HOST, IS_PRODUCTION, LOG_LEVEL, PORT, WEB_DIST_DIR } from '@/configs/app.config.ts';
 import { openDatabase, runMigrations } from '@/configs/database.config.ts';
+import { WS_MAX_PAYLOAD_BYTES } from '@/configs/limits.config.ts';
 import { CodeViewerController } from '@/controllers/code-viewer.controller.ts';
 import { CommandController } from '@/controllers/command.controller.ts';
 import { FileController } from '@/controllers/file.controller.ts';
@@ -25,6 +26,7 @@ import { RoomRepository } from '@/repositories/room.repository.ts';
 import { SessionStoreRepository } from '@/repositories/session-store.repository.ts';
 import { SubagentTranscriptRepository } from '@/repositories/subagent-transcript.repository.ts';
 import { registerWsRoute } from '@/routes/ws.route.ts';
+import { AttachmentService } from '@/services/attachment.service.ts';
 import { CatalogService } from '@/services/catalog.service.ts';
 import { EventBusService } from '@/services/event-bus.service.ts';
 import { PermissionService } from '@/services/permission.service.ts';
@@ -51,7 +53,7 @@ async function main(): Promise<void> {
   const db = openDatabase();
   const applied = runMigrations(db);
   app.log.info({ applied }, 'migrations applied');
-  await app.register(websocket);
+  await app.register(websocket, { options: { maxPayload: WS_MAX_PAYLOAD_BYTES } });
   if (IS_PRODUCTION) await registerWebApp();
 
   const roomRepository = new RoomRepository(db);
@@ -67,6 +69,7 @@ async function main(): Promise<void> {
   const permissionService = new PermissionService(sessionStoreRepository, eventBusService, app.log);
   const sessionInfoService = new SessionInfoService(gitRepository, eventBusService, app.log);
   const usageLimitService = new UsageLimitService(eventBusService, app.log);
+  const attachmentService = new AttachmentService();
   const sessionService = new SessionService(
     roomRepository,
     sessionStoreRepository,
@@ -78,6 +81,7 @@ async function main(): Promise<void> {
     permissionService,
     sessionInfoService,
     usageLimitService,
+    attachmentService,
     app.log,
   );
   const roomService = new RoomService(

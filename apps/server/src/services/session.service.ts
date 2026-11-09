@@ -3,6 +3,7 @@ import { getSessionInfo, query, type Query, type SDKMessage } from '@anthropic-a
 import {
   EMPTY_SESSION_INFO,
   ROOM_NAME_MAX,
+  type AttachmentUpload,
   type HistoryEntry,
   type RoomEvent,
   type RoomSummary,
@@ -18,6 +19,7 @@ import type { HistoryRepository } from '@/repositories/history.repository.ts';
 import type { SubagentTranscriptRepository } from '@/repositories/subagent-transcript.repository.ts';
 import type { RoomRepository } from '@/repositories/room.repository.ts';
 import type { Session, SessionStoreRepository } from '@/repositories/session-store.repository.ts';
+import type { AttachmentService } from '@/services/attachment.service.ts';
 import type { EventBusService } from '@/services/event-bus.service.ts';
 import type { PermissionService } from '@/services/permission.service.ts';
 import type { SessionInfoService } from '@/services/session-info.service.ts';
@@ -43,6 +45,7 @@ export class SessionService {
     private readonly permissionService: PermissionService,
     private readonly sessionInfoService: SessionInfoService,
     private readonly usageLimitService: UsageLimitService,
+    private readonly attachmentService: AttachmentService,
     private readonly log: FastifyBaseLogger,
   ) {}
 
@@ -102,7 +105,7 @@ export class SessionService {
     );
   }
 
-  send(roomId: string, text: string): void {
+  send(roomId: string, text: string, attachments?: readonly AttachmentUpload[]): void {
     const session = this.sessionStoreRepository.get(roomId);
     if (!session) {
       this.eventBusService.emitUnknownRoom(roomId);
@@ -120,6 +123,17 @@ export class SessionService {
       return;
     }
 
+    const prepared =
+      attachments && attachments.length > 0 ? this.attachmentService.prepare(attachments) : null;
+    if (prepared && !prepared.ok) {
+      this.log.info({ roomId, count: attachments?.length }, 'attachments rejected');
+      this.eventBusService.emit(
+        session,
+        SessionMapperUtil.errorEvent(roomId, 'attachment_rejected', prepared.message),
+      );
+      return;
+    }
+
     session.closed = false;
     this.eventBusService.emit(session, {
       type: 'user_message',
@@ -127,11 +141,15 @@ export class SessionService {
       messageId: randomUUID(),
       text,
       time: Date.now(),
+      ...(prepared ? { attachments: prepared.info } : {}),
     });
     this.setBusy(session, true);
+    const content = prepared
+      ? [...prepared.blocks, ...(text.trim() === '' ? [] : [{ type: 'text' as const, text }])]
+      : text;
     this.ensureQuery(session).push({
       type: 'user',
-      message: { role: 'user', content: text },
+      message: { role: 'user', content },
       parent_tool_use_id: null,
     });
   }
