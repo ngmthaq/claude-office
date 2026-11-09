@@ -534,33 +534,9 @@
     "semantic_hash": ""
   },
   "assets/CREDITS.md": {
-    "mtime": 1793889851.5324697,
-    "seen": 1794024742.115656,
-    "ast_hash": "06925b762e44b07505e1915ac1e1c952",
-    "semantic_hash": ""
-  },
-  "assets/kenney-roguelike-characters/License.txt": {
-    "mtime": 1793889598.6775522,
-    "seen": 1794024742.1156569,
-    "ast_hash": "ddefc8464f867b16b2feca4b42a79460",
-    "semantic_hash": ""
-  },
-  "assets/kenney-roguelike-characters/spritesheetInfo.txt": {
-    "mtime": 1793889598.6781592,
-    "seen": 1794024742.115658,
-    "ast_hash": "886bce3cd0de6059ea92348eec72c7a5",
-    "semantic_hash": ""
-  },
-  "assets/kenney-roguelike-indoors/License.txt": {
-    "mtime": 1793889598.6751778,
-    "seen": 1794024742.11566,
-    "ast_hash": "7114a9fb8bd379a41037bb442f3aa9bf",
-    "semantic_hash": ""
-  },
-  "assets/kenney-roguelike-indoors/tilesheetInfo.txt": {
-    "mtime": 1793889598.6756985,
-    "seen": 1794024742.1156611,
-    "ast_hash": "886bce3cd0de6059ea92348eec72c7a5",
+    "mtime": 1794243027.2119231,
+    "seen": 1794243064.140359,
+    "ast_hash": "ff8663cd7507d81d80d1085f22d3f06a",
     "semantic_hash": ""
   },
   "plans/2026-11-05-21-26-18-s1-spike-check-agent-sdk.md": {
@@ -653,18 +629,6 @@
     "ast_hash": "f5f68f0530f1523041e8467c1c46178d",
     "semantic_hash": ""
   },
-  "assets/kenney-roguelike-characters/roguelikeChar_transparent.png": {
-    "mtime": 1793889598.6779127,
-    "seen": 1794024742.115722,
-    "ast_hash": "686eae312724d64a14658b2066c36b4b",
-    "semantic_hash": ""
-  },
-  "assets/kenney-roguelike-indoors/roguelikeIndoor_transparent.png": {
-    "mtime": 1793889598.6754549,
-    "seen": 1794024742.115723,
-    "ast_hash": "19c7677166212e5e4113e1543ecca121",
-    "semantic_hash": ""
-  },
   "plans/2026-11-05-21-50-52-s3-start-session-and-chat.md": {
     "mtime": 1793891230.360865,
     "seen": 1794024742.1156638,
@@ -672,15 +636,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/agent-sprite.ts": {
-    "mtime": 1794027827.9299493,
-    "seen": 1794027837.881715,
-    "ast_hash": "a354324f808f8bc7417f0f9ebdfe45ae",
+    "mtime": 1794242550.4929333,
+    "seen": 1794242590.1553578,
+    "ast_hash": "4a52eff991e01fdc80cbc2b704970302",
     "semantic_hash": ""
   },
   "apps/web/src/game/asset-loader.ts": {
-    "mtime": 1793919806.5162938,
-    "seen": 1794024742.115478,
-    "ast_hash": "7ab735d430915218a27ae2ca5c5c49b7",
+    "mtime": 1794243027.2116203,
+    "seen": 1794243064.135691,
+    "ast_hash": "5ef1269f2e0e158f04d5ed5a171f5980",
     "semantic_hash": ""
   },
   "apps/web/src/game/camera-controller.ts": {
@@ -690,9 +654,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/office-scene.ts": {
-    "mtime": 1794025185.3107839,
-    "seen": 1794025200.6170251,
-    "ast_hash": "fa66b47f19c5e5c889594dbd2d833a7e",
+    "mtime": 1794243465.2686102,
+    "seen": 1794243479.415179,
+    "ast_hash": "968042ebd3a5ea533201cda2ac622083",
     "semantic_hash": ""
   },
   "apps/web/src/game/pixi-app.ts": {
@@ -702,9 +666,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/room-view.ts": {
-    "mtime": 1794027827.9303403,
-    "seen": 1794027837.881809,
-    "ast_hash": "3c668d79c2de56968026b3514fba847a",
+    "mtime": 1794243027.2117224,
+    "seen": 1794243064.1357398,
+    "ast_hash": "706c2ba904d7f15bb5293155833c848b",
     "semantic_hash": ""
   },
   "plans/2026-11-06-06-01-49-s4-office-map-rooms-root-agents.md": {
@@ -738,9 +702,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/subagent-sprite.ts": {
-    "mtime": 1794028688.400394,
-    "seen": 1794028697.583494,
-    "ast_hash": "b9e03c1ccf9c4286de2a0b0651ae3e86",
+    "mtime": 1794243465.2688313,
+    "seen": 1794243479.4152288,
+    "ast_hash": "187fa226bb1a741c7110734ce346149d",
     "semantic_hash": ""
   },
   "plans/2026-11-06-07-25-33-s9-s10-subagents-in-room-with-details.md": {
@@ -1560,9 +1524,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatInput.tsx": {
-    "mtime": 1794240586.3456073,
-    "seen": 1794241020.828392,
-    "ast_hash": "126694fcb5e6584b672af0a9dddab681",
+    "mtime": 1794241709.7157612,
+    "seen": 1794242590.154664,
+    "ast_hash": "5ebd43e7ee9e83a59305d79bfce97426",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatPanel.tsx": {
@@ -2535,6 +2499,48 @@
     "mtime": 1794241017.488575,
     "seen": 1794241020.8354611,
     "ast_hash": "7c9c2af08416413f07aaab88b9b6f330",
+    "semantic_hash": ""
+  },
+  "assets/2dpig-pixel-office/LICENSE.txt": {
+    "mtime": 1794242526.3842986,
+    "seen": 1794242590.160021,
+    "ast_hash": "143c8c551229e03986637bfc0e06af36",
+    "semantic_hash": ""
+  },
+  "assets/2dpig-pixel-office/README.txt": {
+    "mtime": 1794242526.384553,
+    "seen": 1794242590.160022,
+    "ast_hash": "5650dc3ef404256dc136fb3a6937b283",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-09-23-41-07-replace-kenney-art-with-2dpig-pixel-office.md": {
+    "mtime": 1794242812.654404,
+    "seen": 1794243064.142048,
+    "ast_hash": "fb1934089ec491ab82581c11203ae955",
+    "semantic_hash": ""
+  },
+  "assets/2dpig-pixel-office/PixelOfficeAssets.png": {
+    "mtime": 1794242526.3839586,
+    "seen": 1794242590.1618948,
+    "ast_hash": "ca8b9de9349318e6abb385bf5bd329a8",
+    "semantic_hash": ""
+  },
+  "apps/web/src/game/lobby-view.ts": {
+    "mtime": 1794243465.2681487,
+    "seen": 1794243479.415178,
+    "ast_hash": "15088b824de403b5bffb9f261bd38328",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-09-23-49-03-connect-all-rooms-with-a-lobby.md": {
+    "mtime": 1794243160.4372232,
+    "seen": 1794243479.421858,
+    "ast_hash": "e4b712f387a4c85f992a9f0c849b7ba0",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-09-23-56-56-remove-right-corridor-fill-room-gaps-speed-up-sub-agents.md": {
+    "mtime": 1794243444.5017586,
+    "seen": 1794243479.421859,
+    "ast_hash": "bb1af248be450853a4f252f5c2b42001",
     "semantic_hash": ""
   }
 }
