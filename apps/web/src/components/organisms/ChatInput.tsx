@@ -187,21 +187,6 @@ export function ChatInput({ roomId, busy, subagentsActive, closed, attachments }
         />
         <div className="chat-input-actions">
           <div className="chat-input-buttons">
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              hidden
-              accept={ATTACHMENT_ACCEPT}
-              onChange={(event) => onPickFiles(event.currentTarget)}
-            />
-            <IconButton
-              icon="paperclip"
-              label={ATTACHMENT_TEXT.add}
-              size={undefined}
-              disabled={sending}
-              onClick={() => fileInputRef.current?.click()}
-            />
             {!busy && (
               <IconButton
                 icon="send"
@@ -222,6 +207,21 @@ export function ChatInput({ roomId, busy, subagentsActive, closed, attachments }
                 onClick={() => wsClientService.send({ type: 'session_stop', roomId })}
               />
             )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              hidden
+              accept={ATTACHMENT_ACCEPT}
+              onChange={(event) => onPickFiles(event.currentTarget)}
+            />
+            <IconButton
+              icon="paperclip"
+              label={ATTACHMENT_TEXT.add}
+              size={undefined}
+              disabled={sending}
+              onClick={() => fileInputRef.current?.click()}
+            />
           </div>
           <Dropdown drop="up" align="end">
             <OverlayTrigger placement="top" overlay={<Tooltip>{currentMode.label}</Tooltip>}>
