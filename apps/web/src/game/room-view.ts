@@ -71,7 +71,7 @@ export class RoomView extends Container {
   readonly nameLabel: Text;
   readonly agent: AgentSprite;
   private readonly lamp = new Graphics();
-  private readonly darkLayer = new Graphics();
+  private readonly darkLayer = RoomView.createDarkLayer();
   private readonly subagentLayer = new Container();
   private readonly overlayLayer = new RenderLayer();
   private readonly subagents = new Map<string, SubagentSprite>();
@@ -109,10 +109,6 @@ export class RoomView extends Container {
     this.overlayLayer.eventMode = 'none';
     this.addChild(this.overlayLayer);
     this.overlayLayer.attach(...this.agent.overlays);
-    this.darkLayer
-      .rect(0, 0, RoomView.roomWidth, RoomView.roomHeight)
-      .fill({ color: 0x000000, alpha: RoomView.darkAlpha });
-    this.darkLayer.eventMode = 'none';
     this.darkLayer.visible = false;
     this.addChild(this.darkLayer);
 
@@ -260,6 +256,28 @@ export class RoomView extends Container {
     const sprite = new Sprite(getSprite(name, cropWidth, cropHeight));
     sprite.position.set(x, y);
     return sprite;
+  }
+
+  /** An unfurnished, dimmed room used to fill empty lobby slots. */
+  static createVacantRoom(): Container {
+    const room = new Container();
+    room.eventMode = 'none';
+    room.addChild(
+      RoomView.createFloor(),
+      RoomView.createBackWall(),
+      RoomView.createWalls(),
+      RoomView.createDarkLayer(),
+    );
+    return room;
+  }
+
+  private static createDarkLayer(): Graphics {
+    const layer = new Graphics();
+    layer
+      .rect(0, 0, RoomView.roomWidth, RoomView.roomHeight)
+      .fill({ color: 0x000000, alpha: RoomView.darkAlpha });
+    layer.eventMode = 'none';
+    return layer;
   }
 
   private static createFloor(): Container {

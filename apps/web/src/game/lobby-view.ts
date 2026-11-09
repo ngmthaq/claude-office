@@ -35,6 +35,7 @@ export class LobbyView extends Container {
     if (columns <= 0 || rows <= 0) return;
 
     const floor = new Container();
+    const vacant = new Container();
     const decor = new Container();
     const width = columns * LobbyView.columnStep - LobbyView.gapX;
     for (let row = 0; row < rows; row += 1) {
@@ -42,12 +43,16 @@ export class LobbyView extends Container {
       const hallwayY = rowY + RoomView.roomHeight;
       LobbyView.fillFloor(floor, 0, hallwayY, width, LobbyView.hallwayHeight);
       for (let column = 0; column < columns - 1; column += 1) {
-        if (!this.hasRoom(row, column)) continue;
         const gapLeft = column * LobbyView.columnStep + RoomView.roomWidth;
         LobbyView.fillFloor(floor, gapLeft, rowY, LobbyView.gapX, RoomView.roomHeight);
       }
       for (let column = 0; column < columns; column += 1) {
         const x = column * LobbyView.columnStep;
+        if (!this.hasRoom(row, column)) {
+          const room = RoomView.createVacantRoom();
+          room.position.set(x, rowY);
+          vacant.addChild(room);
+        }
         const y = hallwayY + LobbyView.decorOffsetY;
         const sofa = LobbyView.sofas[column % LobbyView.sofas.length] ?? 'sofaGrey';
         decor.addChild(
@@ -56,14 +61,14 @@ export class LobbyView extends Container {
         );
       }
     }
-    this.addChild(floor, this.createWalls(columns, rows, width), decor);
+    this.addChild(floor, vacant, LobbyView.createWalls(columns, rows, width), decor);
   }
 
   private hasRoom(row: number, column: number): boolean {
     return row * this.columns + column < this.roomCount;
   }
 
-  private createWalls(columns: number, rows: number, width: number): Graphics {
+  private static createWalls(columns: number, rows: number, width: number): Graphics {
     const walls = new Graphics();
     const thick = LobbyView.wallThickness;
     const height = rows * LobbyView.rowStep;
@@ -74,19 +79,10 @@ export class LobbyView extends Container {
     for (let row = 0; row < rows; row += 1) {
       const rowY = row * LobbyView.rowStep;
       const hallwayY = rowY + RoomView.roomHeight;
-      const lineY = hallwayY - thick;
-      for (let column = 0; column < columns; column += 1) {
-        const x = column * LobbyView.columnStep;
-        if (!this.hasRoom(row, column)) {
-          fill(x, lineY, RoomView.roomWidth, thick);
-          continue;
+      if (row === 0) {
+        for (let column = 0; column < columns - 1; column += 1) {
+          fill(column * LobbyView.columnStep + RoomView.roomWidth, 0, LobbyView.gapX, thick);
         }
-        if (column >= columns - 1) continue;
-        const gapLeft = x + RoomView.roomWidth;
-        if (!this.hasRoom(row, column + 1)) {
-          fill(gapLeft + LobbyView.gapX - thick, rowY, thick, RoomView.roomHeight);
-        }
-        if (row === 0) fill(gapLeft, 0, LobbyView.gapX, thick);
       }
       fill(0, hallwayY, thick, LobbyView.hallwayHeight);
       fill(width - thick, hallwayY, thick, LobbyView.hallwayHeight);
