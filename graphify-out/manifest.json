@@ -12,9 +12,9 @@
     "semantic_hash": ""
   },
   "apps/server/package.json": {
-    "mtime": 1794067172.990712,
-    "seen": 1794241020.8268301,
-    "ast_hash": "a92e1a8a1e4cf10dd566a51e4424a41c",
+    "mtime": 1794243676.7947626,
+    "seen": 1794244086.927982,
+    "ast_hash": "32df3f37e8735424f7af0afa7d12e44a",
     "semantic_hash": ""
   },
   "apps/server/src/main.ts": {
@@ -30,9 +30,9 @@
     "semantic_hash": ""
   },
   "apps/web/package.json": {
-    "mtime": 1794067172.9909992,
-    "seen": 1794241020.827889,
-    "ast_hash": "bfe9a6f7b2b99aa5344cf331f8b70842",
+    "mtime": 1794243676.7948792,
+    "seen": 1794244086.9292102,
+    "ast_hash": "3bc2b763b272cd7a8e587df2cb43f78d",
     "semantic_hash": ""
   },
   "apps/web/src/main.tsx": {
@@ -60,15 +60,15 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1794067172.9900153,
-    "seen": 1794241020.8299851,
-    "ast_hash": "fbd752f75604286157eacdaecc69d1a8",
+    "mtime": 1794243676.7943485,
+    "seen": 1794244086.9314728,
+    "ast_hash": "45a7018f4850922a2b9b1297437c6e2a",
     "semantic_hash": ""
   },
   "packages/shared/package.json": {
-    "mtime": 1794067172.9912379,
-    "seen": 1794241020.829986,
-    "ast_hash": "ed0daf9b5035afad1c24641cc26f1f8e",
+    "mtime": 1794243676.795134,
+    "seen": 1794244086.931474,
+    "ast_hash": "48b7b799ed75ef7d5ce4d5e1622ad9fc",
     "semantic_hash": ""
   },
   "packages/shared/src/index.ts": {
@@ -666,9 +666,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/room-view.ts": {
-    "mtime": 1794243027.2117224,
-    "seen": 1794243064.1357398,
-    "ast_hash": "706c2ba904d7f15bb5293155833c848b",
+    "mtime": 1794244067.1339707,
+    "seen": 1794244086.9305851,
+    "ast_hash": "6ef40c7b774bbbedc91de31c0b85dcbb",
     "semantic_hash": ""
   },
   "plans/2026-11-06-06-01-49-s4-office-map-rooms-root-agents.md": {
@@ -2130,9 +2130,9 @@
     "semantic_hash": ""
   },
   "apps/cli/package.json": {
-    "mtime": 1794067172.9903386,
-    "seen": 1794241020.826507,
-    "ast_hash": "975fcbd4e52ed018fbfd08c3cec01e95",
+    "mtime": 1794243676.7946506,
+    "seen": 1794244086.92766,
+    "ast_hash": "b9d117c28ac433ce7b89d03cc8b2bc43",
     "semantic_hash": ""
   },
   "apps/cli/scripts/build.mjs": {
@@ -2526,9 +2526,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/lobby-view.ts": {
-    "mtime": 1794243465.2681487,
-    "seen": 1794243479.415178,
-    "ast_hash": "15088b824de403b5bffb9f261bd38328",
+    "mtime": 1794244067.1686983,
+    "seen": 1794244086.930537,
+    "ast_hash": "aaef5ac440a04113dddc2aa1e0313455",
     "semantic_hash": ""
   },
   "plans/2026-11-09-23-49-03-connect-all-rooms-with-a-lobby.md": {
@@ -2538,9 +2538,15 @@
     "semantic_hash": ""
   },
   "plans/2026-11-09-23-56-56-remove-right-corridor-fill-room-gaps-speed-up-sub-agents.md": {
-    "mtime": 1794243444.5017586,
-    "seen": 1794243479.421859,
-    "ast_hash": "bb1af248be450853a4f252f5c2b42001",
+    "mtime": 1794243519.6171658,
+    "seen": 1794244086.9368582,
+    "ast_hash": "c59b5338ed640b67578b2838ddbbda9b",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-00-07-08-draw-empty-slots-as-vacant-offices.md": {
+    "mtime": 1794244050.7370172,
+    "seen": 1794244086.9368598,
+    "ast_hash": "27edafe38c6e98e907f7fd637982ae87",
     "semantic_hash": ""
   }
 }
