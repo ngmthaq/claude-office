@@ -2,34 +2,46 @@ import { Container, Graphics, Rectangle, RenderLayer, Sprite, Text } from 'pixi.
 import { roomLabel, type RoomSummary, type SessionState } from '@claude-office/shared';
 import { useChatStore } from '@/hooks/store/useChatStore';
 import { AgentSprite } from './agent-sprite';
-import { getTile, TILE_SIZE } from './asset-loader';
+import { getSprite, type SpriteName } from './asset-loader';
 import { SubagentSprite, type Point } from './subagent-sprite';
 
 export class RoomView extends Container {
-  private static readonly roomCols = 9;
-  private static readonly roomRows = 6;
-  static readonly roomWidth = RoomView.roomCols * TILE_SIZE;
-  static readonly roomHeight = RoomView.roomRows * TILE_SIZE;
-  private static readonly floorTile = [24, 1] as const;
-  private static readonly deskTiles: ReadonlyArray<readonly [number, number]> = [
-    [4, 4],
-    [5, 4],
-    [6, 4],
+  private static readonly tileSize = 16;
+  private static readonly roomCols = 12;
+  private static readonly roomRows = 8;
+  static readonly roomWidth = RoomView.roomCols * RoomView.tileSize;
+  static readonly roomHeight = RoomView.roomRows * RoomView.tileSize;
+  private static readonly floorStepX = 73;
+  private static readonly floorStepY = 24;
+  private static readonly wallStepX = 26;
+  private static readonly decor: ReadonlyArray<readonly [SpriteName, number, number]> = [
+    ['windowA', 28, 0],
+    ['windowB', 138, 0],
+    ['clock', 86, 6],
+    ['plant', 14, 16],
+    ['plant', 164, 16],
   ];
-  private static readonly smallDeskTile = [5, 4] as const;
-  private static readonly smallDeskCols = [1, 3, 5, 7] as const;
-  private static readonly smallDeskRow = 4;
+  private static readonly agentPosition: Point = { x: 72, y: 26 };
+  private static readonly mainDeskPosition: Point = { x: 76, y: 48 };
+  private static readonly computerPosition: Point = { x: 98, y: 34 };
+  private static readonly mugPosition: Point = { x: 80, y: 51 };
+  private static readonly smallDeskXs = [16, 60, 106, 150] as const;
+  private static readonly smallDeskY = 96;
+  private static readonly deskItems = [
+    'deskItemA',
+    'deskItemB',
+    'deskItemC',
+  ] as const satisfies ReadonlyArray<SpriteName>;
+  private static readonly deskItemOffset: Point = { x: 7, y: 1 };
+  private static readonly doorWidth = 16;
   private static readonly doorColor = 0x2a1c12;
   private static readonly doorFrame = 0x9a7b5a;
   private static readonly badgeWidth = 14;
   private static readonly badgeHeight = 8;
   private static readonly badgeFontSize = 6;
   private static readonly badgeMax = 99;
-  private static readonly plantTile = [16, 0] as const;
   private static readonly wallColor = 0x5a4636;
-  private static readonly wallLight = 0x7a6350;
   private static readonly wallSide = 4;
-  private static readonly wallTop = 10;
   private static readonly lampColors: Record<SessionState, number> = {
     idle: 0x6b7280,
     working: 0x3fb950,
@@ -42,14 +54,14 @@ export class RoomView extends Container {
   private static readonly doubleTapMs = 300;
   /** Seats sit just above the small desks; standing spots are beside the side walls. */
   private static readonly subagentSpots: ReadonlyArray<Point> = [
-    { x: 16, y: 48 },
-    { x: 48, y: 48 },
-    { x: 80, y: 48 },
-    { x: 112, y: 48 },
-    { x: 4, y: 34 },
-    { x: 124, y: 34 },
-    { x: 4, y: 70 },
-    { x: 124, y: 70 },
+    { x: 19, y: 74 },
+    { x: 63, y: 74 },
+    { x: 109, y: 74 },
+    { x: 153, y: 74 },
+    { x: 6, y: 40 },
+    { x: 36, y: 46 },
+    { x: 136, y: 46 },
+    { x: 166, y: 40 },
   ];
   private static readonly overflowStepPx = 3;
   private static readonly overflowSlots = 7;
@@ -82,12 +94,11 @@ export class RoomView extends Container {
     this.hitArea = new Rectangle(0, 0, RoomView.roomWidth, RoomView.roomHeight);
     this.on('pointertap', () => onSelect(room.id));
 
-    this.addChild(RoomView.createFloor());
+    this.addChild(RoomView.createFloor(), RoomView.createBackWall(), RoomView.createDecor());
     this.agent = new AgentSprite(room.id);
-    this.agent.position.set(4 * TILE_SIZE, 20);
+    this.agent.position.set(RoomView.agentPosition.x, RoomView.agentPosition.y);
     this.addChild(this.agent, this.subagentLayer);
     this.addChild(RoomView.createDesk(), RoomView.createSmallDesks());
-    this.addChild(RoomView.createPlant(1, 1), RoomView.createPlant(7, 1));
     this.addChild(RoomView.createWalls(), this.lamp);
     this.badgeText = RoomView.createBadgeText();
     this.badge.addChild(RoomView.createBadgeBackground(), this.badgeText);
@@ -111,6 +122,7 @@ export class RoomView extends Container {
         fontFamily: 'system-ui, sans-serif',
         fontSize: RoomView.labelFontSize,
         fill: 0xe4e6ea,
+        stroke: { color: 0x1b1d21, width: 3 },
       },
       resolution: window.devicePixelRatio,
       roundPixels: true,
@@ -238,38 +250,68 @@ export class RoomView extends Container {
       : name;
   }
 
+  private static place(
+    name: SpriteName,
+    x: number,
+    y: number,
+    cropWidth?: number,
+    cropHeight?: number,
+  ): Sprite {
+    const sprite = new Sprite(getSprite(name, cropWidth, cropHeight));
+    sprite.position.set(x, y);
+    return sprite;
+  }
+
   private static createFloor(): Container {
     const floor = new Container();
-    const texture = getTile('indoors', RoomView.floorTile[0], RoomView.floorTile[1]);
-    for (let row = 0; row < RoomView.roomRows; row += 1) {
-      for (let col = 0; col < RoomView.roomCols; col += 1) {
-        const tile = new Sprite(texture);
-        tile.position.set(col * TILE_SIZE, row * TILE_SIZE);
-        floor.addChild(tile);
+    for (let y = 0; y < RoomView.roomHeight; y += RoomView.floorStepY) {
+      for (let x = 0; x < RoomView.roomWidth; x += RoomView.floorStepX) {
+        floor.addChild(
+          RoomView.place('floor', x, y, RoomView.roomWidth - x, RoomView.roomHeight - y),
+        );
       }
     }
     return floor;
   }
 
+  private static createBackWall(): Container {
+    const wall = new Container();
+    for (let x = 0; x < RoomView.roomWidth; x += RoomView.wallStepX) {
+      wall.addChild(RoomView.place('wall', x, 0, RoomView.roomWidth - x));
+    }
+    return wall;
+  }
+
+  private static createDecor(): Container {
+    const decor = new Container();
+    for (const [name, x, y] of RoomView.decor) decor.addChild(RoomView.place(name, x, y));
+    return decor;
+  }
+
   private static createDesk(): Container {
     const desk = new Container();
-    RoomView.deskTiles.forEach(([col, row], index) => {
-      const tile = new Sprite(getTile('indoors', col, row));
-      tile.position.set((3 + index) * TILE_SIZE, 2 * TILE_SIZE);
-      desk.addChild(tile);
-    });
+    const { mainDeskPosition, computerPosition, mugPosition } = RoomView;
+    desk.addChild(
+      RoomView.place('mainDesk', mainDeskPosition.x, mainDeskPosition.y),
+      RoomView.place('computer', computerPosition.x, computerPosition.y),
+      RoomView.place('mug', mugPosition.x, mugPosition.y),
+    );
     return desk;
   }
 
   private static createSmallDesks(): Container {
     const desks = new Container();
-    for (const col of RoomView.smallDeskCols) {
-      const tile = new Sprite(
-        getTile('indoors', RoomView.smallDeskTile[0], RoomView.smallDeskTile[1]),
+    RoomView.smallDeskXs.forEach((x, index) => {
+      const item = RoomView.deskItems[index % RoomView.deskItems.length] ?? 'deskItemA';
+      desks.addChild(
+        RoomView.place('smallDesk', x, RoomView.smallDeskY),
+        RoomView.place(
+          item,
+          x + RoomView.deskItemOffset.x,
+          RoomView.smallDeskY + RoomView.deskItemOffset.y,
+        ),
       );
-      tile.position.set(col * TILE_SIZE, RoomView.smallDeskRow * TILE_SIZE);
-      desks.addChild(tile);
-    }
+    });
     return desks;
   }
 
@@ -296,28 +338,20 @@ export class RoomView extends Container {
     return text;
   }
 
-  private static createPlant(col: number, row: number): Sprite {
-    const plant = new Sprite(getTile('indoors', RoomView.plantTile[0], RoomView.plantTile[1]));
-    plant.position.set(col * TILE_SIZE, row * TILE_SIZE);
-    return plant;
-  }
-
   private static createWalls(): Graphics {
     const walls = new Graphics();
-    walls.rect(0, 0, RoomView.roomWidth, RoomView.wallTop).fill(RoomView.wallColor);
-    walls.rect(0, RoomView.wallTop - 2, RoomView.roomWidth, 2).fill(RoomView.wallLight);
     walls.rect(0, 0, RoomView.wallSide, RoomView.roomHeight).fill(RoomView.wallColor);
     walls
       .rect(RoomView.roomWidth - RoomView.wallSide, 0, RoomView.wallSide, RoomView.roomHeight)
       .fill(RoomView.wallColor);
     const doorLeft = SubagentSprite.doorPosition.x;
-    const doorRight = doorLeft + TILE_SIZE;
+    const doorRight = doorLeft + RoomView.doorWidth;
     const bottom = RoomView.roomHeight - RoomView.wallSide;
     walls.rect(0, bottom, doorLeft, RoomView.wallSide).fill(RoomView.wallColor);
     walls
       .rect(doorRight, bottom, RoomView.roomWidth - doorRight, RoomView.wallSide)
       .fill(RoomView.wallColor);
-    walls.rect(doorLeft, bottom, TILE_SIZE, RoomView.wallSide).fill(RoomView.doorColor);
+    walls.rect(doorLeft, bottom, RoomView.doorWidth, RoomView.wallSide).fill(RoomView.doorColor);
     walls.rect(doorLeft - 1, bottom, 1, RoomView.wallSide).fill(RoomView.doorFrame);
     walls.rect(doorRight, bottom, 1, RoomView.wallSide).fill(RoomView.doorFrame);
     return walls;

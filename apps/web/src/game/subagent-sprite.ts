@@ -2,7 +2,6 @@ import { Container, Graphics, Rectangle, Text } from 'pixi.js';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { useSubagentDetailsStore } from '@/hooks/store/useSubagentDetailsStore';
 import { AgentSprite } from './agent-sprite';
-import { TILE_SIZE } from './asset-loader';
 
 export type SubagentEnd = 'done' | 'error' | 'stopped';
 export type Point = { readonly x: number; readonly y: number };
@@ -10,23 +9,23 @@ export type Point = { readonly x: number; readonly y: number };
 type Phase = 'entering' | 'working' | 'marking' | 'leaving';
 
 export class SubagentSprite extends Container {
-  static readonly doorPosition: Point = { x: 64, y: 80 };
-  private static readonly walkMs = 600;
+  static readonly doorPosition: Point = { x: 88, y: 100 };
+  static readonly hallwayPosition: Point = { x: 88, y: 130 };
+  private static readonly walkPxPerSecond = 180;
   private static readonly markMs = 1500;
   private static readonly labelMaxChars = 9;
   private static readonly labelFontSize = 5;
   private static readonly labelResolutionBoost = 4;
-  private static readonly markX = 8;
-  private static readonly markY = -12;
+  private static readonly markX = 4;
+  private static readonly markY = -9;
 
   readonly subagentId: string;
   readonly spotIndex: number;
   private phase: Phase = 'entering';
   private phaseMs = 0;
-  private fromX = SubagentSprite.doorPosition.x;
-  private fromY = SubagentSprite.doorPosition.y;
-  private toX: number;
-  private toY: number;
+  private legFrom: Point = SubagentSprite.hallwayPosition;
+  private route: ReadonlyArray<Point>;
+  private leg = 0;
   private readonly agent: AgentSprite;
   private readonly errorMark = SubagentSprite.drawErrorMark();
   private readonly typeLabel: Text;
@@ -42,9 +41,8 @@ export class SubagentSprite extends Container {
     super();
     this.subagentId = subagentId;
     this.spotIndex = spotIndex;
-    this.toX = spot.x;
-    this.toY = spot.y;
-    this.position.set(SubagentSprite.doorPosition.x, SubagentSprite.doorPosition.y);
+    this.route = [SubagentSprite.doorPosition, spot];
+    this.position.set(SubagentSprite.hallwayPosition.x, SubagentSprite.hallwayPosition.y);
 
     this.agent = new AgentSprite(agentType);
     this.errorMark.position.set(SubagentSprite.markX, SubagentSprite.markY);
@@ -60,13 +58,13 @@ export class SubagentSprite extends Container {
       roundPixels: true,
     });
     this.typeLabel.anchor.set(0.5, 1);
-    this.typeLabel.position.set(TILE_SIZE / 2, SubagentSprite.markY);
+    this.typeLabel.position.set(AgentSprite.cellWidth / 2, SubagentSprite.markY);
     this.typeLabel.visible = false;
     this.addChild(this.agent, this.errorMark, this.typeLabel);
 
     this.eventMode = 'static';
     this.cursor = 'pointer';
-    this.hitArea = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
+    this.hitArea = new Rectangle(0, 0, AgentSprite.cellWidth, AgentSprite.cellHeight);
     this.on('pointertap', (event) => {
       event.stopPropagation();
       const sessions = useSessionsStore.getState();
@@ -127,21 +125,28 @@ export class SubagentSprite extends Container {
   private startLeaving(): void {
     this.phase = 'leaving';
     this.phaseMs = 0;
-    this.fromX = this.x;
-    this.fromY = this.y;
-    this.toX = SubagentSprite.doorPosition.x;
-    this.toY = SubagentSprite.doorPosition.y;
+    this.legFrom = { x: this.x, y: this.y };
+    this.route = [SubagentSprite.doorPosition, SubagentSprite.hallwayPosition];
+    this.leg = 0;
     this.errorMark.visible = false;
     this.agent.setState('idle');
   }
 
   private walk(): boolean {
-    const progress = Math.min(1, this.phaseMs / SubagentSprite.walkMs);
+    const target = this.route[this.leg];
+    if (!target) return true;
+    const distance = Math.hypot(target.x - this.legFrom.x, target.y - this.legFrom.y);
+    const durationMs = (distance / SubagentSprite.walkPxPerSecond) * 1000;
+    const progress = durationMs > 0 ? Math.min(1, this.phaseMs / durationMs) : 1;
     this.position.set(
-      Math.round(this.fromX + (this.toX - this.fromX) * progress),
-      Math.round(this.fromY + (this.toY - this.fromY) * progress),
+      Math.round(this.legFrom.x + (target.x - this.legFrom.x) * progress),
+      Math.round(this.legFrom.y + (target.y - this.legFrom.y) * progress),
     );
-    return progress >= 1;
+    if (progress < 1) return false;
+    this.leg += 1;
+    this.legFrom = target;
+    this.phaseMs = 0;
+    return this.leg >= this.route.length;
   }
 
   private static truncate(name: string): string {

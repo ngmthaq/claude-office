@@ -1,40 +1,22 @@
 import { Container, Graphics, Sprite } from 'pixi.js';
 import type { SessionState } from '@claude-office/shared';
-import { getTile } from './asset-loader';
+import { getSprite, type SpriteName } from './asset-loader';
 
 export class AgentSprite extends Container {
-  private static readonly clothesPool: ReadonlyArray<readonly [number, number]> = [
-    [6, 0],
-    [7, 0],
-    [10, 0],
-    [11, 0],
-    [12, 0],
-    [13, 0],
-    [6, 5],
-    [7, 5],
-    [10, 5],
-    [11, 5],
-    [12, 5],
-    [13, 5],
-  ];
-  private static readonly hairPool: ReadonlyArray<readonly [number, number]> = [
-    [19, 0],
-    [20, 0],
-    [21, 0],
-    [23, 0],
-    [24, 0],
-    [19, 4],
-    [20, 4],
-    [21, 4],
-    [23, 4],
-    [24, 4],
-  ];
-  private static readonly skinRows = 4;
+  static readonly cellWidth = 20;
+  static readonly cellHeight = 24;
+  private static readonly people = [
+    'person0',
+    'person1',
+    'person2',
+    'person3',
+    'person4',
+  ] as const satisfies ReadonlyArray<SpriteName>;
   private static readonly bobIntervalMs = 350;
   private static readonly dotsIntervalMs = 400;
   private static readonly blinkIntervalMs = 500;
-  private static readonly bubbleX = 8;
-  private static readonly bubbleY = -12;
+  private static readonly bubbleX = 4;
+  private static readonly bubbleY = -9;
 
   private state: SessionState = 'idle';
   private elapsedMs = 0;
@@ -46,15 +28,14 @@ export class AgentSprite extends Container {
   constructor(seed: string) {
     super();
     const hash = AgentSprite.hashString(seed);
-    const clothes = AgentSprite.pick(AgentSprite.clothesPool, hash >>> 3);
-    const hair = AgentSprite.pick(AgentSprite.hairPool, hash >>> 9);
+    const person = new Sprite(getSprite(AgentSprite.pick(AgentSprite.people, hash)));
+    person.position.set(
+      (AgentSprite.cellWidth - person.width) >> 1,
+      AgentSprite.cellHeight - person.height,
+    );
 
     this.body = new Container();
-    this.body.addChild(
-      new Sprite(getTile('characters', 0, hash % AgentSprite.skinRows)),
-      new Sprite(getTile('characters', clothes[0], clothes[1])),
-      new Sprite(getTile('characters', hair[0], hair[1])),
-    );
+    this.body.addChild(person);
     this.addChild(this.body);
 
     this.workingDots = [0, 1, 2].map((index) => AgentSprite.drawDot(index));
@@ -103,8 +84,8 @@ export class AgentSprite extends Container {
     }
   }
 
-  private static pick(pool: ReadonlyArray<TilePos>, seed: number): TilePos {
-    return pool[seed % pool.length] ?? [0, 0];
+  private static pick(pool: ReadonlyArray<SpriteName>, seed: number): SpriteName {
+    return pool[seed % pool.length] ?? 'person0';
   }
 
   private static hashString(value: string): number {
@@ -134,5 +115,3 @@ export class AgentSprite extends Container {
     return mark;
   }
 }
-
-type TilePos = readonly [number, number];

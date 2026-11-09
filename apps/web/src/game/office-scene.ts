@@ -3,14 +3,14 @@ import type { RoomSummary } from '@claude-office/shared';
 import type { ScreenRect } from '@/dtos/rename-target.dto';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { CameraController, type WorldRect } from './camera-controller';
+import { LobbyView } from './lobby-view';
 import { RoomView } from './room-view';
 
 export class OfficeScene {
-  private static readonly gapX = 16;
-  private static readonly gapY = 28;
   private static readonly labelOffsetPx = 2;
 
   private readonly world = new Container();
+  private readonly lobby = new LobbyView();
   private readonly labelLayer = new Container();
   private readonly camera: CameraController;
   private readonly views = new Map<string, RoomView>();
@@ -23,6 +23,7 @@ export class OfficeScene {
   constructor(private readonly app: Application) {
     this.labelLayer.eventMode = 'passive';
     app.stage.addChild(this.world, this.labelLayer);
+    this.world.addChild(this.lobby);
     this.camera = new CameraController(app, this.world, this.handleCameraChange);
 
     const initial = useSessionsStore.getState();
@@ -72,13 +73,15 @@ export class OfficeScene {
         view.setRoom(room);
       }
       view.position.set(
-        (index % columns) * (RoomView.roomWidth + OfficeScene.gapX),
-        Math.floor(index / columns) * (RoomView.roomHeight + OfficeScene.gapY),
+        (index % columns) * LobbyView.columnStep,
+        Math.floor(index / columns) * LobbyView.rowStep,
       );
       if (view.needsTick) this.animated.add(view);
       else this.animated.delete(view);
     });
 
+    const rows = Math.ceil(sorted.length / columns);
+    this.lobby.setLayout(sorted.length > 0 ? columns : 0, rows, sorted.length);
     this.bounds = sorted.length > 0 ? OfficeScene.computeBounds(sorted.length, columns) : null;
     if (this.animated.size > 0) this.startTicking();
     else this.stopTicking();
@@ -170,8 +173,8 @@ export class OfficeScene {
     return {
       x: 0,
       y: 0,
-      width: columns * RoomView.roomWidth + (columns - 1) * OfficeScene.gapX,
-      height: rows * RoomView.roomHeight + (rows - 1) * OfficeScene.gapY,
+      width: columns * LobbyView.columnStep - LobbyView.gapX,
+      height: rows * LobbyView.rowStep,
     };
   }
 }

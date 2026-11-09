@@ -1,40 +1,52 @@
 import { Assets, Rectangle, Texture } from 'pixi.js';
-import charactersSheetUrl from '@assets/kenney-roguelike-characters/roguelikeChar_transparent.png';
-import indoorSheetUrl from '@assets/kenney-roguelike-indoors/roguelikeIndoor_transparent.png';
+import sheetUrl from '@assets/2dpig-pixel-office/PixelOfficeAssets.png';
 
-export type SheetName = 'indoors' | 'characters';
+const FRAMES = {
+  floor: [3, 68, 73, 24],
+  wall: [84, 70, 26, 20],
+  windowA: [59, 96, 26, 21],
+  windowB: [88, 96, 26, 21],
+  clock: [159, 108, 19, 6],
+  plant: [170, 65, 14, 19],
+  sofaGrey: [119, 66, 33, 15],
+  sofaBlue: [120, 83, 33, 16],
+  sofaGreen: [120, 102, 33, 16],
+  sofaOrange: [120, 121, 33, 16],
+  mainDesk: [115, 47, 40, 16],
+  smallDesk: [85, 47, 26, 16],
+  computer: [233, 106, 15, 19],
+  mug: [169, 95, 8, 7],
+  deskItemA: [211, 119, 11, 8],
+  deskItemB: [211, 129, 11, 8],
+  deskItemC: [211, 140, 11, 8],
+  person0: [2, 105, 15, 23],
+  person1: [19, 104, 19, 24],
+  person2: [40, 107, 13, 21],
+  person3: [3, 132, 17, 23],
+  person4: [22, 132, 17, 23],
+} as const satisfies Record<string, readonly [number, number, number, number]>;
 
-export const TILE_SIZE = 16;
-const TILE_STEP = 17;
+export type SpriteName = keyof typeof FRAMES;
 
-const SHEET_URLS: Record<SheetName, string> = {
-  indoors: indoorSheetUrl,
-  characters: charactersSheetUrl,
-};
-
-const sheetTextures = new Map<SheetName, Texture>();
-const tileCache = new Map<string, Texture>();
+let sheet: Texture | null = null;
+const spriteCache = new Map<string, Texture>();
 
 export async function loadSheets(): Promise<void> {
-  const names = Object.keys(SHEET_URLS) as SheetName[];
-  await Promise.all(
-    names.map(async (name) => {
-      if (sheetTextures.has(name)) return;
-      sheetTextures.set(name, await Assets.load<Texture>(SHEET_URLS[name]));
-    }),
-  );
+  if (sheet) return;
+  sheet = await Assets.load<Texture>(sheetUrl);
 }
 
-export function getTile(sheet: SheetName, col: number, row: number): Texture {
-  const key = `${sheet}:${col}:${row}`;
-  const cached = tileCache.get(key);
+/** Pass `cropWidth` or `cropHeight` to keep only the top-left part of the frame. */
+export function getSprite(name: SpriteName, cropWidth?: number, cropHeight?: number): Texture {
+  const [x, y, frameWidth, frameHeight] = FRAMES[name];
+  const width = Math.min(frameWidth, cropWidth ?? frameWidth);
+  const height = Math.min(frameHeight, cropHeight ?? frameHeight);
+  const key = `${name}:${width}:${height}`;
+  const cached = spriteCache.get(key);
   if (cached) return cached;
+  if (!sheet) throw new Error('Sheet is not loaded. Call loadSheets() first.');
 
-  const source = sheetTextures.get(sheet);
-  if (!source) throw new Error(`Sheet "${sheet}" is not loaded. Call loadSheets() first.`);
-
-  const frame = new Rectangle(col * TILE_STEP, row * TILE_STEP, TILE_SIZE, TILE_SIZE);
-  const tile = new Texture({ source: source.source, frame });
-  tileCache.set(key, tile);
-  return tile;
+  const texture = new Texture({ source: sheet.source, frame: new Rectangle(x, y, width, height) });
+  spriteCache.set(key, texture);
+  return texture;
 }
