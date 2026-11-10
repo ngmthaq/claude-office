@@ -90,6 +90,7 @@ export function FileTree({ files, statuses, selectedPath, onSelect }: FileTreePr
               style={indent}
               aria-expanded={isOpen}
               onClick={() => toggle(node.path)}
+              title={node.path}
             >
               <i
                 className={`bi bi-chevron-${isOpen ? 'down' : 'right'} file-tree__chevron`}

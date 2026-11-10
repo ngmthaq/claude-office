@@ -78,7 +78,7 @@ export function CodeViewerDialog() {
       show={roomId !== null}
       onHide={close}
       onEscapeKeyDown={(event) => event.stopPropagation()}
-      size="xl"
+      dialogClassName="code-viewer-dialog"
       fullscreen="lg-down"
       aria-labelledby="code-viewer-title"
     >
