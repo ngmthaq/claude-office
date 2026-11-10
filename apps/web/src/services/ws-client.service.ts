@@ -131,6 +131,8 @@ export class WsClientService {
         case 'subagent_tool_result':
         case 'subagent_finished':
         case 'peer_message':
+        case 'system_event':
+        case 'internal_events':
           useChatStore.getState().applyEvent(event);
           break;
         case 'pong':

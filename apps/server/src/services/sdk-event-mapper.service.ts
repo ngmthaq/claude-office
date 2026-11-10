@@ -1,8 +1,11 @@
+import { randomUUID } from 'node:crypto';
 import type { SDKAssistantMessageError, SDKMessage } from '@anthropic-ai/claude-agent-sdk';
 import type { RoomEvent } from '@claude-office/shared';
 import type { MapperState } from '@/repositories/session-store.repository.ts';
 import { SUBAGENT_TOOL_EVENTS_MAX, TASK_TITLE_MAX } from '@/configs/limits.config.ts';
+import { COMPACT_EVENT_NAME, LOCAL_COMMAND_EVENT_NAME } from '@/configs/system-events.config.ts';
 import { PeerMessageUtil } from '@/utils/peer-message.util.ts';
+import { SdkEventContentUtil } from '@/utils/sdk-event-content.util.ts';
 import { TextUtil } from '@/utils/text.util.ts';
 
 type SubagentStatus = 'done' | 'error' | 'stopped';
@@ -129,12 +132,124 @@ export class SdkEventMapperService {
       case 'system':
         return this.mapSystem(roomId, message, state);
       case 'result':
-        return [
-          { type: 'turn_done', roomId, isError: message.subtype !== 'success' || message.is_error },
-        ];
+        return this.mapResult(roomId, message);
       default:
-        return [];
+        return this.mapFallback(roomId, message);
     }
+  }
+
+  /** Turns a message that has no chat view into one card or one internal entry. */
+  mapFallback(roomId: string, message: SDKMessage): RoomEvent[] {
+    const record: Record<string, unknown> = { ...message };
+    const name = SdkEventContentUtil.eventName(record);
+    if (SdkEventContentUtil.isInternal(name, record)) {
+      return [
+        {
+          type: 'internal_events',
+          roomId,
+          total: 1,
+          items: [{ name, detail: SdkEventContentUtil.detail(record) }],
+          time: Date.now(),
+        },
+      ];
+    }
+    return [
+      this.buildCard(
+        roomId,
+        record,
+        name,
+        SdkEventContentUtil.cardContent(record),
+        SdkEventContentUtil.isError(name, record),
+      ),
+    ];
+  }
+
+  private buildCard(
+    roomId: string,
+    record: Record<string, unknown>,
+    name: string,
+    content: string,
+    isError: boolean,
+  ): RoomEvent {
+    return {
+      type: 'system_event',
+      roomId,
+      eventId: typeof record.uuid === 'string' ? record.uuid : randomUUID(),
+      name,
+      content,
+      isError,
+      time: Date.now(),
+    };
+  }
+
+  private mapResult(roomId: string, message: Extract<SDKMessage, { type: 'result' }>): RoomEvent[] {
+    const isError = message.subtype !== 'success' || message.is_error;
+    const events: RoomEvent[] = [{ type: 'turn_done', roomId, isError }];
+    if (!isError) return events;
+    const detail =
+      message.subtype === 'success'
+        ? message.result
+        : message.errors.length > 0
+          ? message.errors.join('\n')
+          : message.subtype;
+    events.push(
+      this.buildCard(
+        roomId,
+        { ...message },
+        message.subtype,
+        TextUtil.truncate(SdkEventContentUtil.stripAnsi(detail)),
+        true,
+      ),
+    );
+    return events;
+  }
+
+  private mapCompactBoundary(
+    roomId: string,
+    message: Extract<SDKMessage, { type: 'system'; subtype: 'compact_boundary' }>,
+  ): RoomEvent[] {
+    const metadata = message.compact_metadata;
+    const content = SdkEventContentUtil.compactContent({
+      trigger: metadata.trigger,
+      preTokens: metadata.pre_tokens,
+      postTokens: metadata.post_tokens,
+    });
+    return [this.buildCard(roomId, { ...message }, COMPACT_EVENT_NAME, content, false)];
+  }
+
+  private mapLocalCommandOutput(
+    roomId: string,
+    message: Extract<SDKMessage, { type: 'system'; subtype: 'local_command_output' }>,
+  ): RoomEvent[] {
+    const text = SdkEventContentUtil.stripAnsi(message.content);
+    if (SdkEventContentUtil.isCompactedOutput(text)) return [];
+    return [
+      this.buildCard(
+        roomId,
+        { ...message },
+        LOCAL_COMMAND_EVENT_NAME,
+        TextUtil.truncate(text),
+        false,
+      ),
+    ];
+  }
+
+  private mapLocalCommandReply(
+    roomId: string,
+    message: Extract<SDKMessage, { type: 'assistant' }>,
+    record: Record<string, unknown>,
+  ): RoomEvent[] {
+    const text = SdkEventContentUtil.stripAnsi(
+      TextUtil.describeContent(message.message.content),
+    ).trim();
+    if (text === '') return [];
+    const run = record.local_command_run;
+    const command =
+      typeof run === 'object' && run !== null && 'command' in run && typeof run.command === 'string'
+        ? run.command
+        : null;
+    const name = command === null ? LOCAL_COMMAND_EVENT_NAME : `/${command}`;
+    return [this.buildCard(roomId, { ...message }, name, TextUtil.truncate(text), false)];
   }
 
   private mapSystem(
@@ -164,7 +279,11 @@ export class SdkEventMapperService {
       );
       return event ? [event] : [];
     }
-    return [];
+    if (message.subtype === 'compact_boundary') return this.mapCompactBoundary(roomId, message);
+    if (message.subtype === 'local_command_output') {
+      return this.mapLocalCommandOutput(roomId, message);
+    }
+    return this.mapFallback(roomId, message);
   }
 
   private findSubagentId(
@@ -309,6 +428,10 @@ export class SdkEventMapperService {
   ): RoomEvent[] {
     const authMessage = this.authErrorMessage(message.error);
     if (authMessage !== null) return [{ type: 'auth_error', roomId, message: authMessage }];
+
+    if ('local_command_source' in message) {
+      return this.mapLocalCommandReply(roomId, message, { ...message });
+    }
 
     const events: RoomEvent[] = [];
     for (const block of message.message.content) {

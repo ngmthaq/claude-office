@@ -178,3 +178,16 @@ export const ATTACHMENT_TEXT = {
   tooBig: 'File too big',
   sendFailed: 'Could not send the files. Try again.',
 } as const;
+
+export const SYSTEM_EVENT_TEXT = {
+  errorLabel: 'error',
+  emptyContent: '(no content)',
+} as const;
+
+export const INTERNAL_EVENTS_TEXT = {
+  summary: (total: number): string => `${total} internal ${total === 1 ? 'event' : 'events'}`,
+  olderHidden: (hidden: number): string =>
+    `${hidden} older ${hidden === 1 ? 'item is' : 'items are'} not shown.`,
+} as const;
+
+export const INTERNAL_ITEMS_KEEP_MAX = 50;

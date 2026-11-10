@@ -24,6 +24,7 @@ import { FolderRepository } from '@/repositories/folder.repository.ts';
 import { HistoryRepository } from '@/repositories/history.repository.ts';
 import { RoomRepository } from '@/repositories/room.repository.ts';
 import { SessionStoreRepository } from '@/repositories/session-store.repository.ts';
+import { TranscriptSystemRowsRepository } from '@/repositories/transcript-system-rows.repository.ts';
 import { SubagentTranscriptRepository } from '@/repositories/subagent-transcript.repository.ts';
 import { registerWsRoute } from '@/routes/ws.route.ts';
 import { AttachmentService } from '@/services/attachment.service.ts';
@@ -61,7 +62,8 @@ async function main(): Promise<void> {
   const folderRepository = new FolderRepository();
   const fileRepository = new FileRepository();
   const commandRepository = new CommandRepository();
-  const historyRepository = new HistoryRepository(folderRepository);
+  const transcriptSystemRowsRepository = new TranscriptSystemRowsRepository();
+  const historyRepository = new HistoryRepository(folderRepository, transcriptSystemRowsRepository);
   const subagentTranscriptRepository = new SubagentTranscriptRepository();
   const gitRepository = new GitRepository();
   const sdkEventMapperService = new SdkEventMapperService();

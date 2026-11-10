@@ -11,6 +11,7 @@ import { FilesEventSchema } from './files.ts';
 import { FoldersEventSchema } from './folders.ts';
 import { HelloEventSchema } from './hello.ts';
 import { HistoryEventSchema } from './history.ts';
+import { InternalEventsEventSchema } from './internal-events.ts';
 import { McpStatusEventSchema } from './mcp-status.ts';
 import { PeerMessageEventSchema } from './peer-message.ts';
 import { PermissionRequestEventSchema } from './permission-request.ts';
@@ -26,6 +27,7 @@ import { SubagentFinishedEventSchema } from './subagent-finished.ts';
 import { SubagentStartedEventSchema } from './subagent-started.ts';
 import { SubagentToolCallEventSchema } from './subagent-tool-call.ts';
 import { SubagentToolResultEventSchema } from './subagent-tool-result.ts';
+import { SystemEventEventSchema } from './system-event.ts';
 import { ToolCallEventSchema } from './tool-call.ts';
 import { ToolResultEventSchema } from './tool-result.ts';
 import { TurnDoneEventSchema } from './turn-done.ts';
@@ -56,6 +58,8 @@ export const ServerEventSchema = z.discriminatedUnion('type', [
   SubagentToolCallEventSchema,
   SubagentToolResultEventSchema,
   SubagentFinishedEventSchema,
+  SystemEventEventSchema,
+  InternalEventsEventSchema,
   HistoryEventSchema,
   ArchivedEventSchema,
   CommandsEventSchema,

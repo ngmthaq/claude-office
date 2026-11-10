@@ -1,6 +1,7 @@
 import type { RoomEvent, SessionState, SessionStateEvent } from '@claude-office/shared';
 import { ROOM_EVENT_BUFFER_MAX } from '@/configs/limits.config.ts';
 import type { Session } from '@/repositories/session-store.repository.ts';
+import { InternalEventsUtil } from '@/utils/internal-events.util.ts';
 import { SessionMapperUtil } from '@/utils/session-mapper.util.ts';
 
 export type RoomEventListener = (event: RoomEvent) => void;
@@ -34,7 +35,8 @@ export class EventBusService {
   }
 
   emit(session: Session, event: RoomEvent): void {
-    session.events.push(event);
+    if (event.type === 'internal_events') InternalEventsUtil.append(session.events, event);
+    else session.events.push(event);
     if (session.events.length > ROOM_EVENT_BUFFER_MAX) session.events.shift();
     for (const listener of this.eventListeners) listener(event);
   }

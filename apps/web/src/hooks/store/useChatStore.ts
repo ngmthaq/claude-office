@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import type { RoomEvent } from '@claude-office/shared';
+import type { InternalEventItem, RoomEvent } from '@claude-office/shared';
+import { INTERNAL_ITEMS_KEEP_MAX } from '@/configs/ui.config';
 import type { ChatItem } from '@/dtos/chat-item.dto';
 import type { PermissionStatus } from '@/dtos/permission-item.dto';
 import type { SubagentItem } from '@/dtos/subagent-item.dto';
@@ -188,9 +189,52 @@ export function applyRoomEvent(items: ChatItem[] | undefined, event: RoomEvent):
         result: event.result,
         hiddenToolCalls: event.hiddenToolCalls,
       }));
+    case 'system_event':
+      if (current.some((item) => item.kind === 'system' && item.id === event.eventId)) {
+        return current;
+      }
+      return [
+        ...current,
+        {
+          kind: 'system',
+          id: event.eventId,
+          name: event.name,
+          content: event.content,
+          isError: event.isError,
+        },
+      ];
+    case 'internal_events':
+      return appendInternalEvents(current, event.total, event.items);
     case 'turn_done':
       return current;
   }
+}
+
+function appendInternalEvents(
+  items: ChatItem[],
+  total: number,
+  entries: InternalEventItem[],
+): ChatItem[] {
+  const last = items.at(-1);
+  if (last?.kind !== 'internal') {
+    return [
+      ...items,
+      {
+        kind: 'internal',
+        id: `internal-${items.length}`,
+        total,
+        items: entries.slice(-INTERNAL_ITEMS_KEEP_MAX),
+      },
+    ];
+  }
+  return [
+    ...items.slice(0, -1),
+    {
+      ...last,
+      total: last.total + total,
+      items: [...last.items, ...entries].slice(-INTERNAL_ITEMS_KEEP_MAX),
+    },
+  ];
 }
 
 function updateSubagent(

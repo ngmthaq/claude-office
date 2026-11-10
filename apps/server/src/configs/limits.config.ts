@@ -15,3 +15,5 @@ export const TRANSCRIPT_READ_RETRIES = 4;
 export const ATTACHED_FILE_TAG = 'attached-file';
 export const ATTACHED_FILE_TAG_PREFIX = `<${ATTACHED_FILE_TAG} `;
 export const WS_MAX_PAYLOAD_BYTES = 30 * 1024 * 1024;
+export const INTERNAL_EVENTS_KEEP_MAX = 50;
+export const INTERNAL_DETAIL_MAX = 500;

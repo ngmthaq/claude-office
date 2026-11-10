@@ -1,5 +1,6 @@
 import {
   AttachmentInfoSchema,
+  InternalEventItemSchema,
   PeerMessageSourceSchema,
   TaskStatusSchema,
 } from '@claude-office/shared';
@@ -36,6 +37,19 @@ export const ChatItemSchema = z.union([
     title: z.string().nullable(),
     taskStatus: TaskStatusSchema.nullable(),
     body: z.string(),
+  }),
+  z.object({
+    kind: z.literal('system'),
+    id: z.string(),
+    name: z.string(),
+    content: z.string(),
+    isError: z.boolean(),
+  }),
+  z.object({
+    kind: z.literal('internal'),
+    id: z.string(),
+    total: z.number(),
+    items: z.array(InternalEventItemSchema),
   }),
   PermissionItemSchema,
   SubagentItemSchema,

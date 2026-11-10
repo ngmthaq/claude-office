@@ -5,7 +5,9 @@ import remarkGfm from 'remark-gfm';
 import { AuthErrorNotice } from '@/components/atoms/AuthErrorNotice';
 import { ExternalLink } from '@/components/atoms/ExternalLink';
 import { PeerMessageCard } from '@/components/atoms/PeerMessageCard';
+import { InternalEventsRow } from '@/components/atoms/InternalEventsRow';
 import { SubagentCard } from '@/components/atoms/SubagentCard';
+import { SystemEventCard } from '@/components/atoms/SystemEventCard';
 import { ToolCard } from '@/components/atoms/ToolCard';
 import { AskUserQuestionCard } from '@/components/molecules/AskUserQuestionCard';
 import { AttachmentList } from '@/components/molecules/AttachmentList';
@@ -145,6 +147,10 @@ function ChatItemView({
           }
         />
       );
+    case 'system':
+      return <SystemEventCard name={item.name} content={item.content} isError={item.isError} />;
+    case 'internal':
+      return <InternalEventsRow total={item.total} items={item.items} />;
     case 'subagent':
       return <SubagentCard item={item} onOpen={() => onOpenSubagent(item.id)} />;
   }

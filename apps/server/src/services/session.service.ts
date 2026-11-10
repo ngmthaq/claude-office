@@ -459,10 +459,12 @@ export class SessionService {
           this.setSessionId(session, message.session_id);
           session.terminalCommands = new Set(message.terminal_slash_commands ?? []);
           this.sessionInfoService.setModel(session, message.model);
+          this.emitFallback(session, message);
           continue;
         }
         if (message.type === 'rate_limit_event') {
           this.usageLimitService.fromRateLimitEvent(message.rate_limit_info);
+          this.emitFallback(session, message);
           continue;
         }
         const description =
@@ -501,6 +503,12 @@ export class SessionService {
       this.handleQueryEnd(session, input, null);
     } catch (error) {
       this.handleQueryEnd(session, input, error);
+    }
+  }
+
+  private emitFallback(session: Session, message: SDKMessage): void {
+    for (const event of this.sdkEventMapperService.mapFallback(session.id, message)) {
+      this.eventBusService.emit(session, event);
     }
   }
 

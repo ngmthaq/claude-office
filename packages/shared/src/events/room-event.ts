@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { AssistantTextEventSchema } from './assistant-text.ts';
 import { AuthErrorEventSchema } from './auth-error.ts';
+import { InternalEventsEventSchema } from './internal-events.ts';
 import { PeerMessageEventSchema } from './peer-message.ts';
 import { PermissionRequestEventSchema } from './permission-request.ts';
 import { PermissionResolvedEventSchema } from './permission-resolved.ts';
@@ -10,6 +11,7 @@ import { SubagentFinishedEventSchema } from './subagent-finished.ts';
 import { SubagentStartedEventSchema } from './subagent-started.ts';
 import { SubagentToolCallEventSchema } from './subagent-tool-call.ts';
 import { SubagentToolResultEventSchema } from './subagent-tool-result.ts';
+import { SystemEventEventSchema } from './system-event.ts';
 import { ToolCallEventSchema } from './tool-call.ts';
 import { ToolResultEventSchema } from './tool-result.ts';
 import { TurnDoneEventSchema } from './turn-done.ts';
@@ -31,6 +33,8 @@ export const RoomEventSchema = z.discriminatedUnion('type', [
   SubagentToolCallEventSchema,
   SubagentToolResultEventSchema,
   SubagentFinishedEventSchema,
+  SystemEventEventSchema,
+  InternalEventsEventSchema,
 ]);
 
 export type RoomEvent = z.infer<typeof RoomEventSchema>;

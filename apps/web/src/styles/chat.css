@@ -79,6 +79,7 @@
 
 .message--assistant pre,
 .peer-card__body pre,
+.system-card pre,
 .tool-card pre,
 .permission-card pre,
 .subagent-details__prompt {
@@ -90,7 +91,8 @@
 }
 
 .message--assistant table,
-.peer-card__body table {
+.peer-card__body table,
+.system-card__body table {
   display: block;
   max-width: 100%;
   overflow-x: auto;
@@ -101,7 +103,9 @@
 .message--assistant th,
 .message--assistant td,
 .peer-card__body th,
-.peer-card__body td {
+.peer-card__body td,
+.system-card__body th,
+.system-card__body td {
   min-width: 4rem;
   padding: 0.375rem 0.625rem;
   border: 1px solid var(--bs-border-color);
@@ -112,9 +116,24 @@
 }
 
 .message--assistant th,
-.peer-card__body th {
+.peer-card__body th,
+.system-card__body th {
   background: var(--bs-secondary-bg);
   white-space: nowrap;
+}
+
+.system-card__body h1,
+.system-card__body h2 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+}
+
+.system-card__body h3,
+.system-card__body h4,
+.system-card__body h5,
+.system-card__body h6 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.875rem;
 }
 
 .notice-line {
@@ -137,7 +156,9 @@
 }
 
 .tool-card summary,
-.peer-card summary {
+.peer-card summary,
+.system-card summary,
+.internal-row summary {
   cursor: pointer;
 }
 
@@ -176,4 +197,28 @@
   color: var(--bs-primary);
   font-weight: 600;
   pointer-events: none;
+}
+
+.system-card {
+  max-width: 48rem;
+}
+
+.system-card__text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.system-card pre {
+  max-height: 24rem;
+  overflow: auto;
+}
+
+.internal-row {
+  align-self: flex-start;
+  max-width: 48rem;
+}
+
+.internal-row__list {
+  max-height: 12rem;
+  overflow-y: auto;
 }
