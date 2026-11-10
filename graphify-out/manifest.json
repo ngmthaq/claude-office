@@ -2382,15 +2382,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/FileTree.tsx": {
-    "mtime": 1794064296.1237879,
-    "seen": 1794064394.0673,
-    "ast_hash": "cbfc9883ae485856fcec69e10d0ba935",
+    "mtime": 1794313674.9500551,
+    "seen": 1794313812.284054,
+    "ast_hash": "0f66f1bddad6be8ab75e29b2f7efe6b1",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/CodeViewerDialog.tsx": {
-    "mtime": 1794066203.621815,
-    "seen": 1794066221.3811,
-    "ast_hash": "a289cf5135e5ce0a5ba04bc4463dd290",
+    "mtime": 1794313674.94994,
+    "seen": 1794313812.2842722,
+    "ast_hash": "862652cf95303780808380eea58d30ed",
     "semantic_hash": ""
   },
   "apps/web/src/configs/monaco.config.ts": {
@@ -2619,6 +2619,12 @@
     "mtime": 1794313226.727158,
     "seen": 1794313364.1474502,
     "ast_hash": "36993fd6f77a59b45dceb3c1cb9240c4",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-19-27-01-bigger-code-viewer-fixed-sidebar.md": {
+    "mtime": 1794313806.722207,
+    "seen": 1794313812.29164,
+    "ast_hash": "ae08c1f4d712cbaccb45aa73390d9491",
     "semantic_hash": ""
   }
 }
