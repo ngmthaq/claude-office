@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback } from 'react';
 import {
   ATTACHMENT_MAX_BYTES,
   ATTACHMENT_MAX_FILES,
@@ -7,43 +7,31 @@ import {
 } from '@claude-office/shared';
 import { ATTACHMENT_TEXT } from '@/configs/ui.config';
 import type { AttachmentDraft } from '@/dtos/attachment-draft.dto';
+import { NO_ATTACHMENTS, useChatDraftStore } from '@/hooks/store/useChatDraftStore';
 import { AttachmentUtil } from '@/utils/attachment.util';
 
-type DraftState = { roomId: string | null; drafts: AttachmentDraft[] };
-
-const NO_DRAFTS: AttachmentDraft[] = [];
+let nextAttachmentId = 0;
 
 export function useChatAttachments(roomId: string | null) {
-  const [state, setState] = useState<DraftState>({ roomId, drafts: NO_DRAFTS });
-  const [sendingRoom, setSendingRoom] = useState<string | null>(null);
-  const sending = sendingRoom !== null && sendingRoom === roomId;
+  const drafts = useChatDraftStore((state) =>
+    roomId === null ? NO_ATTACHMENTS : (state.byRoom[roomId]?.attachments ?? NO_ATTACHMENTS),
+  );
+  const sending = useChatDraftStore((state) =>
+    roomId === null ? false : (state.byRoom[roomId]?.sending ?? false),
+  );
   const setSending = useCallback(
     (value: boolean) => {
-      setSendingRoom(value ? roomId : null);
+      if (roomId !== null) useChatDraftStore.getState().setSending(roomId, value);
     },
     [roomId],
   );
-  const drafts = state.roomId === roomId ? state.drafts : NO_DRAFTS;
-  const nextId = useRef(0);
 
-  const patch = useCallback(
-    (forRoom: string | null, id: string, change: Partial<AttachmentDraft>) => {
-      setState((prev) =>
-        prev.roomId !== forRoom
-          ? prev
-          : {
-              roomId: prev.roomId,
-              drafts: prev.drafts.map((draft) =>
-                draft.id === id ? { ...draft, ...change } : draft,
-              ),
-            },
-      );
-    },
-    [],
-  );
+  const patch = useCallback((forRoom: string, id: string, change: Partial<AttachmentDraft>) => {
+    useChatDraftStore.getState().patchAttachment(forRoom, id, change);
+  }, []);
 
   const load = useCallback(
-    async (forRoom: string | null, draft: AttachmentDraft, file: File) => {
+    async (forRoom: string, draft: AttachmentDraft, file: File) => {
       let resizing = false;
       try {
         let blob: Blob = file;
@@ -67,7 +55,7 @@ export function useChatAttachments(roomId: string | null) {
 
   const add = useCallback(
     (files: File[]) => {
-      if (sending || files.length === 0) return;
+      if (roomId === null || sending || files.length === 0) return;
       const forRoom = roomId;
       const existing = drafts;
       let count = existing.filter((draft) => draft.status !== 'error').length;
@@ -76,8 +64,8 @@ export function useChatAttachments(roomId: string | null) {
         0,
       );
       const added: { draft: AttachmentDraft; file: File | null }[] = files.map((file) => {
-        nextId.current += 1;
-        const id = `att-${nextId.current}`;
+        nextAttachmentId += 1;
+        const id = `att-${nextAttachmentId}`;
         const info = AttachmentUtil.kindOf(file);
         const base = { id, name: file.name, size: file.size };
         if (info === null) {
@@ -109,13 +97,10 @@ export function useChatAttachments(roomId: string | null) {
         total += counted;
         return { draft: { ...base, ...info, status: 'reading' as const }, file };
       });
-      setState((prev) => ({
-        roomId: forRoom,
-        drafts: [
-          ...(prev.roomId === forRoom ? prev.drafts : NO_DRAFTS),
-          ...added.map((a) => a.draft),
-        ],
-      }));
+      useChatDraftStore.getState().addAttachments(
+        forRoom,
+        added.map((a) => a.draft),
+      );
       for (const { draft, file } of added) {
         if (file !== null) void load(forRoom, draft, file);
       }
@@ -123,13 +108,12 @@ export function useChatAttachments(roomId: string | null) {
     [load, drafts, roomId, sending],
   );
 
-  const remove = useCallback((id: string) => {
-    setState((prev) => ({ roomId: prev.roomId, drafts: prev.drafts.filter((d) => d.id !== id) }));
-  }, []);
-
-  const clear = useCallback(() => {
-    setState({ roomId, drafts: NO_DRAFTS });
-  }, [roomId]);
+  const remove = useCallback(
+    (id: string) => {
+      if (roomId !== null) useChatDraftStore.getState().removeAttachment(roomId, id);
+    },
+    [roomId],
+  );
 
   const uploads: AttachmentUpload[] = drafts.flatMap((draft) =>
     draft.status === 'ready' && draft.data !== undefined
@@ -153,7 +137,6 @@ export function useChatAttachments(roomId: string | null) {
     setSending,
     add,
     remove,
-    clear,
   };
 }
 

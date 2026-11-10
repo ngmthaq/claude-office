@@ -15,6 +15,8 @@ import { PermissionCard } from '@/components/molecules/PermissionCard';
 import { parseAskUserQuestionInput } from '@/dtos/ask-user-question.dto';
 import type { ChatItem } from '@/dtos/chat-item.dto';
 import { useAutoScroll } from '@/hooks/feature/useAutoScroll';
+import { EMPTY_QUESTION_PROGRESS, type QuestionProgress } from '@/dtos/question-progress.dto';
+import { NO_QUESTIONS, useChatDraftStore } from '@/hooks/store/useChatDraftStore';
 import { selectRoomItems, useChatStore } from '@/hooks/store/useChatStore';
 import { useSubagentDetailsStore } from '@/hooks/store/useSubagentDetailsStore';
 import { wsClientService } from '@/services/ws-client.service';
@@ -23,6 +25,9 @@ type MessageListProps = { roomId: string };
 
 export function MessageList({ roomId }: MessageListProps) {
   const items = useChatStore(selectRoomItems(roomId));
+  const questionProgress = useChatDraftStore(
+    (state) => state.byRoom[roomId]?.questions ?? NO_QUESTIONS,
+  );
   const openDetails = useSubagentDetailsStore((state) => state.openDetails);
   const subagentIds = useMemo(
     () => new Set(items.filter((item) => item.kind === 'subagent').map((item) => item.id)),
@@ -52,6 +57,10 @@ export function MessageList({ roomId }: MessageListProps) {
           key={`${item.kind}-${item.id}`}
           item={item}
           subagentIds={subagentIds}
+          questionProgress={questionProgress}
+          onQuestionProgress={(requestId, progress) =>
+            useChatDraftStore.getState().setQuestionProgress(roomId, requestId, progress)
+          }
           onAnswerPermission={answerPermission}
           onOpenSubagent={(subagentId) => openDetails(roomId, subagentId)}
         />
@@ -64,6 +73,8 @@ export function MessageList({ roomId }: MessageListProps) {
 type ChatItemViewProps = {
   item: ChatItem;
   subagentIds: ReadonlySet<string>;
+  questionProgress: Record<string, QuestionProgress>;
+  onQuestionProgress: (requestId: string, progress: QuestionProgress) => void;
   onAnswerPermission: (
     requestId: string,
     decision: 'allow' | 'deny',
@@ -75,6 +86,8 @@ type ChatItemViewProps = {
 function ChatItemView({
   item,
   subagentIds,
+  questionProgress,
+  onQuestionProgress,
   onAnswerPermission,
   onOpenSubagent,
 }: ChatItemViewProps) {
@@ -120,6 +133,8 @@ function ChatItemView({
           <AskUserQuestionCard
             item={item}
             questions={questions}
+            progress={questionProgress[item.id] ?? EMPTY_QUESTION_PROGRESS}
+            onProgressChange={(progress) => onQuestionProgress(item.id, progress)}
             onSubmit={(answers) => onAnswerPermission(item.id, 'allow', answers)}
             onSkip={() => onAnswerPermission(item.id, 'deny')}
           />

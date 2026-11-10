@@ -41,7 +41,13 @@ export const useChatStore = create<ChatState>((set) => ({
     })),
   replaceHistory: (roomId, events) =>
     set((state) => ({
-      byRoom: { ...state.byRoom, [roomId]: events.reduce<ChatItem[]>(applyRoomEvent, []) },
+      byRoom: {
+        ...state.byRoom,
+        [roomId]: keepPermissionAnswers(
+          state.byRoom[roomId],
+          events.reduce<ChatItem[]>(applyRoomEvent, []),
+        ),
+      },
     })),
   markPermissionSending: (roomId, requestId, answers) =>
     set((state) => ({
@@ -262,6 +268,22 @@ function setPermissionStatus(
       ? { ...item, status, ...(answers === undefined ? {} : { answers }) }
       : item,
   );
+}
+
+// The server does not store submitted answers, so history rebuilds lose them.
+function keepPermissionAnswers(old: ChatItem[] | undefined, rebuilt: ChatItem[]): ChatItem[] {
+  if (old === undefined) return rebuilt;
+  const answersById = new Map<string, Record<string, string>>();
+  for (const item of old) {
+    if (item.kind === 'permission' && item.answers !== undefined) {
+      answersById.set(item.id, item.answers);
+    }
+  }
+  if (answersById.size === 0) return rebuilt;
+  return rebuilt.map((item) => {
+    const answers = item.kind === 'permission' ? answersById.get(item.id) : undefined;
+    return answers === undefined || item.kind !== 'permission' ? item : { ...item, answers };
+  });
 }
 
 function appendAssistantText(items: ChatItem[], messageId: string, delta: string): ChatItem[] {

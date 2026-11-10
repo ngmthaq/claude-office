@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { PERMISSION_STATUS_BG, PERMISSION_STATUS_LABELS } from '@/configs/ui.config';
 import type { AskUserQuestion, AskUserQuestionSelection } from '@/dtos/ask-user-question.dto';
 import type { PermissionItem } from '@/dtos/permission-item.dto';
+import type { QuestionProgress } from '@/dtos/question-progress.dto';
 import { AskUserQuestionUtil } from '@/utils/ask-user-question.util';
 
 const MAX_OTHER_ANSWER_LENGTH = 5000;
@@ -15,6 +16,8 @@ const EMPTY_SELECTION: AskUserQuestionSelection = { selected: [], otherOn: false
 type AskUserQuestionCardProps = {
   item: PermissionItem;
   questions: AskUserQuestion[];
+  progress: QuestionProgress;
+  onProgressChange: (progress: QuestionProgress) => void;
   onSubmit: (answers: Record<string, string>) => void;
   onSkip: () => void;
 };
@@ -22,12 +25,12 @@ type AskUserQuestionCardProps = {
 export function AskUserQuestionCard({
   item,
   questions,
+  progress,
+  onProgressChange,
   onSubmit,
   onSkip,
 }: AskUserQuestionCardProps) {
-  const [selections, setSelections] = useState<AskUserQuestionSelection[]>([]);
-  const [step, setStep] = useState(0);
-  const [maxVisited, setMaxVisited] = useState(0);
+  const { selections, step, maxVisited } = progress;
   const otherInputRef = useRef<HTMLInputElement>(null);
   const isSending = item.status === 'sending';
   const isLast = step === questions.length - 1;
@@ -44,17 +47,14 @@ export function AskUserQuestionCard({
   }
 
   function update(index: number, next: AskUserQuestionSelection): void {
-    setSelections((previous) => {
-      const copy = [...previous];
-      for (let i = 0; i < questions.length; i++) copy[i] ??= EMPTY_SELECTION;
-      copy[index] = next;
-      return copy;
-    });
+    const copy = [...selections];
+    for (let i = 0; i < questions.length; i++) copy[i] ??= EMPTY_SELECTION;
+    copy[index] = next;
+    onProgressChange({ ...progress, selections: copy });
   }
 
   function goTo(index: number): void {
-    setStep(index);
-    setMaxVisited((previous) => Math.max(previous, index));
+    onProgressChange({ ...progress, step: index, maxVisited: Math.max(maxVisited, index) });
   }
 
   const answers: Record<string, string> = {};

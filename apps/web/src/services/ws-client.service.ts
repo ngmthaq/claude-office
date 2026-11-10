@@ -3,6 +3,7 @@ import { INITIAL_BACKOFF_MS, MAX_BACKOFF_MS, buildWsUrl } from '@/configs/ws.con
 import { useArchivedStore } from '@/hooks/store/useArchivedStore';
 import { useAutocompleteStore } from '@/hooks/store/useAutocompleteStore';
 import { useChatStore } from '@/hooks/store/useChatStore';
+import { useChatDraftStore } from '@/hooks/store/useChatDraftStore';
 import { useCodeViewerStore } from '@/hooks/store/useCodeViewerStore';
 import { useConnectionStore } from '@/hooks/store/useConnectionStore';
 import { useHistoryStore } from '@/hooks/store/useHistoryStore';
@@ -54,6 +55,22 @@ export class WsClientService {
       if (roomId !== null) useMcpStore.getState().markFailed(roomId);
     };
 
+    const applyDraftEvent = (
+      event: Extract<
+        ServerEvent,
+        { type: 'user_message' | 'session_error' | 'permission_resolved' }
+      >,
+    ): void => {
+      const drafts = useChatDraftStore.getState();
+      if (event.type === 'permission_resolved') {
+        drafts.removeQuestionProgress(event.roomId, event.requestId);
+        return;
+      }
+      if (drafts.byRoom[event.roomId]?.sending !== true) return;
+      if (event.type === 'user_message') drafts.clearDraft(event.roomId);
+      else drafts.setSending(event.roomId, false);
+    };
+
     const routeServerEvent = (event: ServerEvent): void => {
       const sessions = useSessionsStore.getState();
       switch (event.type) {
@@ -63,6 +80,7 @@ export class WsClientService {
           break;
         case 'sessions':
           sessions.setRooms(event.rooms);
+          useChatDraftStore.getState().keepRooms(event.rooms.map((room) => room.id));
           break;
         case 'session_started':
           sessions.setRooms([...sessions.rooms.filter((r) => r.id !== event.room.id), event.room]);
@@ -117,14 +135,17 @@ export class WsClientService {
           useChatStore.getState().replaceHistory(event.roomId, event.events);
           break;
         case 'user_message':
+        case 'session_error':
+        case 'permission_resolved':
+          useChatStore.getState().applyEvent(event);
+          applyDraftEvent(event);
+          break;
         case 'assistant_text':
         case 'tool_call':
         case 'tool_result':
         case 'turn_done':
-        case 'session_error':
         case 'auth_error':
         case 'permission_request':
-        case 'permission_resolved':
         case 'session_notice':
         case 'subagent_started':
         case 'subagent_tool_call':

@@ -16,7 +16,7 @@ import {
 } from '@/configs/ui.config';
 import { useChatAutocomplete } from '@/hooks/feature/useChatAutocomplete';
 import type { ChatAttachments } from '@/hooks/feature/useChatAttachments';
-import { selectRoomItems, useChatStore } from '@/hooks/store/useChatStore';
+import { useChatDraftStore } from '@/hooks/store/useChatDraftStore';
 import { useConnectionStore } from '@/hooks/store/useConnectionStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { wsClientService } from '@/services/ws-client.service';
@@ -31,14 +31,12 @@ type ChatInputProps = {
 };
 
 export function ChatInput({ roomId, busy, subagentsActive, closed, attachments }: ChatInputProps) {
-  const [text, setText] = useState('');
-  const [cursor, setCursor] = useState(0);
+  const text = useChatDraftStore((state) => state.byRoom[roomId]?.text ?? '');
+  const [cursor, setCursor] = useState(text.length);
   const [sendError, setSendError] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const baselineRef = useRef<Set<string>>(new Set());
-  const items = useChatStore(selectRoomItems(roomId));
-  const { drafts, uploads, reading, sending, setSending, clear } = attachments;
+  const { drafts, uploads, reading, sending, setSending } = attachments;
   const connected = useConnectionStore((state) => state.status === 'connected');
   const disabled = busy || !connected;
   const locked = disabled || sending;
@@ -59,6 +57,10 @@ export function ChatInput({ roomId, busy, subagentsActive, closed, attachments }
       },
     });
 
+  function setText(next: string): void {
+    useChatDraftStore.getState().setText(roomId, next);
+  }
+
   const currentMode = PERMISSION_MODE_BY_VALUE[permissionMode];
 
   function changeMode(mode: PermissionMode): void {
@@ -67,24 +69,8 @@ export function ChatInput({ roomId, busy, subagentsActive, closed, attachments }
   }
 
   useEffect(() => {
-    if (!sending) return;
-    if (!connected) {
-      setSending(false);
-      return;
-    }
-    const outcome = items.find(
-      (item) =>
-        (item.kind === 'user' || item.kind === 'error') &&
-        !baselineRef.current.has(`${item.kind}-${item.id}`),
-    );
-    if (outcome === undefined) return;
-    if (outcome.kind === 'user') {
-      setText('');
-      setCursor(0);
-      clear();
-    }
-    setSending(false);
-  }, [items, sending, connected, setSending, clear]);
+    if (sending && !connected) setSending(false);
+  }, [sending, connected, setSending]);
 
   useEffect(() => {
     if (!sending) return;
@@ -100,16 +86,14 @@ export function ChatInput({ roomId, busy, subagentsActive, closed, attachments }
 
   function submit(): void {
     if (!canSend) return;
-    if (uploads.length === 0) {
-      wsClientService.send({ type: 'session_send', roomId, text: trimmed });
-      setText('');
-      setCursor(0);
-      return;
-    }
     setSendError(false);
-    baselineRef.current = new Set(items.map((item) => `${item.kind}-${item.id}`));
     setSending(true);
-    wsClientService.send({ type: 'session_send', roomId, text: trimmed, attachments: uploads });
+    wsClientService.send({
+      type: 'session_send',
+      roomId,
+      text: trimmed,
+      ...(uploads.length > 0 ? { attachments: uploads } : {}),
+    });
   }
 
   function onPaste(event: ClipboardEvent<HTMLTextAreaElement>): void {
