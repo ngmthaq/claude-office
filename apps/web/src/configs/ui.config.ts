@@ -191,3 +191,7 @@ export const INTERNAL_EVENTS_TEXT = {
 } as const;
 
 export const INTERNAL_ITEMS_KEEP_MAX = 50;
+
+export const AUTO_SCROLL_BOTTOM_THRESHOLD_PX = 32;
+export const AUTO_SCROLL_AT_END_TOLERANCE_PX = 1;
+export const SCROLL_TO_BOTTOM_LABEL = 'Scroll to bottom';

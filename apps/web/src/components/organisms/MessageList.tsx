@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -12,6 +12,7 @@ import { ToolCard } from '@/components/atoms/ToolCard';
 import { AskUserQuestionCard } from '@/components/molecules/AskUserQuestionCard';
 import { AttachmentList } from '@/components/molecules/AttachmentList';
 import { PermissionCard } from '@/components/molecules/PermissionCard';
+import { ScrollToBottomButton } from '@/components/molecules/ScrollToBottomButton';
 import { parseAskUserQuestionInput } from '@/dtos/ask-user-question.dto';
 import type { ChatItem } from '@/dtos/chat-item.dto';
 import { useAutoScroll } from '@/hooks/feature/useAutoScroll';
@@ -23,6 +24,14 @@ import { wsClientService } from '@/services/ws-client.service';
 
 type MessageListProps = { roomId: string };
 
+function findLastUserId(items: ChatItem[]): string | undefined {
+  for (let index = items.length - 1; index >= 0; index--) {
+    const item = items[index];
+    if (item?.kind === 'user') return item.id;
+  }
+  return undefined;
+}
+
 export function MessageList({ roomId }: MessageListProps) {
   const items = useChatStore(selectRoomItems(roomId));
   const questionProgress = useChatDraftStore(
@@ -33,7 +42,12 @@ export function MessageList({ roomId }: MessageListProps) {
     () => new Set(items.filter((item) => item.kind === 'subagent').map((item) => item.id)),
     [items],
   );
-  const endRef = useAutoScroll(items);
+  const { containerRef, onScroll, atBottom, scrollToBottom } = useAutoScroll(items);
+  const lastUserId = findLastUserId(items);
+
+  useEffect(() => {
+    if (lastUserId !== undefined) scrollToBottom();
+  }, [lastUserId, scrollToBottom]);
 
   function answerPermission(
     requestId: string,
@@ -51,21 +65,23 @@ export function MessageList({ roomId }: MessageListProps) {
   }
 
   return (
-    <div className="message-list">
-      {items.map((item) => (
-        <ChatItemView
-          key={`${item.kind}-${item.id}`}
-          item={item}
-          subagentIds={subagentIds}
-          questionProgress={questionProgress}
-          onQuestionProgress={(requestId, progress) =>
-            useChatDraftStore.getState().setQuestionProgress(roomId, requestId, progress)
-          }
-          onAnswerPermission={answerPermission}
-          onOpenSubagent={(subagentId) => openDetails(roomId, subagentId)}
-        />
-      ))}
-      <div ref={endRef} />
+    <div className="scroll-area">
+      <div ref={containerRef} className="message-list" onScroll={onScroll}>
+        {items.map((item) => (
+          <ChatItemView
+            key={`${item.kind}-${item.id}`}
+            item={item}
+            subagentIds={subagentIds}
+            questionProgress={questionProgress}
+            onQuestionProgress={(requestId, progress) =>
+              useChatDraftStore.getState().setQuestionProgress(roomId, requestId, progress)
+            }
+            onAnswerPermission={answerPermission}
+            onOpenSubagent={(subagentId) => openDetails(roomId, subagentId)}
+          />
+        ))}
+      </div>
+      <ScrollToBottomButton visible={!atBottom} onClick={scrollToBottom} />
     </div>
   );
 }

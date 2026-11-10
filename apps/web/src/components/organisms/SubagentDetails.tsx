@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { ExternalLink } from '@/components/atoms/ExternalLink';
 import { IconButton } from '@/components/atoms/IconButton';
 import { ToolCard } from '@/components/atoms/ToolCard';
+import { ScrollToBottomButton } from '@/components/molecules/ScrollToBottomButton';
 import { SUBAGENT_STATUS_BG } from '@/configs/ui.config';
 import type { SubagentItem } from '@/dtos/subagent-item.dto';
 import { useAutoScroll } from '@/hooks/feature/useAutoScroll';
@@ -25,7 +26,7 @@ function selectSubagent(roomId: string, subagentId: string) {
 export function SubagentDetails({ roomId, roomName, subagentId }: SubagentDetailsProps) {
   const item = useChatStore(selectSubagent(roomId, subagentId));
   const closeDetails = useSubagentDetailsStore((state) => state.closeDetails);
-  const endRef = useAutoScroll(item);
+  const { containerRef, onScroll, atBottom, scrollToBottom } = useAutoScroll(item);
 
   const title = `${item?.agentType ?? 'Sub-agent'} · ${roomName}`;
 
@@ -42,13 +43,15 @@ export function SubagentDetails({ roomId, roomName, subagentId }: SubagentDetail
           </div>
         )}
       </div>
-      <div className="subagent-details__body">
-        {item ? (
-          <DetailsBody item={item} />
-        ) : (
-          <p className="text-body-secondary">No details yet.</p>
-        )}
-        <div ref={endRef} />
+      <div className="scroll-area">
+        <div ref={containerRef} className="subagent-details__body" onScroll={onScroll}>
+          {item ? (
+            <DetailsBody item={item} />
+          ) : (
+            <p className="text-body-secondary">No details yet.</p>
+          )}
+        </div>
+        <ScrollToBottomButton visible={!atBottom} onClick={scrollToBottom} />
       </div>
     </main>
   );
