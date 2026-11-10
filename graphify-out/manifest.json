@@ -1560,9 +1560,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/MessageList.tsx": {
-    "mtime": 1794314270.2128525,
-    "seen": 1794314861.528138,
-    "ast_hash": "3e9ee6abd1444bb1633b85f6da19ea96",
+    "mtime": 1794316438.7778502,
+    "seen": 1794317422.03682,
+    "ast_hash": "972869655a4ce0a8f962e8864b82ef33",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/NewSessionDialog.tsx": {
@@ -1578,9 +1578,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/SubagentDetails.tsx": {
-    "mtime": 1794023955.4860156,
-    "seen": 1794024742.1154602,
-    "ast_hash": "744d7804c159af1042efeebca2658c5e",
+    "mtime": 1794316428.626397,
+    "seen": 1794317422.036896,
+    "ast_hash": "f8d024481b4998f07ed5de0d743a2d0a",
     "semantic_hash": ""
   },
   "apps/web/src/components/pages/OfficePage.tsx": {
@@ -1608,9 +1608,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/configs/ui.config.ts": {
-    "mtime": 1794312784.126904,
-    "seen": 1794312883.89435,
-    "ast_hash": "ee0a723c2a68cfa6a00a28ca5615f4db",
+    "mtime": 1794316428.5350072,
+    "seen": 1794317422.037015,
+    "ast_hash": "8759fd21ac36dbeddcc3a193d95420d5",
     "semantic_hash": ""
   },
   "apps/web/src/configs/ws.config.ts": {
@@ -1674,9 +1674,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/hooks/feature/useAutoScroll.ts": {
-    "mtime": 1794023955.4884095,
-    "seen": 1794024742.115484,
-    "ast_hash": "e9aabc8182d692e613742e5fb36d5478",
+    "mtime": 1794316429.0925999,
+    "seen": 1794317422.037496,
+    "ast_hash": "6d1ef6da2f07c4cbda7239dbe2d1f9e2",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/feature/useAutocompleteLists.ts": {
@@ -2661,6 +2661,36 @@
     "mtime": 1794315112.3747373,
     "seen": 1794315115.56254,
     "ast_hash": "c6a7c84f91a154d2d0b63e45712a2d09",
+    "semantic_hash": ""
+  },
+  "apps/web/src/components/molecules/ScrollToBottomButton.tsx": {
+    "mtime": 1794316428.5387704,
+    "seen": 1794317422.036581,
+    "ast_hash": "b2a8bf0c9aca2cfb1881c948d3dbb672",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-19-51-52-web-test-chat-draft-per-room-rerun-report.md": {
+    "mtime": 1794315121.1999152,
+    "seen": 1794317422.0441852,
+    "ast_hash": "62b76b3b6c41aaed4d6cbc0b41853a71",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-20-12-47-stop-auto-scroll-pulling-user-down.md": {
+    "mtime": 1794317415.7134066,
+    "seen": 1794317422.044186,
+    "ast_hash": "2530645a6923d49fe3595928a5c9111b",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-20-23-16-web-test-stop-auto-scroll-pulling-user-down-report.md": {
+    "mtime": 1794317415.7371805,
+    "seen": 1794317422.0441868,
+    "ast_hash": "be9f634eff91d0cdb9147c480a7b2cb9",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-20-23-16-web-test-stop-auto-scroll-pulling-user-down.md": {
+    "mtime": 1794317415.6644201,
+    "seen": 1794317422.044188,
+    "ast_hash": "e52e410bc7d29288d6c2cc88f11cc49d",
     "semantic_hash": ""
   }
 }
