@@ -1,6 +1,6 @@
 {
   "name": "@ngmthaq20/claude-office",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Claude Office in your browser, started with one command",
   "type": "module",
   "bin": {
