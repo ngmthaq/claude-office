@@ -1530,21 +1530,21 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatPanel.tsx": {
-    "mtime": 1794240229.3708801,
-    "seen": 1794241020.828393,
-    "ast_hash": "8a8ad8d5a22b1dc738b913d6957b4c8b",
+    "mtime": 1794318048.0395982,
+    "seen": 1794318087.166529,
+    "ast_hash": "5eaafa7a29e6e78f4df7b6cbc21d8007",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/GameCanvas.tsx": {
-    "mtime": 1794023955.485418,
-    "seen": 1794024742.115453,
-    "ast_hash": "94556006a2408828a879f8588b168110",
+    "mtime": 1794317785.4654999,
+    "seen": 1794317800.2338939,
+    "ast_hash": "0f451c2e06dcab197ad17041cb351a41",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/HeaderActions.tsx": {
-    "mtime": 1794027520.3930838,
-    "seen": 1794027837.881231,
-    "ast_hash": "10add9feb6c860716e80432979d0f3d9",
+    "mtime": 1794318514.0485501,
+    "seen": 1794318523.2658129,
+    "ast_hash": "4c7d22ca6828c5820aaf4ce30cc63f7a",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/HistoryDialog.tsx": {
@@ -1584,15 +1584,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/pages/OfficePage.tsx": {
-    "mtime": 1794023955.486145,
-    "seen": 1794024742.115461,
-    "ast_hash": "43918c2115a4a41289f0bf2cae78d2d1",
+    "mtime": 1794317785.4650543,
+    "seen": 1794317800.234158,
+    "ast_hash": "8dcddfd191ba9dc8210a93b23c3cde36",
     "semantic_hash": ""
   },
   "apps/web/src/components/templates/AppLayout.tsx": {
-    "mtime": 1794023955.486265,
-    "seen": 1794024742.1154618,
-    "ast_hash": "a267bfb543289c4cf83b10833db74337",
+    "mtime": 1794317785.4653265,
+    "seen": 1794317800.234159,
+    "ast_hash": "a199e23877224ed2b48970fdc8fdec6b",
     "semantic_hash": ""
   },
   "apps/web/src/configs/autocomplete.config.ts": {
@@ -1602,15 +1602,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/configs/layout.config.ts": {
-    "mtime": 1794023955.486442,
-    "seen": 1794024742.115464,
-    "ast_hash": "bc60c51499026381986f65f9ee5f6cde",
+    "mtime": 1794317785.3850522,
+    "seen": 1794317800.23421,
+    "ast_hash": "dd1a397b0a1e6317f58f750077b39146",
     "semantic_hash": ""
   },
   "apps/web/src/configs/ui.config.ts": {
-    "mtime": 1794316428.5350072,
-    "seen": 1794317422.037015,
-    "ast_hash": "8759fd21ac36dbeddcc3a193d95420d5",
+    "mtime": 1794318256.8155725,
+    "seen": 1794318290.801244,
+    "ast_hash": "1077cd846bbd49346a08b7a1048c6a6b",
     "semantic_hash": ""
   },
   "apps/web/src/configs/ws.config.ts": {
@@ -2691,6 +2691,24 @@
     "mtime": 1794317415.6644201,
     "seen": 1794317422.044188,
     "ast_hash": "e52e410bc7d29288d6c2cc88f11cc49d",
+    "semantic_hash": ""
+  },
+  "apps/web/src/hooks/store/useFloorStore.ts": {
+    "mtime": 1794317785.3902402,
+    "seen": 1794317800.23534,
+    "ast_hash": "a3c94831c9160953a15d1c052ab3509d",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-20-35-07-show-floor-switch.md": {
+    "mtime": 1794318147.7998292,
+    "seen": 1794318290.8085551,
+    "ast_hash": "19dd4fe81fd3ba5672ad288d0ff3a284",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-20-43-49-floor-toggle-button.md": {
+    "mtime": 1794318439.1260366,
+    "seen": 1794318523.274616,
+    "ast_hash": "9d46add517daeef5a6a482aee284f7b9",
     "semantic_hash": ""
   }
 }
