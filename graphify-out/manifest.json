@@ -1524,9 +1524,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatInput.tsx": {
-    "mtime": 1794244408.4092786,
-    "seen": 1794244423.472081,
-    "ast_hash": "8ffa76dc51e41cf3618aa32f600d39e5",
+    "mtime": 1794314270.2121992,
+    "seen": 1794314861.527989,
+    "ast_hash": "48f57594835750acd0e4bab6626526a5",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatPanel.tsx": {
@@ -1560,9 +1560,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/MessageList.tsx": {
-    "mtime": 1794311989.7098632,
-    "seen": 1794312191.587902,
-    "ast_hash": "8a2419511e997067af7da1c4f4cb172a",
+    "mtime": 1794314270.2128525,
+    "seen": 1794314861.528138,
+    "ast_hash": "3e9ee6abd1444bb1633b85f6da19ea96",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/NewSessionDialog.tsx": {
@@ -1728,9 +1728,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useChatStore.ts": {
-    "mtime": 1794312797.9587603,
-    "seen": 1794312883.89512,
-    "ast_hash": "37464102b15216b7b67b4be278f4ef43",
+    "mtime": 1794314996.1064534,
+    "seen": 1794315115.556098,
+    "ast_hash": "2af7fc1705b15b9efdae522731975f0f",
     "semantic_hash": ""
   },
   "apps/web/src/hooks/store/useChatWidthStore.ts": {
@@ -1770,9 +1770,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/services/ws-client.service.ts": {
-    "mtime": 1794311970.445601,
-    "seen": 1794312191.5891259,
-    "ast_hash": "368a8814ba101160a88dadd1d62ddc81",
+    "mtime": 1794314446.4308016,
+    "seen": 1794314861.5294871,
+    "ast_hash": "602cc3b7dc80aa33a598dd8b11c2573a",
     "semantic_hash": ""
   },
   "apps/web/src/utils/autocomplete.util.ts": {
@@ -2286,9 +2286,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/AskUserQuestionCard.tsx": {
-    "mtime": 1794045848.224099,
-    "seen": 1794045860.545032,
-    "ast_hash": "a2d615496f6a893dbf4e11ccb5a6b92e",
+    "mtime": 1794314270.2125015,
+    "seen": 1794314861.527712,
+    "ast_hash": "22df3e8d59387e8d822411197b8f6909",
     "semantic_hash": ""
   },
   "apps/web/src/dtos/ask-user-question.dto.ts": {
@@ -2466,9 +2466,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/hooks/feature/useChatAttachments.ts": {
-    "mtime": 1794240586.345394,
-    "seen": 1794241020.829206,
-    "ast_hash": "ab10bf8975097439e8b22aeff4d7b6ab",
+    "mtime": 1794314270.2118003,
+    "seen": 1794314861.528934,
+    "ast_hash": "b1aff8ae3e680ab44cf4f4894fca45d1",
     "semantic_hash": ""
   },
   "apps/web/src/utils/attachment.util.ts": {
@@ -2625,6 +2625,42 @@
     "mtime": 1794313806.722207,
     "seen": 1794313812.29164,
     "ast_hash": "ae08c1f4d712cbaccb45aa73390d9491",
+    "semantic_hash": ""
+  },
+  "apps/web/src/dtos/question-progress.dto.ts": {
+    "mtime": 1794314270.1320605,
+    "seen": 1794314861.528575,
+    "ast_hash": "62c0d52a2591818a7e4a74d6934259ca",
+    "semantic_hash": ""
+  },
+  "apps/web/src/hooks/store/useChatDraftStore.ts": {
+    "mtime": 1794314302.9882452,
+    "seen": 1794314861.52917,
+    "ast_hash": "6d78b78c8aa28d7e8616a5baff50bd48",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-19-36-11-chat-draft-per-room.md": {
+    "mtime": 1794314858.0973086,
+    "seen": 1794314861.535691,
+    "ast_hash": "dfb13a7cdcbfa99869cc2d7d48f39ef2",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-19-41-46-web-test-chat-draft-per-room.md": {
+    "mtime": 1794315112.370867,
+    "seen": 1794315115.562537,
+    "ast_hash": "2fd91320935e1434153e48d118e56745",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-19-47-38-web-test-chat-draft-per-room-report.md": {
+    "mtime": 1794314872.4016497,
+    "seen": 1794315115.562539,
+    "ast_hash": "00fbba72834dad998e7a280d7a670051",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-10-19-49-21-keep-submitted-question-answers.md": {
+    "mtime": 1794315112.3747373,
+    "seen": 1794315115.56254,
+    "ast_hash": "c6a7c84f91a154d2d0b63e45712a2d09",
     "semantic_hash": ""
   }
 }

@@ -1,28 +1,28 @@
 # Graph Report - claude-office  (2026-11-10)
 
 ## Corpus Check
-- 438 files · ~155,989 words
+- 444 files · ~159,298 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 17 file(s) not represented in the graph (top: .css 12, (none) 5)
 
 ## Summary
-- 3007 nodes · 5862 edges · 218 communities (203 shown, 15 thin omitted)
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 599 edges (avg confidence: 0.92)
+- 3057 nodes · 5939 edges · 209 communities (196 shown, 13 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 608 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `fd66cc7b`
+- Built from commit: `46037caa`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - attachment.service.ts
 - Execution Workflow
-- Files in Scope
+- PeerMessageCard
 - package.json
 - main.ts
 - Vulnerability Categories
-- chat-item.dto.ts
+- useChatStore.ts
 - events/index.ts
 - Tester
 - agile-planning/SKILL.md
@@ -31,8 +31,8 @@
 - compilerOptions
 - cli/package.json
 - shared/package.json
-- AGENT_RULES.md
-- useChatStore.ts
+- CLAUDE
+- main.tsx
 - Developer
 - AAA — Arrange, Act, Assert
 - SessionService
@@ -56,7 +56,7 @@
 - SOLID
 - scan-secrets.sh
 - Title: Plan — Connect all rooms with a lobby
-- main
+- SessionStoreRepository
 - limits.config.ts
 - OfficeScene
 - Step 1 — Brainstorming (Root Agent)
@@ -84,18 +84,18 @@
 - CodeViewerDialog.tsx
 - Step 3 — Fetch the Code Diff
 - Step 2 — Find the Target PR
-- Title: Plan — Sub-agent result card
+- .mapPeerText
 - settings.json
 - Step 3 — User Approval Gate
-- .history
-- Session
+- HistoryEntry
+- useChatDraftStore.ts
 - CameraController
 - S6 — Resume an old session
 - shared/tsconfig.json
 - cli.config.ts
 - Title: Plan — Stack Send, Stop, and mode buttons in one column
-- IconButton
-- Title: Plan — Live result card title from the sub-agent description
+- .history
+- Title: Web Test Report — Re-run live sub-agent result card
 - Title: Plan — Sub-agent name labels on the top layer, and shorter labels
 - Title: Plan — Clean up files not needed by the app
 - AgentSprite
@@ -106,43 +106,44 @@
 - MessageList.tsx
 - resume-result.dto.ts
 - Title: Plan — Autocomplete for `/` commands and `@` files in the chat box
-- ChatInput.tsx
+- Title: Plan — Live result card title from the sub-agent description
 - session.service.ts
-- FileRepository
+- SdkEventContentUtil
 - Title: Plan — Move the attach button below Send and Stop
 - Title: Plan — Header uses the Claude Code orange as its accent
-- McpStatusPanel.tsx
-- .mapPeerText
+- ChatPanel.tsx
+- party-mode/SKILL.md
+- ChatInput
 - RoomView
 - Title: Plan — S3 Start a session and chat
 - Vulnerable Package Watchlist
-- SECURITY_SCANNER/ENTRY_POINT.md
-- SdkEventContentUtil
+- AI / LLM Security
+- ws-client.service.ts
 - ServerEvent
-- Title: Plan — S7 Stop and close
-- AttachmentUtil
+- roomLabel
+- PermissionService
 - Secret Patterns
 - Title: Web Test Plan — Sub-agent details in the MCP panel style
 - Title: Web Test Plan — Live result card (after ws-client fix)
-- Title: Plan: close other panels when sub-agent details open
+- Title: Plan — Keep submitted question answers after a room switch
 - Title: Plan — Bigger code viewer modal with a fixed-width sidebar
 - Title: Web Test Report — AskUserQuestion card
 - Title: Plan — Replace Kenney art with 2dpig Pixel Office
 - Title: Plan — Resizable chat panel
-- main.tsx
+- OfficePage.tsx
 - Title: Plan — S1 Spike: check the Agent SDK
 - onboarding/SKILL.md
-- SubagentTranscriptRepository
+- .pushUserText
 - Title: Web Test Report — Sub-agent details in the MCP panel style
 - CodeEditorView.tsx
 - GitRepository
 - RoomEvent
 - Coding Conventions
-- code-viewer.controller.ts
-- Files in Scope
-- Title: Plan — AskUserQuestion stepper card
-- AttachmentService
-- .doResume
+- git.repository.ts
+- EventBusService
+- Phase 6 — Create Tickets
+- Title: Web Test Plan — Sub-agent result card
+- Title: Web Test Report — Keep the chat draft and question answers for each room
 - RoomSummary
 - web-test/SKILL.md
 - ws-client.service.ts
@@ -152,16 +153,16 @@
 - Title: Plan — Fix the squeezed prompt box in sub-agent details
 - Title: Plan — Production build and start scripts
 - Title: Plan — Attach files to a chat message (no history)
-- Data Handling
+- Phase 3 — Break Down Work
 - Graphify Setup
 - Title: Plan — S5 Permission prompts in the UI
 - Title: Plan — Add space between the Prompt box and "Tool calls"
 - Title: Plan — Draw empty slots as vacant offices
 - ask-user-question.dto.ts
 - TranscriptSystemRowsRepository
-- react
+- RoomActionsMenu.tsx
 - ChatPanel.tsx
-- Title: Plan — S5 Permission prompts in the UI
+- Phase 5 — Generate Docs
 - Title: Plan — Remove right corridor, fill room gaps, speed up sub-agents
 - autocomplete-token.dto.ts
 - Title: Plan — Fix code viewer diff layout and diff editor unmount error
@@ -172,23 +173,23 @@
 - Title: Web Test Plan — AskUserQuestion stepper card
 - RTK Setup
 - Title: Web Test Report — Web app after the layered refactor
-- OfficePage.tsx
-- commands.ts
+- SessionList.tsx
+- Title: Plan — Result card clean-up: two bugs plus low-risk tidy-up
 - Title: Web Test Report — Sub-agent result card
 - Title: Web Test Plan — Web app after the layered refactor
 - Title: Web Test Report — Re-run sub-agent result card fixes
-- PermissionCard.tsx
+- Title: Plan — Session info strip in chat panel
 - Title: Web Test Plan — Re-run live sub-agent result card
 - HistoryRepository
 - Title: Web Test Plan — Sub-agent label size, bubble layer, and stacked Send/Stop
 - Title: Plan — Smaller sub-agent name and message bubbles on top
-- ChatPanel
+- useSessionsStore.ts
 - room-view.ts
 - Title: Web Test Report — Sub-agent label size, bubble layer, and stacked Send/Stop
-- Title: Web Test Plan — AskUserQuestion card
+- Report Format
 - Title: Web Test Plan — Read-only code viewer
 - Title: Web Test Plan — Re-check sub-agent labels on the top layer
-- Title: Plan — Session info panel: center rows, remove copy and progress bar
+- Phase 2 — Brainstorm
 - Title: Web Test Report — Read-only code viewer
 - Project Onboarding
 - Title: Web Test Report — Re-check sub-agent labels on the top layer
@@ -205,33 +206,24 @@
 - Title: Plan — Fallback card history fix (read cards from the transcript file)
 - subagent-finished.ts
 - devDependencies
-- AskUserQuestionCard
+- Step 10 — Offer to Post Review (File + Line Comments)
 - Spike S1: Claude Agent SDK findings
 - KISS.md
 - Step 7 — Summary Report to User
-- PermissionService
+- Step 3 — Test Plan
 - SEPARATION_OF_CONCERNS.md
 - step-6-test-report.md
-- Step 5 — Sub-Agent Result Return
-- ErrorBoundary
-- Title: Plan — Use the Claude session title as the default room name
-- events/usage-limit.ts
-- DRY.md
+- Title: Plan — Fallback card for events the chat does not show yet
+- Title: Web Test Plan — Keep the chat draft and question answers for each room
 - Title: Web Test Plan — Attach files to a chat message
 - Title: Web Test Report — Attach files to a chat message
 - Files in Scope
-- .setPermissionMode
-- Title: Web Test Report — Re-run live sub-agent result card
-- AI / LLM Security
-- Report Format
-- Authentication & Access Control
+- mcp-status.ts
+- Session
 - ref_zod
-- Security Scanner
 - permission-answer.ts
-- Step 10 — Offer to Post Review (File + Line Comments)
 - archived.ts
 - scripts
-- pong.ts
 
 ## God Nodes (most connected - your core abstractions)
 1. `SessionService` - 46 edges
@@ -248,8 +240,8 @@
 ## Surprising Connections (you probably didn't know these)
 - `Files in Scope` --references--> `ResumeErrorCode`  [INFERRED]
   plans/2026-11-06-14-13-38-server-layered-structure.md → apps/server/src/dtos/resume-result.dto.ts
-- `Code style per layer` --references--> `parseRoomRow()`  [INFERRED]
-  plans/2026-11-06-14-13-38-server-layered-structure.md → apps/server/src/dtos/room-row.dto.ts
+- `Files in Scope` --references--> `PendingPermission`  [INFERRED]
+  plans/2026-11-06-14-13-38-server-layered-structure.md → apps/server/src/repositories/session-store.repository.ts
 - `Server layers` --references--> `Session`  [INFERRED]
   .claude/references/CODING_CONVENTIONS.md → apps/server/src/repositories/session-store.repository.ts
 - `Files in Scope` --references--> `SessionService`  [INFERRED]
@@ -260,47 +252,47 @@
 ## Import Cycles
 - None detected.
 
-## Communities (218 total, 15 thin omitted)
+## Communities (209 total, 13 thin omitted)
 
 ### Community 0 - "attachment.service.ts"
-Cohesion: 0.09
-Nodes (23): ATTACHED_FILE_TAG, Checked, ContentBlock, PrepareResult, ATTACHMENT_RESIZE, AttachmentDraft, AttachmentDraftSchema, ChatAttachments (+15 more)
+Cohesion: 0.07
+Nodes (26): ATTACHED_FILE_TAG, ATTACHED_FILE_TAG_PREFIX, AttachmentService, Checked, ContentBlock, PrepareResult, ATTACHMENT_RESIZE, AttachmentDraft (+18 more)
 
 ### Community 1 - "Execution Workflow"
-Cohesion: 0.18
-Nodes (11): Execution Workflow, Step 10 — Propose Patches, Step 1 — Find the Scope and Look Around, Step 2 — Dependency Audit (SCA), Step 3 — Secrets & Exposure Scan, Step 4 — Static Analysis (SAST), Step 5 — Vulnerability Deep Scan, Step 6 — AI / LLM Security (+3 more)
+Cohesion: 0.12
+Nodes (16): Execution Workflow, Reference Files, Rules, Security Scanner, Severity Guide, Step 10 — Propose Patches, Step 1 — Find the Scope and Look Around, Step 2 — Dependency Audit (SCA) (+8 more)
 
-### Community 3 - "Files in Scope"
-Cohesion: 0.13
-Nodes (10): RoomController, parseRoomRow(), RawRoomRow, RoomRow, RoomRowSchema, RoomRepository, RoomService, ArchivedRoom (+2 more)
+### Community 3 - "PeerMessageCard"
+Cohesion: 0.17
+Nodes (12): SubagentCard(), Task List, Functional Requirements, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers (+4 more)
 
 ### Community 4 - "package.json"
 Cohesion: 0.05
 Nodes (40): devDependencies, eslint, @eslint/js, eslint-plugin-react-hooks, globals, husky, prettier, typescript (+32 more)
 
 ### Community 5 - "main.ts"
-Cohesion: 0.09
-Nodes (25): ALLOWED_ORIGINS, DATA_DIR, findServerRoot(), HOME_DIR, HOST, IS_PRODUCTION, LOG_LEVEL, LOG_LEVELS (+17 more)
+Cohesion: 0.08
+Nodes (24): ALLOWED_ORIGINS, DATA_DIR, findServerRoot(), HOME_DIR, HOST, IS_PRODUCTION, LOG_LEVEL, LOG_LEVELS (+16 more)
 
 ### Community 6 - "Vulnerability Categories"
-Cohesion: 0.20
-Nodes (9): Business Logic, Command Injection (CWE-78), Cross-Site Scripting — XSS (CWE-79), Cryptography, Injection, Input Validation, Other Injection Sinks, SQL Injection (CWE-89) (+1 more)
+Cohesion: 0.09
+Nodes (22): Authentication & Access Control, Broken Authorization / IDOR / BOLA (CWE-284, CWE-639), Business Logic, Command Injection (CWE-78), Cross-Site Scripting — XSS (CWE-79), Cryptography, CSRF (CWE-352), Data Handling (+14 more)
 
-### Community 7 - "chat-item.dto.ts"
-Cohesion: 0.12
-Nodes (13): ToolCardProps, ToolStatus, TOOL_STATUS_BG, ChatItem, ChatItemSchema, SubagentItemSchema, SubagentTool, SubagentToolSchema (+5 more)
+### Community 7 - "useChatStore.ts"
+Cohesion: 0.05
+Nodes (44): InternalEventsRowProps, SubagentCardProps, ToolCard(), ToolCardProps, ToolStatus, MessageList(), DetailsBody(), selectSubagent() (+36 more)
 
 ### Community 8 - "events/index.ts"
 Cohesion: 0.06
-Nodes (36): ArchivedListEvent, ArchivedListEventSchema, ClientEventSchema, CodeFileGetEvent, CodeFileGetEventSchema, CodeTreeListEvent, CodeTreeListEventSchema, ErrorEventSchema (+28 more)
+Nodes (37): ArchivedListEvent, ArchivedListEventSchema, ClientEventSchema, CodeFileGetEvent, CodeFileGetEventSchema, CodeTreeListEvent, CodeTreeListEventSchema, CommandsListEvent (+29 more)
 
 ### Community 9 - "Tester"
 Cohesion: 0.12
 Nodes (16): Additional Skill References, Code-First, Constraints, Delegation Prompt Template, Failure Modes, Inputs, Note for Code-First and Test-First, Outputs (+8 more)
 
 ### Community 10 - "agile-planning/SKILL.md"
-Cohesion: 0.05
-Nodes (38): 1a. Find the input source, 1b. Find the input type, 1c. Show what you got, Phase 1 — Take Input, 2a. Ask clarifying questions first, 2b. Look at the codebase (read-only), 2c. Write the analysis, Phase 2 — Brainstorm (+30 more)
+Cohesion: 0.11
+Nodes (14): AGENT RULES, DO, DO NOT, 1a. Find the input source, 1b. Find the input type, 1c. Show what you got, Phase 1 — Take Input, 4a. Find a reference story (+6 more)
 
 ### Community 11 - "server/package.json"
 Cohesion: 0.06
@@ -322,13 +314,9 @@ Nodes (36): bin, claude-office, dependencies, @anthropic-ai/claude-agent-sdk, be
 Cohesion: 0.15
 Nodes (12): dependencies, zod, exports, zod, main, name, private, scripts (+4 more)
 
-### Community 16 - "AGENT_RULES.md"
-Cohesion: 0.17
-Nodes (9): AGENT RULES, CLAUDE, CODING CONVENTIONS, graphify, graphify, PROJECT OVERVIEW, AGENT RULES, DO (+1 more)
-
-### Community 17 - "useChatStore.ts"
-Cohesion: 0.17
-Nodes (13): InternalEventsRowProps, INTERNAL_EVENTS_TEXT, INTERNAL_ITEMS_KEEP_MAX, appendAssistantText(), appendInternalEvents(), applyRoomEvent(), ChatByRoom, ChatState (+5 more)
+### Community 16 - "CLAUDE"
+Cohesion: 0.50
+Nodes (4): AGENT RULES, CLAUDE, CODING CONVENTIONS, PROJECT OVERVIEW
 
 ### Community 18 - "Developer"
 Cohesion: 0.18
@@ -338,21 +326,17 @@ Nodes (11): Additional Skill References, Constraints, Delegation Prompt Template
 Cohesion: 0.18
 Nodes (8): AAA — Arrange, Act, Assert, Common Violations, Rules, Shared Arrange, Test Naming, The Pattern, Step 5 — Load Guides, Step 8 — Apply AAA Testing Review
 
-### Community 20 - "SessionService"
-Cohesion: 0.24
-Nodes (3): Session, LoadSkipped, SessionService
-
 ### Community 21 - "server-event.ts"
 Cohesion: 0.07
-Nodes (36): AssistantTextEvent, AssistantTextEventSchema, AuthErrorEvent, AuthErrorEventSchema, CodeTreeEventSchema, FilesEventSchema, HelloEvent, HelloEventSchema (+28 more)
+Nodes (37): AssistantTextEvent, AssistantTextEventSchema, AuthErrorEvent, AuthErrorEventSchema, ErrorEventSchema, FoldersEventSchema, HelloEventSchema, InternalEventsEventSchema (+29 more)
 
 ### Community 22 - "UsageLimitService"
-Cohesion: 0.15
-Nodes (13): UsageLimitBadge(), UsageLimitBadgeProps, USAGE_LIMIT_TEXT, CountdownUtil, UsageLimit, Approach Summary / Goal, Functional Requirements, Non-Functional Requirements (+5 more)
+Cohesion: 0.13
+Nodes (15): UsageLimitService, UsageLimitBadge(), UsageLimitBadgeProps, USAGE_LIMIT_TEXT, CountdownUtil, UsageLimit, Approach Summary / Goal, Files in Scope (+7 more)
 
 ### Community 23 - "ui.config.ts"
-Cohesion: 0.08
-Nodes (26): ConnectionBadgeProps, peerDetail(), PeerMessageCardProps, SubagentCardProps, ATTACHMENT_ACCEPT, ATTACHMENT_SEND_TIMEOUT_MS, CONNECTION_STATUS_BG, MCP_STATUS_BG (+18 more)
+Cohesion: 0.07
+Nodes (30): AttachmentChipProps, ICON_BY_KIND, ConnectionBadgeProps, AskUserQuestionCardProps, EMPTY_SELECTION, PermissionCardProps, ChatInputProps, ATTACHMENT_ACCEPT (+22 more)
 
 ### Community 24 - "pull-request-template.md"
 Cohesion: 0.20
@@ -367,12 +351,12 @@ Cohesion: 0.20
 Nodes (10): Acceptance Criteria, Estimate, Functional Requirements, Goal, Non-Functional Requirements, Out of Scope, Requirements, S2 — App foundation (+2 more)
 
 ### Community 27 - "models/index.ts"
-Cohesion: 0.11
-Nodes (15): McpStatusList, McpStatusListSchema, McpStatusEvent, McpStatusEventSchema, RoomPermissionModeEvent, RoomPermissionModeEventSchema, SessionStateEvent, SessionStateEventSchema (+7 more)
+Cohesion: 0.09
+Nodes (20): HistoryEvent, HistoryEventSchema, RoomPermissionModeEvent, RoomPermissionModeEventSchema, RoomRenameEvent, RoomRenameEventSchema, SessionStartedEvent, SessionStartedEventSchema (+12 more)
 
 ### Community 28 - "ClientEvent"
-Cohesion: 0.15
-Nodes (7): CodeViewerController, SessionController, GitStatusEntry, dispatch(), registerWsRoute(), ClientEvent, ErrorEvent
+Cohesion: 0.14
+Nodes (6): RoomController, SessionController, dispatch(), registerWsRoute(), ClientEvent, ErrorEvent
 
 ### Community 29 - "useChatResize.ts"
 Cohesion: 0.19
@@ -422,17 +406,9 @@ Nodes (7): main(), report(), scan_diff(), scan_files(), scan_line(), severity_co
 Cohesion: 0.17
 Nodes (10): LobbyView, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+2 more)
 
-### Community 41 - "main"
-Cohesion: 0.09
-Nodes (13): CommandController, HistoryController, McpController, main(), registerWebApp(), OriginCheckMiddleware, SubagentTranscriptRepository, CatalogService (+5 more)
-
 ### Community 42 - "limits.config.ts"
-Cohesion: 0.08
-Nodes (30): ATTACHED_FILE_TAG_PREFIX, COMMANDS_TIMEOUT_MS, HISTORY_TEXT_MAX, INTERNAL_DETAIL_MAX, INTERNAL_EVENTS_KEEP_MAX, MCP_STATUS_TIMEOUT_MS, STOP_TIMEOUT_MS, SUBAGENT_TOOL_EVENTS_MAX (+22 more)
-
-### Community 43 - "OfficeScene"
-Cohesion: 0.14
-Nodes (8): RenamePlaceSchema, RenameTarget, RenameTargetSchema, ScreenRect, ScreenRectSchema, View, WorldRect, OfficeScene
+Cohesion: 0.07
+Nodes (31): COMMANDS_TIMEOUT_MS, HISTORY_TEXT_MAX, INTERNAL_DETAIL_MAX, INTERNAL_EVENTS_KEEP_MAX, MCP_STATUS_TIMEOUT_MS, SUBAGENT_TOOL_EVENTS_MAX, TASK_TITLE_MAX, TOOL_RESULT_MAX_CHARS (+23 more)
 
 ### Community 44 - "Step 1 — Brainstorming (Root Agent)"
 Cohesion: 0.25
@@ -491,8 +467,8 @@ Cohesion: 0.20
 Nodes (10): Acceptance Criteria, Estimate, Functional Requirements, Goal, Non-Functional Requirements, Out of Scope, Requirements, S10 — Sub-agent details (+2 more)
 
 ### Community 58 - "Language & Framework Patterns"
-Cohesion: 0.22
-Nodes (9): Go, Java, JavaScript / TypeScript, Language & Framework Patterns, .NET / C#, PHP, Python, Ruby (+1 more)
+Cohesion: 0.13
+Nodes (10): Go, Java, JavaScript / TypeScript, Language & Framework Patterns, .NET / C#, PHP, Python, Ruby (+2 more)
 
 ### Community 60 - "Clean Code"
 Cohesion: 0.40
@@ -519,8 +495,8 @@ Cohesion: 0.40
 Nodes (4): Check out the PR branch first, Hand the triage list to party-mode, Pass-through rules, Step 5 — Resolve via Party-Mode
 
 ### Community 66 - "CodeViewerDialog.tsx"
-Cohesion: 0.18
-Nodes (12): CodeEditorView, CodeViewerDialog(), Placeholder(), UNAVAILABLE_TEXT, CODE_VIEWER_TEXT, useCodeViewerRefresh(), CodeViewerMode, CodeViewerState (+4 more)
+Cohesion: 0.24
+Nodes (9): CodeEditorView, CodeViewerDialog(), Placeholder(), UNAVAILABLE_TEXT, useCodeViewerRefresh(), CodeViewerMode, CodeViewerState, initial (+1 more)
 
 ### Community 67 - "Step 3 — Fetch the Code Diff"
 Cohesion: 0.40
@@ -530,9 +506,9 @@ Nodes (4): Step 3 — Fetch the Code Diff, Using MCP, Using the browser, Using t
 Cohesion: 0.40
 Nodes (5): Step 2 — Find the Target PR, Using MCP, Using the browser, Using the CLI, What to get from the PR
 
-### Community 69 - "Title: Plan — Sub-agent result card"
-Cohesion: 0.20
-Nodes (8): Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List, Title: Plan — Sub-agent result card
+### Community 69 - ".mapPeerText"
+Cohesion: 0.10
+Nodes (18): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+10 more)
 
 ### Community 70 - "settings.json"
 Cohesion: 0.50
@@ -542,13 +518,13 @@ Nodes (3): hooks, PreToolUse, $schema
 Cohesion: 0.50
 Nodes (4): Approved, Cancels / Aborts, Requests Changes, Step 3 — User Approval Gate
 
-### Community 72 - ".history"
-Cohesion: 0.18
-Nodes (10): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+2 more)
+### Community 72 - "HistoryEntry"
+Cohesion: 0.25
+Nodes (3): FolderGroup, HistoryUtil, HistoryEntry
 
-### Community 74 - "CameraController"
-Cohesion: 0.15
-Nodes (10): CameraController, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+2 more)
+### Community 73 - "useChatDraftStore.ts"
+Cohesion: 0.29
+Nodes (7): QuestionProgress, changeRoom(), ChatDraftState, EMPTY_DRAFT, NO_QUESTIONS, RoomDraft, useChatDraftStore
 
 ### Community 75 - "S6 — Resume an old session"
 Cohesion: 0.20
@@ -566,13 +542,13 @@ Nodes (31): [command, ...args], run(), installCommand(), openCommand(), shouldDe
 Cohesion: 0.20
 Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
 
-### Community 79 - "IconButton"
-Cohesion: 0.11
-Nodes (19): IconButton(), Approach Summary / Goal, Files in Scope, Non-Functional Requirements, Open Questions / Blockers, Plan add-on 2 (approved) — Header actions + Esc fix, Plan add-on (approved) — Main actions icon-only, Risks & Assumptions (+11 more)
+### Community 79 - ".history"
+Cohesion: 0.17
+Nodes (10): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+2 more)
 
-### Community 80 - "Title: Plan — Live result card title from the sub-agent description"
-Cohesion: 0.11
-Nodes (15): SubagentState, TaskNotification, TaskNotificationStatus, TaskNotificationUtil, Task List, Failures, TC-07 — Live result shows a card, Approach Summary / Goal (+7 more)
+### Community 80 - "Title: Web Test Report — Re-run live sub-agent result card"
+Cohesion: 0.22
+Nodes (8): Blocked / Skipped, Console and Network Problems, Failures, Next Steps, Result Summary, TC-07 — Live result shows a card, Test Results, Title: Web Test Report — Re-run live sub-agent result card
 
 ### Community 81 - "Title: Plan — Sub-agent name labels on the top layer, and shorter labels"
 Cohesion: 0.20
@@ -603,44 +579,44 @@ Cohesion: 0.33
 Nodes (6): Claude Office: a pixel 2D office UI for Claude Code — Overview, Deferred to Later, Delivery Order, Open Questions, Stories, Summary
 
 ### Community 88 - "MessageList.tsx"
-Cohesion: 0.06
-Nodes (50): AuthErrorNotice(), AuthErrorNoticeProps, ExternalLink(), ExternalLinkProps, InternalEventsRow(), PeerMessageCard(), SubagentCard(), SystemEventCard() (+42 more)
+Cohesion: 0.11
+Nodes (25): AuthErrorNotice(), AuthErrorNoticeProps, ExternalLink(), ExternalLinkProps, InternalEventsRow(), peerDetail(), PeerMessageCard(), PeerMessageCardProps (+17 more)
 
 ### Community 89 - "resume-result.dto.ts"
-Cohesion: 0.14
-Nodes (12): FolderErrorCode, FolderErrorCodeSchema, ResumeErrorCode, ResumeErrorCodeSchema, ResumeResultSchema, StartResult, StartResultSchema, SessionStartedEvent (+4 more)
+Cohesion: 0.27
+Nodes (6): FolderErrorCodeSchema, ResumeErrorCode, ResumeErrorCodeSchema, ResumeResultSchema, StartResult, StartResultSchema
 
 ### Community 90 - "Title: Plan — Autocomplete for `/` commands and `@` files in the chat box"
-Cohesion: 0.22
-Nodes (8): Approach Summary / Goal, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List, Title: Plan — Autocomplete for `/` commands and `@` files in the chat box
+Cohesion: 0.13
+Nodes (13): CommandsEvent, CommandsEventSchema, FilesEvent, SlashCommandEntrySchema, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements (+5 more)
 
-### Community 91 - "ChatInput.tsx"
-Cohesion: 0.12
-Nodes (15): AttachmentChip(), AttachmentChipProps, ICON_BY_KIND, AttachmentList(), AttachmentListItem, AttachmentListProps, AutocompletePopup(), AutocompletePopupProps (+7 more)
+### Community 91 - "Title: Plan — Live result card title from the sub-agent description"
+Cohesion: 0.20
+Nodes (9): SubagentState, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+1 more)
 
 ### Community 92 - "session.service.ts"
-Cohesion: 0.13
-Nodes (14): ROOM_EVENT_BUFFER_MAX, ASK_IN_CHAT_MESSAGE, ASK_IN_CHAT_TOOLS, PERMISSION_DENY_MESSAGE, QUESTION_SKIPPED_MESSAGE, SDK_EXTRA_ARGS, SETTING_SOURCES, SessionStoreRepository (+6 more)
-
-### Community 93 - "FileRepository"
-Cohesion: 0.19
-Nodes (4): FileController, FileRepository, FolderRepository, Non-Functional Requirements
+Cohesion: 0.09
+Nodes (21): ROOM_EVENT_BUFFER_MAX, STOP_TIMEOUT_MS, ASK_IN_CHAT_MESSAGE, ASK_IN_CHAT_TOOLS, PERMISSION_DENY_MESSAGE, QUESTION_SKIPPED_MESSAGE, SDK_EXTRA_ARGS, SETTING_SOURCES (+13 more)
 
 ### Community 94 - "Title: Plan — Move the attach button below Send and Stop"
-Cohesion: 0.20
-Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
+Cohesion: 0.07
+Nodes (23): Approach Summary / Goal, Files in Scope, Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Task List, Title: Plan — Session info panel: center rows, remove copy and progress bar, Approach Summary / Goal (+15 more)
 
 ### Community 95 - "Title: Plan — Header uses the Claude Code orange as its accent"
 Cohesion: 0.20
 Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
 
-### Community 96 - "McpStatusPanel.tsx"
-Cohesion: 0.21
-Nodes (13): IconButtonProps, McpRow(), McpStatusPanel(), McpStatusPanelProps, PanelBody(), McpRoomStatus, McpRoomStatusSchema, McpStatus (+5 more)
+### Community 96 - "ChatPanel.tsx"
+Cohesion: 0.09
+Nodes (30): IconButton(), IconButtonProps, CloseConfirmDialogProps, McpRow(), McpStatusPanel(), McpStatusPanelProps, PanelBody(), RowProps (+22 more)
 
-### Community 98 - ".mapPeerText"
-Cohesion: 0.11
-Nodes (17): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+9 more)
+### Community 97 - "party-mode/SKILL.md"
+Cohesion: 0.22
+Nodes (5): DRY — Don't Repeat Yourself, DRY Rules, Step 5 — Sub-Agent Result Return, Sub-Agent Result Template, Usage Notes
+
+### Community 98 - "ChatInput"
+Cohesion: 0.09
+Nodes (22): AttachmentChip(), AskUserQuestionCard(), goTo(), renderStepper(), selectionAt(), update(), AutocompletePopup(), ChatInput() (+14 more)
 
 ### Community 100 - "Title: Plan — S3 Start a session and chat"
 Cohesion: 0.22
@@ -650,17 +626,21 @@ Nodes (8): Approach Summary / Goal, Files in Scope, Functional Requirements, Non
 Cohesion: 0.22
 Nodes (9): Cargo, Go Modules, Maven / Gradle, npm, pip, Reporting Format, RubyGems, Triage Rules (+1 more)
 
+### Community 102 - "AI / LLM Security"
+Cohesion: 0.33
+Nodes (6): AI / LLM Security, Data Leakage via Prompts, Indirect Prompt Injection (RAG / Agentic), Insecure Tool Use, Model & Infrastructure Basics, Prompt Injection (CWE-1336)
+
+### Community 103 - "ws-client.service.ts"
+Cohesion: 0.29
+Nodes (5): buildWsUrl(), INITIAL_BACKOFF_MS, MAX_BACKOFF_MS, wsClientService, Files in Scope
+
 ### Community 104 - "ServerEvent"
 Cohesion: 0.24
 Nodes (10): ServerEvent, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+2 more)
 
-### Community 105 - "Title: Plan — S7 Stop and close"
-Cohesion: 0.16
-Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
-
-### Community 106 - "AttachmentUtil"
-Cohesion: 0.33
-Nodes (3): useChatAttachments(), AttachmentUtil, AttachmentKind
+### Community 105 - "roomLabel"
+Cohesion: 0.07
+Nodes (29): RoomRow, ArchivedRoom, roomLabel(), Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers (+21 more)
 
 ### Community 107 - "Secret Patterns"
 Cohesion: 0.40
@@ -674,9 +654,9 @@ Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, 
 Cohesion: 0.22
 Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases, Title: Web Test Plan — Live result card (after ws-client fix)
 
-### Community 110 - "Title: Plan: close other panels when sub-agent details open"
-Cohesion: 0.25
-Nodes (7): Approach Summary / Goal, Files in Scope, Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Task List, Title: Plan: close other panels when sub-agent details open
+### Community 110 - "Title: Plan — Keep submitted question answers after a room switch"
+Cohesion: 0.20
+Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
 
 ### Community 111 - "Title: Plan — Bigger code viewer modal with a fixed-width sidebar"
 Cohesion: 0.20
@@ -694,17 +674,21 @@ Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non
 Cohesion: 0.20
 Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
 
+### Community 115 - "OfficePage.tsx"
+Cohesion: 0.13
+Nodes (14): ChatResizeHandle(), ChatResizeHandleProps, ConnectionBadge(), ErrorBoundary, ErrorBoundaryProps, ErrorBoundaryState, SessionList(), OfficePage() (+6 more)
+
 ### Community 116 - "Title: Plan — S1 Spike: check the Agent SDK"
 Cohesion: 0.20
 Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
 
 ### Community 117 - "onboarding/SKILL.md"
-Cohesion: 0.28
-Nodes (3): PROJECT OVERVIEW, Step 2 — Coding Conventions, Step 3 — Finish
+Cohesion: 0.19
+Nodes (5): graphify, graphify, PROJECT OVERVIEW, Step 2 — Coding Conventions, Step 3 — Finish
 
-### Community 118 - "SubagentTranscriptRepository"
-Cohesion: 0.13
-Nodes (12): ReportStatus, ReportStatusUtil, ReportStatusValue, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers (+4 more)
+### Community 118 - ".pushUserText"
+Cohesion: 0.12
+Nodes (14): SubagentTranscriptRepository, TaskNotificationUtil, ReportStatusUtil, ReportStatusValue, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers (+6 more)
 
 ### Community 119 - "Title: Web Test Report — Sub-agent details in the MCP panel style"
 Cohesion: 0.25
@@ -716,7 +700,7 @@ Nodes (8): CodeEditorViewProps, DiffEditorInstance, ReadOnlyDiffProps, setupMona
 
 ### Community 121 - "GitRepository"
 Cohesion: 0.09
-Nodes (18): GitRepository, GitProvider, Approach Summary / Goal, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+10 more)
+Nodes (19): GitRepository, GitProvider, Approach Summary / Goal, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+11 more)
 
 ### Community 122 - "RoomEvent"
 Cohesion: 0.24
@@ -726,33 +710,37 @@ Nodes (4): MapperState, SdkEventMapperService, RoomEvent, Task List
 Cohesion: 0.22
 Nodes (9): Code order in a file, Coding Conventions, Folder structure, Imports, Naming, Other rules, Server layers, Style (Prettier + ESLint) (+1 more)
 
-### Community 124 - "code-viewer.controller.ts"
-Cohesion: 0.12
-Nodes (18): GH_TIMEOUT_MS, GIT_HOST_PROVIDERS, GIT_TIMEOUT_MS, GLAB_TIMEOUT_MS, CODE_VIEWER_MAX_FILE_BYTES, HeadResult, FileListing, FileUnavailable (+10 more)
+### Community 124 - "git.repository.ts"
+Cohesion: 0.08
+Nodes (20): GH_TIMEOUT_MS, GIT_HOST_PROVIDERS, GIT_TIMEOUT_MS, GLAB_TIMEOUT_MS, CODE_VIEWER_MAX_FILE_BYTES, CodeViewerController, FileListing, FileRepository (+12 more)
 
-### Community 125 - "Files in Scope"
-Cohesion: 0.10
-Nodes (11): PendingPermission, Files in Scope, Functional Requirements, Approach Summary / Goal, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions (+3 more)
+### Community 125 - "EventBusService"
+Cohesion: 0.08
+Nodes (4): RoomRepository, EventBusService, RoomService, Functional Requirements
 
-### Community 126 - "Title: Plan — AskUserQuestion stepper card"
-Cohesion: 0.21
-Nodes (10): AskUserQuestionUtil, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+2 more)
+### Community 126 - "Phase 6 — Create Tickets"
+Cohesion: 0.22
+Nodes (8): 6a. Choose where to create the tickets, 6b. Create story tickets, 6c. Create task tickets, 6d. Update the overview, 6e. Show a summary, MCP Reference, No MCP — use the browser, Phase 6 — Create Tickets
 
-### Community 128 - ".doResume"
-Cohesion: 0.24
-Nodes (3): ResumeResult, Files in Scope, Task List
+### Community 127 - "Title: Web Test Plan — Sub-agent result card"
+Cohesion: 0.22
+Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases, Title: Web Test Plan — Sub-agent result card
+
+### Community 128 - "Title: Web Test Report — Keep the chat draft and question answers for each room"
+Cohesion: 0.22
+Nodes (8): Blocked / Skipped, Console and Network Problems, Failures, Next Steps, Result Summary, TC-09 — Answered question shows its answers, Test Results, Title: Web Test Report — Keep the chat draft and question answers for each room
 
 ### Community 129 - "RoomSummary"
-Cohesion: 0.10
-Nodes (21): RoomSummary, Approach Summary / Goal, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+13 more)
+Cohesion: 0.09
+Nodes (22): RoomSummary, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+14 more)
 
 ### Community 130 - "web-test/SKILL.md"
-Cohesion: 0.16
-Nodes (11): Planning Rules, Step 3 — Test Plan, Test Plan Template, Usage Notes, Approved, Cancels, Requests Changes, Step 4 — Approval Gate (+3 more)
+Cohesion: 0.24
+Nodes (7): Approved, Cancels, Requests Changes, Step 4 — Approval Gate, Constraints, Step-by-Step Instructions, Web Test
 
 ### Community 131 - "ws-client.service.ts"
-Cohesion: 0.09
-Nodes (26): FolderPicker(), FolderPickerProps, ArchivedDialog(), HeaderActions(), HistoryDialog(), NewSessionDialog(), buildWsUrl(), INITIAL_BACKOFF_MS (+18 more)
+Cohesion: 0.18
+Nodes (14): ArchivedDialog(), HeaderActions(), HistoryDialog(), useNow(), ArchivedState, useArchivedStore, HistoryState, useHistoryStore (+6 more)
 
 ### Community 132 - "Title: Plan — Publish claude-office as the `@ngmthaq20/claude-office` npm CLI"
 Cohesion: 0.20
@@ -760,7 +748,7 @@ Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non
 
 ### Community 133 - "web/package.json"
 Cohesion: 0.13
-Nodes (13): @claude-office/shared, @types/node, zod, name, private, type, version, bootstrap-icons (+5 more)
+Nodes (13): @claude-office/shared, @types/node, zod, name, private, type, version, bootstrap (+5 more)
 
 ### Community 134 - "Title: Web Test Report — Live result card (after ws-client fix)"
 Cohesion: 0.22
@@ -775,20 +763,20 @@ Cohesion: 0.20
 Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
 
 ### Community 137 - "Title: Plan — Attach files to a chat message (no history)"
-Cohesion: 0.10
-Nodes (16): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Attach files to a chat message (no history) (+8 more)
+Cohesion: 0.22
+Nodes (8): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Attach files to a chat message (no history)
 
-### Community 138 - "Data Handling"
-Cohesion: 0.29
-Nodes (7): Data Handling, Insecure Deserialization (CWE-502), Path Traversal (CWE-22), Sensitive Data Exposure (CWE-200, CWE-312, CWE-798), SSRF (CWE-918), Transport & Storage, XXE (CWE-611)
+### Community 138 - "Phase 3 — Break Down Work"
+Cohesion: 0.25
+Nodes (8): 3a. Epic → User Stories, 3b. User Story → Tasks, Dependencies, How to split a big story, Output format, Phase 3 — Break Down Work, What counts as a user story, What is NOT a user story
 
 ### Community 139 - "Graphify Setup"
 Cohesion: 0.25
 Nodes (7): Add to Claude Code, Build the graph, Graphify Setup, Install, Keep it up to date (optional), Search the graph, What you need
 
 ### Community 140 - "Title: Plan — S5 Permission prompts in the UI"
-Cohesion: 0.18
-Nodes (11): PermissionCard(), Approach Summary / Goal, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions (+3 more)
+Cohesion: 0.10
+Nodes (19): PermissionCard(), Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+11 more)
 
 ### Community 141 - "Title: Plan — Add space between the Prompt box and "Tool calls""
 Cohesion: 0.40
@@ -799,20 +787,20 @@ Cohesion: 0.20
 Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
 
 ### Community 143 - "ask-user-question.dto.ts"
-Cohesion: 0.31
-Nodes (6): AskUserQuestionCardProps, EMPTY_SELECTION, AskUserQuestionInputSchema, AskUserQuestionSchema, AskUserQuestionSelection, AskUserQuestionSelectionSchema
+Cohesion: 0.09
+Nodes (25): AskUserQuestion, AskUserQuestionInputSchema, AskUserQuestionSchema, AskUserQuestionSelection, AskUserQuestionSelectionSchema, EMPTY_QUESTION_PROGRESS, QuestionProgressSchema, AskUserQuestionUtil (+17 more)
 
-### Community 145 - "react"
-Cohesion: 0.11
-Nodes (24): CloseConfirmDialog(), CloseConfirmDialogProps, Confirming, RoomAction, RoomActionsMenu(), request(), send(), RoomActionsMenuProps (+16 more)
+### Community 145 - "RoomActionsMenu.tsx"
+Cohesion: 0.05
+Nodes (39): CloseConfirmDialog(), Confirming, RoomAction, RoomActionsMenu(), request(), send(), RoomActionsMenuProps, RenamePlace (+31 more)
 
 ### Community 146 - "ChatPanel.tsx"
-Cohesion: 0.08
-Nodes (25): Row(), RowProps, SessionInfoPanel(), SessionInfoPanelProps, SESSION_INFO_TEXT, useEscapeClose(), SessionInfoState, useSessionInfoStore (+17 more)
+Cohesion: 0.07
+Nodes (33): ChatPanel(), hasFiles(), onDragEnter(), onDragLeave(), onDragOver(), onDrop(), Row(), SessionInfoPanel() (+25 more)
 
-### Community 147 - "Title: Plan — S5 Permission prompts in the UI"
-Cohesion: 0.22
-Nodes (8): Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List, Title: Plan — S5 Permission prompts in the UI
+### Community 147 - "Phase 5 — Generate Docs"
+Cohesion: 0.25
+Nodes (7): After writing, File path, Overview file, Overview template, Phase 5 — Generate Docs, Rules, Story doc template
 
 ### Community 148 - "Title: Plan — Remove right corridor, fill room gaps, speed up sub-agents"
 Cohesion: 0.20
@@ -820,7 +808,7 @@ Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non
 
 ### Community 149 - "autocomplete-token.dto.ts"
 Cohesion: 0.06
-Nodes (37): CommandRepository, AUTOCOMPLETE_MAX_ROWS, AUTOCOMPLETE_POPUP_ID, AUTOCOMPLETE_STALE_MS, AutocompleteRows, AutocompleteRowsSchema, AutocompleteToken, AutocompleteTokenSchema (+29 more)
+Nodes (38): CommandRepository, AutocompletePopupProps, AUTOCOMPLETE_MAX_ROWS, AUTOCOMPLETE_POPUP_ID, AUTOCOMPLETE_STALE_MS, AutocompleteRows, AutocompleteRowsSchema, AutocompleteToken (+30 more)
 
 ### Community 150 - "Title: Plan — Fix code viewer diff layout and diff editor unmount error"
 Cohesion: 0.18
@@ -835,8 +823,8 @@ Cohesion: 0.22
 Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases, Title: Web Test Plan — Live result card title (debug log run)
 
 ### Community 153 - "src/index.ts"
-Cohesion: 0.28
-Nodes (6): FolderController, PermissionController, SystemController, WsRouteOptions, ErrorUtil, WsSendUtil
+Cohesion: 0.17
+Nodes (17): HeadResult, CommandController, FileController, FolderController, HistoryController, McpController, PermissionController, SystemController (+9 more)
 
 ### Community 154 - "Title: Web Test Report — Live result card title (debug log run)"
 Cohesion: 0.22
@@ -854,13 +842,13 @@ Nodes (6): Add to Claude Code, Check savings, Common commands, Install, Notes, R
 Cohesion: 0.25
 Nodes (7): Blocked / Skipped, Console and Network Problems, Failures, Next Steps, Result Summary, Test Results, Title: Web Test Report — Web app after the layered refactor
 
-### Community 158 - "OfficePage.tsx"
-Cohesion: 0.19
-Nodes (11): ChatResizeHandle(), ChatResizeHandleProps, ConnectionBadge(), GameCanvas(), OfficePage(), AppLayout(), AppLayoutProps, loadSheets() (+3 more)
+### Community 158 - "SessionList.tsx"
+Cohesion: 0.24
+Nodes (6): RoomRenameInput(), RoomRenameInputProps, GameCanvas(), loadSheets(), createPixiApp(), Functional Requirements
 
-### Community 159 - "commands.ts"
-Cohesion: 0.15
-Nodes (9): CommandList, CommandListSchema, CommandsEvent, CommandsEventSchema, CommandsListEvent, CommandsListEventSchema, FilesEvent, SlashCommandEntrySchema (+1 more)
+### Community 159 - "Title: Plan — Result card clean-up: two bugs plus low-risk tidy-up"
+Cohesion: 0.25
+Nodes (7): Approach Summary / Goal, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Result card clean-up: two bugs plus low-risk tidy-up
 
 ### Community 160 - "Title: Web Test Report — Sub-agent result card"
 Cohesion: 0.20
@@ -874,41 +862,41 @@ Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, 
 Cohesion: 0.22
 Nodes (8): Blocked / Skipped, Console and Network Problems, Failures, Next Steps, Result Summary, TC-07 — Live result shows a card, Test Results, Title: Web Test Report — Re-run sub-agent result card fixes
 
-### Community 163 - "PermissionCard.tsx"
+### Community 163 - "Title: Plan — Session info strip in chat panel"
 Cohesion: 0.25
-Nodes (7): PermissionCardProps, PERMISSION_STATUS_BG, PERMISSION_STATUS_LABELS, PermissionItem, PermissionItemSchema, PermissionStatus, PermissionStatusSchema
+Nodes (7): Approach Summary / Goal, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Session info strip in chat panel
 
 ### Community 164 - "Title: Web Test Plan — Re-run live sub-agent result card"
 Cohesion: 0.22
 Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases, Title: Web Test Plan — Re-run live sub-agent result card
 
 ### Community 165 - "HistoryRepository"
-Cohesion: 0.20
-Nodes (3): HistoryRepository, InternalEventsEvent, Task List
+Cohesion: 0.28
+Nodes (3): HistoryRepository, TranscriptSystemRow, Task List
 
 ### Community 166 - "Title: Web Test Plan — Sub-agent label size, bubble layer, and stacked Send/Stop"
 Cohesion: 0.22
 Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases, Title: Web Test Plan — Sub-agent label size, bubble layer, and stacked Send/Stop
 
 ### Community 167 - "Title: Plan — Smaller sub-agent name and message bubbles on top"
-Cohesion: 0.20
-Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
+Cohesion: 0.22
+Nodes (8): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Smaller sub-agent name and message bubbles on top
 
-### Community 168 - "ChatPanel"
-Cohesion: 0.08
-Nodes (28): ChatPanel(), hasFiles(), onDragEnter(), onDragLeave(), onDragOver(), onDrop(), RenamePlace, Approach Summary / Goal (+20 more)
+### Community 168 - "useSessionsStore.ts"
+Cohesion: 0.15
+Nodes (12): FolderPicker(), FolderPickerProps, NewSessionDialog(), RenamePlaceSchema, RenameTarget, RenameTargetSchema, ScreenRect, ScreenRectSchema (+4 more)
 
 ### Community 169 - "room-view.ts"
-Cohesion: 0.26
-Nodes (9): FRAMES, getSprite(), spriteCache, SpriteName, Phase, Point, SubagentEnd, SessionState (+1 more)
+Cohesion: 0.16
+Nodes (13): FRAMES, getSprite(), spriteCache, SpriteName, View, WorldRect, Phase, Point (+5 more)
 
 ### Community 170 - "Title: Web Test Report — Sub-agent label size, bubble layer, and stacked Send/Stop"
 Cohesion: 0.22
 Nodes (8): Blocked / Skipped, Console and Network Problems, Failures, Next Steps, Result Summary, TC-04 — Sub-agent bubbles and labels above furniture, Test Results, Title: Web Test Report — Sub-agent label size, bubble layer, and stacked Send/Stop
 
-### Community 171 - "Title: Web Test Plan — AskUserQuestion card"
-Cohesion: 0.22
-Nodes (9): AskUserQuestion, Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases (+1 more)
+### Community 171 - "Report Format"
+Cohesion: 0.33
+Nodes (6): 1. Scan Summary, 2. Finding Cards, 3. Dependency Audit, 4. Secrets Scan, 5. Proposed Patches, Report Format
 
 ### Community 172 - "Title: Web Test Plan — Read-only code viewer"
 Cohesion: 0.22
@@ -918,9 +906,9 @@ Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, 
 Cohesion: 0.22
 Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases, Title: Web Test Plan — Re-check sub-agent labels on the top layer
 
-### Community 174 - "Title: Plan — Session info panel: center rows, remove copy and progress bar"
-Cohesion: 0.25
-Nodes (7): Approach Summary / Goal, Files in Scope, Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Task List, Title: Plan — Session info panel: center rows, remove copy and progress bar
+### Community 174 - "Phase 2 — Brainstorm"
+Cohesion: 0.40
+Nodes (4): 2a. Ask clarifying questions first, 2b. Look at the codebase (read-only), 2c. Write the analysis, Phase 2 — Brainstorm
 
 ### Community 175 - "Title: Web Test Report — Read-only code viewer"
 Cohesion: 0.22
@@ -979,16 +967,16 @@ Cohesion: 0.22
 Nodes (8): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Fallback card history fix (read cards from the transcript file)
 
 ### Community 189 - "subagent-finished.ts"
-Cohesion: 0.40
-Nodes (4): SubagentFinishedEvent, SubagentFinishedEventSchema, SubagentStatus, SubagentStatusSchema
+Cohesion: 0.20
+Nodes (7): SubagentFinishedEvent, SubagentFinishedEventSchema, UsageLimitEvent, UsageLimitEventSchema, SubagentStatus, SubagentStatusSchema, UsageLimitSchema
 
 ### Community 190 - "devDependencies"
 Cohesion: 0.33
 Nodes (6): devDependencies, @types/node, @types/react, @types/react-dom, vite, @vitejs/plugin-react
 
-### Community 191 - "AskUserQuestionCard"
-Cohesion: 0.53
-Nodes (5): AskUserQuestionCard(), goTo(), renderStepper(), selectionAt(), update()
+### Community 191 - "Step 10 — Offer to Post Review (File + Line Comments)"
+Cohesion: 0.40
+Nodes (4): Posting via browser, Posting via CLI, Posting via MCP, Step 10 — Offer to Post Review (File + Line Comments)
 
 ### Community 192 - "Spike S1: Claude Agent SDK findings"
 Cohesion: 0.22
@@ -998,25 +986,21 @@ Nodes (8): How to re-run, Impact on S3 / S5 / S9, Q1 Login, Q2 Sub-agent message
 Cohesion: 0.50
 Nodes (3): Step 7 — Summary Report to User, Summary Report Template, Usage Notes
 
+### Community 195 - "Step 3 — Test Plan"
+Cohesion: 0.50
+Nodes (4): Planning Rules, Step 3 — Test Plan, Test Plan Template, Usage Notes
+
 ### Community 197 - "step-6-test-report.md"
 Cohesion: 0.50
 Nodes (3): Step 6 — Test Report, Test Report Template, Usage Notes
 
-### Community 198 - "Step 5 — Sub-Agent Result Return"
-Cohesion: 0.67
-Nodes (3): Step 5 — Sub-Agent Result Return, Sub-Agent Result Template, Usage Notes
+### Community 199 - "Title: Plan — Fallback card for events the chat does not show yet"
+Cohesion: 0.22
+Nodes (8): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Fallback card for events the chat does not show yet
 
-### Community 199 - "ErrorBoundary"
-Cohesion: 0.25
-Nodes (4): ErrorBoundary, ErrorBoundaryProps, ErrorBoundaryState, Task List
-
-### Community 200 - "Title: Plan — Use the Claude session title as the default room name"
-Cohesion: 0.29
-Nodes (6): Approach Summary / Goal, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Title: Plan — Use the Claude session title as the default room name
-
-### Community 201 - "events/usage-limit.ts"
-Cohesion: 0.50
-Nodes (3): UsageLimitEvent, UsageLimitEventSchema, UsageLimitSchema
+### Community 203 - "Title: Web Test Plan — Keep the chat draft and question answers for each room"
+Cohesion: 0.22
+Nodes (8): Goal, Open Questions / Blockers, Preconditions, Risks & Assumptions, Scope, Status, Test Cases, Title: Web Test Plan — Keep the chat draft and question answers for each room
 
 ### Community 204 - "Title: Web Test Plan — Attach files to a chat message"
 Cohesion: 0.22
@@ -1027,44 +1011,24 @@ Cohesion: 0.22
 Nodes (8): Blocked / Skipped, Console and Network Problems, Failures, Next Steps, Result Summary, Run Notes, Test Results, Title: Web Test Report — Attach files to a chat message
 
 ### Community 206 - "Files in Scope"
-Cohesion: 0.15
-Nodes (9): InputQueue, Approach Summary / Goal, Code style per layer, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status (+1 more)
+Cohesion: 0.14
+Nodes (11): parseRoomRow(), InputQueue, Approach Summary / Goal, Code style per layer, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers (+3 more)
 
-### Community 209 - ".setPermissionMode"
-Cohesion: 0.16
-Nodes (9): Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions, Status, Task List (+1 more)
+### Community 207 - "mcp-status.ts"
+Cohesion: 0.28
+Nodes (6): McpStatusEvent, McpStatusEventSchema, McpServerEntry, McpServerEntrySchema, McpServerStatusValue, McpServerStatusValueSchema
 
-### Community 210 - "Title: Web Test Report — Re-run live sub-agent result card"
-Cohesion: 0.29
-Nodes (6): Blocked / Skipped, Console and Network Problems, Next Steps, Result Summary, Test Results, Title: Web Test Report — Re-run live sub-agent result card
-
-### Community 211 - "AI / LLM Security"
-Cohesion: 0.33
-Nodes (6): AI / LLM Security, Data Leakage via Prompts, Indirect Prompt Injection (RAG / Agentic), Insecure Tool Use, Model & Infrastructure Basics, Prompt Injection (CWE-1336)
-
-### Community 212 - "Report Format"
-Cohesion: 0.33
-Nodes (6): 1. Scan Summary, 2. Finding Cards, 3. Dependency Audit, 4. Secrets Scan, 5. Proposed Patches, Report Format
-
-### Community 213 - "Authentication & Access Control"
-Cohesion: 0.33
-Nodes (6): Authentication & Access Control, Broken Authorization / IDOR / BOLA (CWE-284, CWE-639), CSRF (CWE-352), JWT Weaknesses, Mass Assignment (CWE-915), Session & Privilege
+### Community 209 - "Session"
+Cohesion: 0.19
+Nodes (13): Session, SessionInfoService, Approach Summary / Goal, Files in Scope, Functional Requirements, Non-Functional Requirements, Open Questions / Blockers, Risks & Assumptions (+5 more)
 
 ### Community 214 - "ref_zod"
-Cohesion: 0.18
-Nodes (9): CodeFileEventSchema, FoldersEvent, FoldersEventSchema, HistoryEvent, HistoryEventSchema, FileEntrySchema, FolderEntrySchema, GitFileStatusSchema (+1 more)
-
-### Community 215 - "Security Scanner"
-Cohesion: 0.40
-Nodes (5): Reference Files, Rules, Security Scanner, Severity Guide, When to Use
+Cohesion: 0.23
+Nodes (7): CodeFileEvent, CodeFileEventSchema, CodeTreeEvent, CodeTreeEventSchema, FilesEventSchema, FileEntrySchema, GitFileStatusSchema
 
 ### Community 216 - "permission-answer.ts"
 Cohesion: 0.50
 Nodes (3): PermissionAnswerEvent, PermissionAnswerEventSchema, PermissionDecisionSchema
-
-### Community 218 - "Step 10 — Offer to Post Review (File + Line Comments)"
-Cohesion: 0.40
-Nodes (4): Posting via browser, Posting via CLI, Posting via MCP, Step 10 — Offer to Post Review (File + Line Comments)
 
 ### Community 219 - "archived.ts"
 Cohesion: 0.50
@@ -1076,23 +1040,23 @@ Nodes (4): scripts, build, dev, typecheck
 
 ## Knowledge Gaps
 - **36 isolated node(s):** `@anthropic-ai/claude-agent-sdk`, `@fastify/static`, `@fastify/websocket`, `better-sqlite3`, `fastify` (+31 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1417 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1448 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Coding Conventions` connect `Coding Conventions` to `onboarding/SKILL.md`?**
-  _High betweenness centrality (0.151) - this node is a cross-community bridge._
+  _High betweenness centrality (0.142) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `SessionService` (e.g. with `Task List` and `Files in Scope`) actually correct?**
   _`SessionService` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `@anthropic-ai/claude-agent-sdk`, `@fastify/static`, `@fastify/websocket` to the rest of the system?**
   _36 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `attachment.service.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.08677098150782361 - nodes in this community are weakly interconnected._
-- **Why does `Session` connect `SessionService` to `.doResume`, `PermissionService`, `.history`, `Session`, `.setPermissionMode`, `Coding Conventions`, `session.service.ts`, `Files in Scope`?**
-  _High betweenness centrality (0.110) - this node is a cross-community bridge._
+  _Cohesion score 0.06778476589797344 - nodes in this community are weakly interconnected._
+- **Why does `Session` connect `Session` to `SessionStoreRepository`, `PermissionService`, `roomLabel`, `Files in Scope`, `.history`, `SessionService`, `Coding Conventions`, `session.service.ts`?**
+  _High betweenness centrality (0.105) - this node is a cross-community bridge._
 - **Are the 9 inferred relationships involving `Session` (e.g. with `Server layers` and `Files in Scope`) actually correct?**
   _`Session` has 9 INFERRED edges - model-reasoned connections that need verification._
-- **Should `Files in Scope` be split into smaller, more focused modules?**
-  _Cohesion score 0.12535612535612536 - nodes in this community are weakly interconnected._
+- **Should `Execution Workflow` be split into smaller, more focused modules?**
+  _Cohesion score 0.125 - nodes in this community are weakly interconnected._
