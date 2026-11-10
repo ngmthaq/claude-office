@@ -10,6 +10,7 @@ type AppLayoutProps = {
   chat: ReactNode;
   chatOpen: boolean;
   chatWidth: number;
+  floorVisible: boolean;
 };
 
 export function AppLayout({
@@ -21,7 +22,11 @@ export function AppLayout({
   chat,
   chatOpen,
   chatWidth,
+  floorVisible,
 }: AppLayoutProps) {
+  const drawerClass = `chat-drawer${chatOpen ? ' chat-drawer--open' : ''}${
+    floorVisible ? '' : ' chat-drawer--full'
+  }`;
   const drawerStyle = { '--chat-width': `${chatWidth}px` } as CSSProperties;
 
   return (
@@ -34,7 +39,7 @@ export function AppLayout({
       <div className="app-body">
         <ErrorBoundary>{sidebar}</ErrorBoundary>
         <ErrorBoundary>{canvas}</ErrorBoundary>
-        <div className={`chat-drawer${chatOpen ? ' chat-drawer--open' : ''}`} style={drawerStyle}>
+        <div className={drawerClass} style={drawerStyle}>
           {resizeHandle}
           <ErrorBoundary>{chat}</ErrorBoundary>
         </div>

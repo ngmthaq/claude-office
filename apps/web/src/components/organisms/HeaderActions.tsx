@@ -3,8 +3,10 @@ import { ArchivedDialog } from '@/components/organisms/ArchivedDialog';
 import { HistoryDialog } from '@/components/organisms/HistoryDialog';
 import { UsageLimitBadge } from '@/components/molecules/UsageLimitBadge';
 import { NewSessionDialog } from '@/components/organisms/NewSessionDialog';
+import { FLOOR_TEXT } from '@/configs/ui.config';
 import { useNow } from '@/hooks/feature/useNow';
 import { useArchivedStore } from '@/hooks/store/useArchivedStore';
+import { useFloorStore } from '@/hooks/store/useFloorStore';
 import { useHistoryStore } from '@/hooks/store/useHistoryStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { useUsageLimitStore } from '@/hooks/store/useUsageLimitStore';
@@ -14,6 +16,9 @@ export function HeaderActions() {
   const openDialog = useSessionsStore((state) => state.openDialog);
   const openHistory = useHistoryStore((state) => state.openHistory);
   const openArchived = useArchivedStore((state) => state.openArchived);
+
+  const floorVisible = useFloorStore((state) => state.visible);
+  const setFloorVisible = useFloorStore((state) => state.setVisible);
 
   const limit = useUsageLimitStore((state) => state.limit);
   const now = useNow(60_000);
@@ -30,6 +35,14 @@ export function HeaderActions() {
         variant="primary"
         placement="bottom"
         onClick={openDialog}
+      />
+      <IconButton
+        icon="building"
+        label={FLOOR_TEXT.toggleLabel}
+        placement="bottom"
+        active={floorVisible}
+        aria-pressed={floorVisible}
+        onClick={() => setFloorVisible(!floorVisible)}
       />
       <IconButton
         icon="clock-history"

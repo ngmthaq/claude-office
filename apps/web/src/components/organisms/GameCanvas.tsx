@@ -48,6 +48,9 @@ export function GameCanvas() {
 
     return () => {
       cancelled = true;
+      // Turning the floor off mid-rename would leave the rename state open with no input.
+      const { renaming: current, stopRename: stop } = useSessionsStore.getState();
+      if (current?.place === 'office') stop();
       observer?.disconnect();
       scene?.destroy();
       scene = null;

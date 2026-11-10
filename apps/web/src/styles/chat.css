@@ -239,3 +239,13 @@
   max-height: 12rem;
   overflow-y: auto;
 }
+
+.chat-panel__empty {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+}

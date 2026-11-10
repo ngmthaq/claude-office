@@ -7,10 +7,16 @@ import { McpStatusPanel } from '@/components/organisms/McpStatusPanel';
 import { MessageList } from '@/components/organisms/MessageList';
 import { SessionInfoPanel } from '@/components/organisms/SessionInfoPanel';
 import { SubagentDetails } from '@/components/organisms/SubagentDetails';
-import { ATTACHMENT_TEXT, CODE_VIEWER_TEXT, SESSION_INFO_TEXT } from '@/configs/ui.config';
+import {
+  ATTACHMENT_TEXT,
+  CODE_VIEWER_TEXT,
+  FLOOR_TEXT,
+  SESSION_INFO_TEXT,
+} from '@/configs/ui.config';
 import { useChatAttachments } from '@/hooks/feature/useChatAttachments';
 import { useMcpStatus } from '@/hooks/feature/useMcpStatus';
 import { useCodeViewerStore } from '@/hooks/store/useCodeViewerStore';
+import { useFloorStore } from '@/hooks/store/useFloorStore';
 import { useMcpStore } from '@/hooks/store/useMcpStore';
 import { useSessionInfoStore } from '@/hooks/store/useSessionInfoStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
@@ -18,6 +24,7 @@ import { useSubagentDetailsStore } from '@/hooks/store/useSubagentDetailsStore';
 
 export function ChatPanel() {
   const room = useSessionsStore((state) => state.rooms.find((r) => r.id === state.selectedRoomId));
+  const floorVisible = useFloorStore((state) => state.visible);
   const select = useSessionsStore((state) => state.select);
   const openSubagent = useSubagentDetailsStore((state) => state.open);
   const closeDetails = useSubagentDetailsStore((state) => state.closeDetails);
@@ -86,7 +93,9 @@ export function ChatPanel() {
     closeMcp();
   }, [openSubagent, closeInfo, closeMcp]);
 
-  if (!room) return null;
+  if (!room) {
+    return floorVisible ? null : <p className="chat-panel__empty muted">{FLOOR_TEXT.emptyChat}</p>;
+  }
 
   if (mcpRoomId === room.id) return <McpStatusPanel roomId={room.id} roomName={roomLabel(room)} />;
 

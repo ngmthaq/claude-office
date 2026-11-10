@@ -195,3 +195,8 @@ export const INTERNAL_ITEMS_KEEP_MAX = 50;
 export const AUTO_SCROLL_BOTTOM_THRESHOLD_PX = 32;
 export const AUTO_SCROLL_AT_END_TOLERANCE_PX = 1;
 export const SCROLL_TO_BOTTOM_LABEL = 'Scroll to bottom';
+
+export const FLOOR_TEXT = {
+  toggleLabel: 'Show floor',
+  emptyChat: 'Select a session to start chatting',
+} as const;
