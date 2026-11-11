@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import { roomLabel } from '@claude-office/shared';
+import { BackgroundTasksBadge } from '@/components/atoms/BackgroundTasksBadge';
 import { RoomActionsMenu } from '@/components/molecules/RoomActionsMenu';
 import { RoomRenameInput } from '@/components/molecules/RoomRenameInput';
 import { useChatStore } from '@/hooks/store/useChatStore';
@@ -64,15 +65,18 @@ export function SessionList() {
                         </Badge>
                       )}
                     </span>
-                    {room.busy && (
-                      <Spinner
-                        animation="grow"
-                        size="sm"
-                        variant="warning"
-                        role="status"
-                        aria-label="Busy"
-                      />
-                    )}
+                    <span className="d-flex align-items-center gap-2">
+                      <BackgroundTasksBadge count={room.backgroundTasks.length} />
+                      {room.busy && (
+                        <Spinner
+                          animation="grow"
+                          size="sm"
+                          variant="warning"
+                          role="status"
+                          aria-label="Busy"
+                        />
+                      )}
+                    </span>
                   </Button>
                   <RoomActionsMenu
                     room={room}

@@ -1,5 +1,6 @@
 export * from './archived-room.ts';
 export * from './attachment.ts';
+export * from './background-task.ts';
 export * from './file-entry.ts';
 export * from './folder-entry.ts';
 export * from './git-file-status.ts';

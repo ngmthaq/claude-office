@@ -1,5 +1,6 @@
 import type { PermissionResult, Query } from '@anthropic-ai/claude-agent-sdk';
 import {
+  type BackgroundTask,
   EMPTY_SESSION_INFO,
   type PermissionMode,
   type RoomEvent,
@@ -58,6 +59,7 @@ export type Session = {
   terminalCommands: Set<string>;
   permissionMode: PermissionMode;
   info: SessionInfo;
+  backgroundTasks: BackgroundTask[];
 };
 
 export class SessionStoreRepository {
@@ -106,10 +108,15 @@ export class SessionStoreRepository {
       terminalCommands: new Set(),
       permissionMode: row.permissionMode,
       info: { ...EMPTY_SESSION_INFO },
+      backgroundTasks: [],
     };
   }
 
-  toSummary(session: Session, subagents: SubagentRef[]): RoomSummary {
+  toSummary(
+    session: Session,
+    subagents: SubagentRef[],
+    backgroundTasks: BackgroundTask[],
+  ): RoomSummary {
     return {
       id: session.id,
       name: session.name,
@@ -120,6 +127,7 @@ export class SessionStoreRepository {
       busy: session.busy,
       state: session.state,
       subagents,
+      backgroundTasks,
       permissionMode: session.permissionMode,
       info: session.info,
     };

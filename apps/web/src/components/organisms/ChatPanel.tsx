@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type DragEvent } from 'react';
 import { roomLabel } from '@claude-office/shared';
 import { IconButton } from '@/components/atoms/IconButton';
+import { BackgroundTasksPill } from '@/components/molecules/BackgroundTasksPill';
 import { ChatInput } from '@/components/organisms/ChatInput';
 import { CodeViewerDialog } from '@/components/organisms/CodeViewerDialog';
 import { McpStatusPanel } from '@/components/organisms/McpStatusPanel';
@@ -27,6 +28,7 @@ export function ChatPanel() {
   const floorVisible = useFloorStore((state) => state.visible);
   const select = useSessionsStore((state) => state.select);
   const openSubagent = useSubagentDetailsStore((state) => state.open);
+  const openDetails = useSubagentDetailsStore((state) => state.openDetails);
   const closeDetails = useSubagentDetailsStore((state) => state.closeDetails);
   const mcpRoomId = useMcpStore((state) => state.openRoomId);
   const closeMcp = useMcpStore((state) => state.closePanel);
@@ -152,6 +154,11 @@ export function ChatPanel() {
       </div>
       <CodeViewerDialog />
       <MessageList key={`list-${room.id}`} roomId={room.id} />
+      <BackgroundTasksPill
+        key={`background-${room.id}`}
+        tasks={room.backgroundTasks}
+        onOpenSubagent={(subagentId) => openDetails(room.id, subagentId)}
+      />
       <ChatInput
         key={`input-${room.id}`}
         roomId={room.id}

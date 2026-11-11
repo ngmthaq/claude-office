@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BackgroundTaskSchema } from './background-task.ts';
 import { PermissionModeSchema } from './permission-mode.ts';
 import { SessionInfoSchema } from './session-info.ts';
 import { SessionStateSchema } from './session-state.ts';
@@ -16,6 +17,7 @@ export const RoomSummarySchema = z.object({
   busy: z.boolean(),
   state: SessionStateSchema,
   subagents: z.array(SubagentRefSchema),
+  backgroundTasks: z.array(BackgroundTaskSchema),
   permissionMode: PermissionModeSchema,
   info: SessionInfoSchema,
 });

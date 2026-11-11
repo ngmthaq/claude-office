@@ -75,6 +75,7 @@ export class SessionService {
       terminalCommands: new Set(),
       permissionMode: 'default',
       info: { ...EMPTY_SESSION_INFO },
+      backgroundTasks: [],
     };
     this.roomRepository.insert(session.id, session.folder, session.createdAt);
     this.sessionStoreRepository.set(session.id, session);
@@ -310,6 +311,7 @@ export class SessionService {
     return this.sessionStoreRepository.toSummary(
       session,
       this.sdkEventMapperService.listSubagents(session.mapper),
+      this.sdkEventMapperService.linkBackgroundTasks(session.mapper, session.backgroundTasks),
     );
   }
 
@@ -330,6 +332,7 @@ export class SessionService {
     const { input, query: active } = session;
     session.input = null;
     session.query = null;
+    this.clearBackgroundTasks(session);
     if (!input) return;
     input.intentional = true;
     input.close();
@@ -382,6 +385,7 @@ export class SessionService {
       terminalCommands: new Set(),
       permissionMode: 'default',
       info: { ...EMPTY_SESSION_INFO },
+      backgroundTasks: [],
     };
     this.roomRepository.insert(session.id, session.folder, session.createdAt, sessionId);
     if (session.title !== null) this.roomRepository.setTitle(session.id, session.title);
@@ -497,6 +501,7 @@ export class SessionService {
             if (session.query) void this.usageLimitService.refresh(session.query);
           }
         }
+        this.syncBackgroundTasks(session, message);
         if (message.type === 'result') void this.refreshTitle(session);
         if (message.type === 'system' && message.subtype === 'task_notification') {
           this.emitTaskResultCard(session, message, events, description);
@@ -506,6 +511,30 @@ export class SessionService {
     } catch (error) {
       this.handleQueryEnd(session, input, error);
     }
+  }
+
+  private syncBackgroundTasks(session: Session, message: SDKMessage): void {
+    if (message.type !== 'system') return;
+    if (message.subtype === 'background_tasks_changed') {
+      const next = this.sdkEventMapperService.nextBackgroundTasks(message, session.backgroundTasks);
+      const changed = !this.sdkEventMapperService.sameBackgroundTasks(
+        session.backgroundTasks,
+        next,
+      );
+      session.backgroundTasks = next;
+      if (changed) this.eventBusService.notifyChanged();
+    } else if (
+      message.subtype === 'task_started' &&
+      this.sdkEventMapperService.hasBackgroundTask(session.backgroundTasks, message.task_id)
+    ) {
+      this.eventBusService.notifyChanged();
+    }
+  }
+
+  private clearBackgroundTasks(session: Session): void {
+    if (session.backgroundTasks.length === 0) return;
+    session.backgroundTasks = [];
+    this.eventBusService.notifyChanged();
   }
 
   private emitFallback(session: Session, message: SDKMessage): void {
@@ -592,6 +621,7 @@ export class SessionService {
   private handleQueryEnd(session: Session, input: InputQueue, error: unknown): void {
     input.close();
     this.stopSubagents(session);
+    this.clearBackgroundTasks(session);
     if (input.intentional) return;
     this.permissionService.cancelAllPermissions(session);
     this.clearStopTimer(session);

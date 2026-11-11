@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type { SDKAssistantMessageError, SDKMessage } from '@anthropic-ai/claude-agent-sdk';
-import type { RoomEvent } from '@claude-office/shared';
+import type { BackgroundTask, RoomEvent } from '@claude-office/shared';
 import type { MapperState } from '@/repositories/session-store.repository.ts';
 import { SUBAGENT_TOOL_EVENTS_MAX, TASK_TITLE_MAX } from '@/configs/limits.config.ts';
 import { COMPACT_EVENT_NAME, LOCAL_COMMAND_EVENT_NAME } from '@/configs/system-events.config.ts';
@@ -114,6 +114,47 @@ export class SdkEventMapperService {
       this.finishSubagent(roomId, state, id, status, ''),
     );
     return events.filter((event): event is RoomEvent => event !== null);
+  }
+
+  nextBackgroundTasks(
+    message: Extract<SDKMessage, { type: 'system'; subtype: 'background_tasks_changed' }>,
+    previous: BackgroundTask[],
+  ): BackgroundTask[] {
+    const known = new Map(previous.map((task) => [task.id, task]));
+    const now = Date.now();
+    return message.tasks
+      .filter((task) => task.ambient !== true)
+      .map((task) => ({
+        id: task.task_id,
+        kind: SdkEventMapperService.backgroundKind(task.task_type),
+        description: task.description,
+        subagentId: null,
+        startedAt: known.get(task.task_id)?.startedAt ?? now,
+      }));
+  }
+
+  sameBackgroundTasks(a: BackgroundTask[], b: BackgroundTask[]): boolean {
+    return (
+      a.length === b.length &&
+      a.every((task, i) => task.id === b[i]?.id && task.description === b[i]?.description)
+    );
+  }
+
+  linkBackgroundTasks(state: MapperState, tasks: BackgroundTask[]): BackgroundTask[] {
+    return tasks.map((task) => ({
+      ...task,
+      subagentId: this.findSubagentId(state, undefined, task.id) ?? null,
+    }));
+  }
+
+  hasBackgroundTask(tasks: BackgroundTask[], taskId: string): boolean {
+    return tasks.some((task) => task.id === taskId);
+  }
+
+  private static backgroundKind(taskType: string): BackgroundTask['kind'] {
+    if (taskType === 'local_agent') return 'agent';
+    if (taskType === 'local_bash') return 'command';
+    return 'other';
   }
 
   /** Maps one SDK message to room events. Sub-agent messages become `subagent_*` events. */
@@ -260,9 +301,17 @@ export class SdkEventMapperService {
     if (message.subtype === 'task_started') {
       const subagent =
         message.tool_use_id === undefined ? undefined : state.subagents.get(message.tool_use_id);
-      if (subagent && message.is_backgrounded === true) {
-        subagent.backgrounded = true;
+      if (subagent) {
         subagent.taskId = message.task_id;
+        if (message.is_backgrounded === true) subagent.backgrounded = true;
+      }
+      return [];
+    }
+    if (message.subtype === 'task_updated') {
+      if (message.patch.is_backgrounded === true) {
+        const id = this.findSubagentId(state, undefined, message.task_id);
+        const subagent = id === undefined ? undefined : state.subagents.get(id);
+        if (subagent) subagent.backgrounded = true;
       }
       return [];
     }

@@ -40,6 +40,9 @@ export class RoomView extends Container {
   private static readonly badgeHeight = 8;
   private static readonly badgeFontSize = 6;
   private static readonly badgeMax = 99;
+  private static readonly subagentBadgeColor = 0x4f8cff;
+  private static readonly taskBadgeColor = 0xf0ad4e;
+  private static readonly taskBadgeTextColor = 0x1b1d21;
   private static readonly wallColor = 0x5a4636;
   private static readonly wallSide = 4;
   private static readonly lampColors: Record<SessionState, number> = {
@@ -78,6 +81,8 @@ export class RoomView extends Container {
   private readonly usedSpots = new Set<number>();
   private readonly badge = new Container();
   private readonly badgeText: Text;
+  private readonly taskBadge = new Container();
+  private readonly taskBadgeText: Text;
   private labelsVisible = false;
   private state: SessionState | null = null;
   private pendingSelect: number | null = null;
@@ -100,12 +105,24 @@ export class RoomView extends Container {
     this.addChild(this.agent, this.subagentLayer);
     this.addChild(RoomView.createDesk(), RoomView.createSmallDesks());
     this.addChild(RoomView.createWalls(), this.lamp);
-    this.badgeText = RoomView.createBadgeText();
-    this.badge.addChild(RoomView.createBadgeBackground(), this.badgeText);
+    this.badgeText = RoomView.createBadgeText(0xffffff);
+    this.badge.addChild(
+      RoomView.createBadgeBackground(RoomView.subagentBadgeColor),
+      this.badgeText,
+    );
     this.badge.position.set(RoomView.roomWidth - RoomView.badgeWidth - 2, 1);
     this.badge.eventMode = 'none';
     this.badge.visible = false;
     this.addChild(this.badge);
+    this.taskBadgeText = RoomView.createBadgeText(RoomView.taskBadgeTextColor);
+    this.taskBadge.addChild(
+      RoomView.createBadgeBackground(RoomView.taskBadgeColor),
+      this.taskBadgeText,
+    );
+    this.taskBadge.position.set(RoomView.roomWidth - RoomView.badgeWidth * 2 - 4, 1);
+    this.taskBadge.eventMode = 'none';
+    this.taskBadge.visible = false;
+    this.addChild(this.taskBadge);
     this.overlayLayer.eventMode = 'none';
     this.addChild(this.overlayLayer);
     this.overlayLayer.attach(...this.agent.overlays);
@@ -144,6 +161,7 @@ export class RoomView extends Container {
     const text = RoomView.truncate(roomLabel(room));
     if (this.nameLabel.text !== text) this.nameLabel.text = text;
     this.syncSubagents(room);
+    this.syncBackgroundTasks(room);
     if (room.state === this.state) return;
     this.state = room.state;
     const closed = room.state === 'closed';
@@ -169,9 +187,16 @@ export class RoomView extends Container {
     for (const sprite of this.subagents.values()) sprite.setLabelVisible(visible);
   }
 
+  private syncBackgroundTasks(room: RoomSummary): void {
+    const count = room.backgroundTasks.length;
+    const text = RoomView.formatBadgeCount(count);
+    if (this.taskBadgeText.text !== text) this.taskBadgeText.text = text;
+    this.taskBadge.visible = count > 0;
+  }
+
   private syncSubagents(room: RoomSummary): void {
     const count = room.subagents.length;
-    const badgeText = count > RoomView.badgeMax ? `${RoomView.badgeMax}+` : String(count);
+    const badgeText = RoomView.formatBadgeCount(count);
     if (this.badgeText.text !== badgeText) this.badgeText.text = badgeText;
     this.badge.visible = count > 0;
 
@@ -333,20 +358,24 @@ export class RoomView extends Container {
     return desks;
   }
 
-  private static createBadgeBackground(): Graphics {
+  private static formatBadgeCount(count: number): string {
+    return count > RoomView.badgeMax ? `${RoomView.badgeMax}+` : String(count);
+  }
+
+  private static createBadgeBackground(fill: number): Graphics {
     const background = new Graphics();
     background.rect(0, 0, RoomView.badgeWidth, RoomView.badgeHeight).fill(0x1b1d21);
-    background.rect(1, 1, RoomView.badgeWidth - 2, RoomView.badgeHeight - 2).fill(0x4f8cff);
+    background.rect(1, 1, RoomView.badgeWidth - 2, RoomView.badgeHeight - 2).fill(fill);
     return background;
   }
 
-  private static createBadgeText(): Text {
+  private static createBadgeText(color: number): Text {
     const text = new Text({
       text: '0',
       style: {
         fontFamily: 'system-ui, sans-serif',
         fontSize: RoomView.badgeFontSize,
-        fill: 0xffffff,
+        fill: color,
       },
       resolution: window.devicePixelRatio * 4,
       roundPixels: true,
