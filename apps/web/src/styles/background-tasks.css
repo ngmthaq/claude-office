@@ -1,0 +1,117 @@
+.bg-tasks-popover {
+  width: 22rem;
+  max-width: calc(100vw - 2rem);
+}
+
+.bg-tasks-popover__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.bg-tasks-popover__list {
+  max-height: 16rem;
+  margin: 0;
+  padding: 0.25rem;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.bg-tasks-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: var(--bs-border-radius);
+  background: transparent;
+  color: var(--bs-body-color);
+  text-align: start;
+}
+
+button.bg-tasks-row:hover {
+  background: var(--bs-tertiary-bg);
+}
+
+button.bg-tasks-row:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
+}
+
+.bg-tasks-row__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-size: 0.875rem;
+}
+
+.bg-tasks-row__icon--agent {
+  background: var(--bs-primary-bg-subtle);
+  color: var(--bs-primary-text-emphasis);
+}
+
+.bg-tasks-row__icon--command {
+  background: var(--bs-info-bg-subtle);
+  color: var(--bs-info-text-emphasis);
+}
+
+.bg-tasks-row__icon--other {
+  background: var(--bs-secondary-bg-subtle);
+  color: var(--bs-secondary-text-emphasis);
+}
+
+.bg-tasks-row__text {
+  min-width: 0;
+}
+
+.bg-tasks-row__title {
+  overflow: hidden;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bg-tasks-row__kind {
+  color: var(--bs-secondary-color);
+  font-size: 0.75rem;
+}
+
+.bg-tasks-row__end {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--bs-secondary-color);
+  font-family: var(--bs-font-monospace);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bg-tasks-pill__dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--bs-info);
+  animation: bg-tasks-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes bg-tasks-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-tasks-pill__dot {
+    animation: none;
+  }
+}

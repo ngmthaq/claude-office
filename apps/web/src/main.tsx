@@ -9,6 +9,7 @@ import '@/styles/base.css';
 import '@/styles/sessions.css';
 import '@/styles/chat.css';
 import '@/styles/subagent.css';
+import '@/styles/background-tasks.css';
 import '@/styles/chat-input.css';
 import '@/styles/autocomplete.css';
 import '@/styles/game.css';
