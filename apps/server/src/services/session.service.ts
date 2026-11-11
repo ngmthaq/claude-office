@@ -273,7 +273,9 @@ export class SessionService {
   }
 
   list(): RoomSummary[] {
-    return [...this.sessionStoreRepository.values()].map((session) => this.toSummary(session));
+    return [...this.sessionStoreRepository.values()]
+      .sort((a, b) => b.createdAt - a.createdAt || a.id.localeCompare(b.id))
+      .map((session) => this.toSummary(session));
   }
 
   clearStopTimer(session: Session): void {
