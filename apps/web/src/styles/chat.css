@@ -115,6 +115,13 @@
   overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.message--assistant table:last-child,
+.peer-card__body table:last-child,
+.system-card__body table:last-child {
+  margin-bottom: 0;
 }
 
 .message--assistant th,
@@ -248,4 +255,34 @@
   margin: 0;
   padding: 1rem;
   text-align: center;
+}
+
+.chat-drawer--full .message--assistant,
+.chat-drawer--full .message--user,
+.chat-drawer--full .notice,
+.chat-drawer--full .internal-row,
+.chat-drawer--full .tool-card,
+.chat-drawer--full .permission-card,
+.chat-drawer--full .subagent-card,
+.chat-drawer--full .peer-card,
+.chat-drawer--full .system-card {
+  max-width: none;
+}
+
+.chat-drawer--full .message-user {
+  max-width: 80%;
+}
+
+.chat-drawer--full .message--assistant,
+.chat-drawer--full .peer-card__body,
+.chat-drawer--full .system-card__body {
+  overflow-x: auto;
+}
+
+.chat-drawer--full .message--assistant table,
+.chat-drawer--full .peer-card__body table,
+.chat-drawer--full .system-card__body table {
+  display: table;
+  width: 100%;
+  overflow-x: visible;
 }
