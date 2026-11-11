@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Spinner from 'react-bootstrap/Spinner';
@@ -35,6 +34,9 @@ export function SessionList() {
       <ListGroup className="session-list">
         {rooms.map((room) => {
           const label = roomLabel(room);
+          const closed = room.state === 'closed';
+          const selected = room.id === selectedRoomId;
+          const unselectedClasses = `${closed ? 'text-body-tertiary' : 'text-body'} text-decoration-none`;
           const renamingHere = renaming?.roomId === room.id && renaming.place === 'sidebar';
           return (
             <ListGroup.Item key={room.id} className="d-flex align-items-center gap-2 p-1">
@@ -50,20 +52,16 @@ export function SessionList() {
               ) : (
                 <>
                   <Button
-                    variant={room.id === selectedRoomId ? 'primary' : 'link'}
+                    variant={selected ? 'primary' : 'link'}
                     className={`flex-grow-1 text-start text-truncate d-flex justify-content-between${
-                      room.id === selectedRoomId ? '' : ' text-body text-decoration-none'
+                      selected ? '' : ` ${unselectedClasses}`
                     }`}
                     title={room.folder}
                     onClick={() => select(room.id)}
                   >
                     <span className="text-truncate">
                       {label}
-                      {room.state === 'closed' && (
-                        <Badge bg="secondary" className="ms-2">
-                          closed
-                        </Badge>
-                      )}
+                      {closed && <span className="visually-hidden"> (closed)</span>}
                     </span>
                     <span className="d-flex align-items-center gap-2">
                       <BackgroundTasksBadge count={room.backgroundTasks.length} />
