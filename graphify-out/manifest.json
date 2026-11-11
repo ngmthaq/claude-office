@@ -1386,9 +1386,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/services/session.service.ts": {
-    "mtime": 1794311938.0059676,
-    "seen": 1794312191.5869498,
-    "ast_hash": "1f9b5e6cc433d915cb1983fa8286f859",
+    "mtime": 1794399627.3744051,
+    "seen": 1794399638.468895,
+    "ast_hash": "53f1d26ee80cef88c55aa3c8de383b32",
     "semantic_hash": ""
   },
   "apps/server/src/utils/async.util.ts": {
@@ -2712,9 +2712,9 @@
     "semantic_hash": ""
   },
   "plans/2026-11-11-19-00-03-full-width-chat-when-floor-off.md": {
-    "mtime": 1794399244.0855389,
-    "seen": 1794399264.073287,
-    "ast_hash": "75f03dd650d0eebcc860986da975d9dc",
+    "mtime": 1794399314.4062889,
+    "seen": 1794399638.4774551,
+    "ast_hash": "c96bb66c1a96b669ec910b288c67386f",
     "semantic_hash": ""
   },
   "plans/2026-11-11-19-02-58-web-test-full-width-chat-floor-off-report.md": {
@@ -2727,6 +2727,12 @@
     "mtime": 1794399064.9650536,
     "seen": 1794399264.073289,
     "ast_hash": "64959cfc64728e5b8607118762c0e7db",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-11-19-20-01-sort-rooms-by-creation-date.md": {
+    "mtime": 1794399619.42194,
+    "seen": 1794399638.477493,
+    "ast_hash": "bd612a51a9ec6f71d70765219a716b4d",
     "semantic_hash": ""
   }
 }
