@@ -18,8 +18,8 @@
     "semantic_hash": ""
   },
   "apps/server/src/main.ts": {
-    "mtime": 1794312784.1271753,
-    "seen": 1794312883.892593,
+    "mtime": 1794400100.415528,
+    "seen": 1794400692.680017,
     "ast_hash": "b07bf38e4572aa8858b935747f0d2728",
     "semantic_hash": ""
   },
@@ -666,9 +666,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/room-view.ts": {
-    "mtime": 1794244067.1339707,
-    "seen": 1794244086.9305851,
-    "ast_hash": "6ef40c7b774bbbedc91de31c0b85dcbb",
+    "mtime": 1794400602.8404174,
+    "seen": 1794400692.682393,
+    "ast_hash": "49b8178e58c530be2925922fd4519ee4",
     "semantic_hash": ""
   },
   "plans/2026-11-06-06-01-49-s4-office-map-rooms-root-agents.md": {
@@ -1134,9 +1134,9 @@
     "semantic_hash": ""
   },
   "packages/shared/src/models/room-summary.ts": {
-    "mtime": 1794027520.4036865,
-    "seen": 1794027837.883778,
-    "ast_hash": "ecce132c3b6de6d3f1ac7be6b4dd8148",
+    "mtime": 1794400518.952422,
+    "seen": 1794400692.685364,
+    "ast_hash": "968e2ce1273113577b06bf5c22712d7d",
     "semantic_hash": ""
   },
   "packages/shared/src/models/session-notice-kind.ts": {
@@ -1188,9 +1188,9 @@
     "semantic_hash": ""
   },
   "packages/shared/src/models/index.ts": {
-    "mtime": 1794239956.4712977,
-    "seen": 1794241020.831477,
-    "ast_hash": "c21ee2581b0d8c2c5c976b75c919be25",
+    "mtime": 1794400675.007336,
+    "seen": 1794400692.6852531,
+    "ast_hash": "87bc6522307c908a6f121b7a78583d47",
     "semantic_hash": ""
   },
   "apps/server/src/configs/app.config.ts": {
@@ -1344,9 +1344,9 @@
     "semantic_hash": ""
   },
   "apps/server/src/repositories/session-store.repository.ts": {
-    "mtime": 1794027520.3917043,
-    "seen": 1794027837.880417,
-    "ast_hash": "54f35fb08a6cfcb7c2024c05ceabb363",
+    "mtime": 1794400675.006878,
+    "seen": 1794400692.6802151,
+    "ast_hash": "1da8bcda1e7bcc18642ffb10ec3c3fe8",
     "semantic_hash": ""
   },
   "apps/server/src/routes/ws.route.ts": {
@@ -1380,15 +1380,15 @@
     "semantic_hash": ""
   },
   "apps/server/src/services/sdk-event-mapper.service.ts": {
-    "mtime": 1794313456.5517602,
-    "seen": 1794313467.2558458,
-    "ast_hash": "31658bb55eb3653d304628bd27549f77",
+    "mtime": 1794400675.0072079,
+    "seen": 1794400692.680416,
+    "ast_hash": "ea49654e71a2c39777115bf5e70815db",
     "semantic_hash": ""
   },
   "apps/server/src/services/session.service.ts": {
-    "mtime": 1794399627.3744051,
-    "seen": 1794399638.468895,
-    "ast_hash": "53f1d26ee80cef88c55aa3c8de383b32",
+    "mtime": 1794400532.0100098,
+    "seen": 1794400692.680444,
+    "ast_hash": "4e3d881f3d0c40683512acbe902b3459",
     "semantic_hash": ""
   },
   "apps/server/src/utils/async.util.ts": {
@@ -1530,9 +1530,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatPanel.tsx": {
-    "mtime": 1794318048.0395982,
-    "seen": 1794318087.166529,
-    "ast_hash": "5eaafa7a29e6e78f4df7b6cbc21d8007",
+    "mtime": 1794400675.0076044,
+    "seen": 1794400692.681509,
+    "ast_hash": "2ca75af51579b194a204f86e01213a16",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/GameCanvas.tsx": {
@@ -1572,9 +1572,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/SessionList.tsx": {
-    "mtime": 1794023955.4859376,
-    "seen": 1794024742.115459,
-    "ast_hash": "0db042a5226e22fb1874baea6e6273fc",
+    "mtime": 1794400593.9525173,
+    "seen": 1794400692.6817331,
+    "ast_hash": "7fe2ff3f67bb9ca9067da932c38e74b0",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/SubagentDetails.tsx": {
@@ -2730,9 +2730,51 @@
     "semantic_hash": ""
   },
   "plans/2026-11-11-19-20-01-sort-rooms-by-creation-date.md": {
-    "mtime": 1794399619.42194,
-    "seen": 1794399638.477493,
-    "ast_hash": "bd612a51a9ec6f71d70765219a716b4d",
+    "mtime": 1794399727.987403,
+    "seen": 1794400692.689783,
+    "ast_hash": "ec2aabce7188953efb9892e54bf9fba4",
+    "semantic_hash": ""
+  },
+  "apps/web/src/components/atoms/BackgroundTasksBadge.tsx": {
+    "mtime": 1794400593.9325209,
+    "seen": 1794400692.680834,
+    "ast_hash": "d9fc1a90bc0f34f6e9ce66b453b27d99",
+    "semantic_hash": ""
+  },
+  "apps/web/src/components/molecules/BackgroundTasksPill.tsx": {
+    "mtime": 1794400675.0075107,
+    "seen": 1794400692.6812,
+    "ast_hash": "bf7963fb48b6fff2474c69851b89ebbc",
+    "semantic_hash": ""
+  },
+  "apps/web/src/utils/elapsed.util.ts": {
+    "mtime": 1794400605.7037642,
+    "seen": 1794400692.683258,
+    "ast_hash": "66a12bbc7ecdaa218980e1d772820c2f",
+    "semantic_hash": ""
+  },
+  "packages/shared/src/models/background-task.ts": {
+    "mtime": 1794400518.8788695,
+    "seen": 1794400692.685149,
+    "ast_hash": "0a98dfd0207994601a9aa3a62afe3c82",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-11-19-34-04-background-tasks-sign.md": {
+    "mtime": 1794400469.5872502,
+    "seen": 1794400692.689784,
+    "ast_hash": "af92f1f7fc5ea64ffb904b8bee51de51",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-11-19-45-00-web-test-sort-rooms-by-creation-date-report.md": {
+    "mtime": 1794400141.8051968,
+    "seen": 1794400692.689785,
+    "ast_hash": "3169e3348c1d3dca56b5f6a682d2ec03",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-11-19-45-00-web-test-sort-rooms-by-creation-date.md": {
+    "mtime": 1794400141.7796946,
+    "seen": 1794400692.689787,
+    "ast_hash": "6d7a4de38e4d1c40d508dd37434564c8",
     "semantic_hash": ""
   }
 }
