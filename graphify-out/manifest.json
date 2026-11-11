@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/main.tsx": {
-    "mtime": 1794064295.1983962,
-    "seen": 1794064394.068716,
-    "ast_hash": "fa3411b49b8ef16643a9bc4e7a835f37",
+    "mtime": 1794403798.995016,
+    "seen": 1794403829.3605251,
+    "ast_hash": "6eef0f85e898da17dbc6ab5a484a830e",
     "semantic_hash": ""
   },
   "apps/web/tsconfig.json": {
@@ -666,8 +666,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/game/room-view.ts": {
-    "mtime": 1794400602.8404174,
-    "seen": 1794400692.682393,
+    "mtime": 1794403734.5566132,
+    "seen": 1794403829.359923,
     "ast_hash": "49b8178e58c530be2925922fd4519ee4",
     "semantic_hash": ""
   },
@@ -1134,8 +1134,8 @@
     "semantic_hash": ""
   },
   "packages/shared/src/models/room-summary.ts": {
-    "mtime": 1794400518.952422,
-    "seen": 1794400692.685364,
+    "mtime": 1794403734.5690787,
+    "seen": 1794403829.362449,
     "ast_hash": "968e2ce1273113577b06bf5c22712d7d",
     "semantic_hash": ""
   },
@@ -1188,8 +1188,8 @@
     "semantic_hash": ""
   },
   "packages/shared/src/models/index.ts": {
-    "mtime": 1794400675.007336,
-    "seen": 1794400692.6852531,
+    "mtime": 1794403734.5689254,
+    "seen": 1794403829.362358,
     "ast_hash": "87bc6522307c908a6f121b7a78583d47",
     "semantic_hash": ""
   },
@@ -1344,8 +1344,8 @@
     "semantic_hash": ""
   },
   "apps/server/src/repositories/session-store.repository.ts": {
-    "mtime": 1794400675.006878,
-    "seen": 1794400692.6802151,
+    "mtime": 1794403734.554161,
+    "seen": 1794403829.35793,
     "ast_hash": "1da8bcda1e7bcc18642ffb10ec3c3fe8",
     "semantic_hash": ""
   },
@@ -1380,14 +1380,14 @@
     "semantic_hash": ""
   },
   "apps/server/src/services/sdk-event-mapper.service.ts": {
-    "mtime": 1794400675.0072079,
-    "seen": 1794400692.680416,
+    "mtime": 1794403734.5544457,
+    "seen": 1794403829.358123,
     "ast_hash": "ea49654e71a2c39777115bf5e70815db",
     "semantic_hash": ""
   },
   "apps/server/src/services/session.service.ts": {
-    "mtime": 1794400532.0100098,
-    "seen": 1794400692.680444,
+    "mtime": 1794403734.5548403,
+    "seen": 1794403829.358148,
     "ast_hash": "4e3d881f3d0c40683512acbe902b3459",
     "semantic_hash": ""
   },
@@ -1530,8 +1530,8 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/ChatPanel.tsx": {
-    "mtime": 1794400675.0076044,
-    "seen": 1794400692.681509,
+    "mtime": 1794403734.555831,
+    "seen": 1794403829.3591151,
     "ast_hash": "2ca75af51579b194a204f86e01213a16",
     "semantic_hash": ""
   },
@@ -1572,9 +1572,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/SessionList.tsx": {
-    "mtime": 1794400593.9525173,
-    "seen": 1794400692.6817331,
-    "ast_hash": "7fe2ff3f67bb9ca9067da932c38e74b0",
+    "mtime": 1794404238.957916,
+    "seen": 1794404249.006482,
+    "ast_hash": "627d4b4b5f2a95f9b5cf2b63a7b23d0d",
     "semantic_hash": ""
   },
   "apps/web/src/components/organisms/SubagentDetails.tsx": {
@@ -2736,32 +2736,32 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/atoms/BackgroundTasksBadge.tsx": {
-    "mtime": 1794400593.9325209,
-    "seen": 1794400692.680834,
+    "mtime": 1794403734.5550973,
+    "seen": 1794403829.358495,
     "ast_hash": "d9fc1a90bc0f34f6e9ce66b453b27d99",
     "semantic_hash": ""
   },
   "apps/web/src/components/molecules/BackgroundTasksPill.tsx": {
-    "mtime": 1794400675.0075107,
-    "seen": 1794400692.6812,
-    "ast_hash": "bf7963fb48b6fff2474c69851b89ebbc",
+    "mtime": 1794403813.6909375,
+    "seen": 1794403829.358814,
+    "ast_hash": "a4e2acd3357d5fde1e8b785903436c1a",
     "semantic_hash": ""
   },
   "apps/web/src/utils/elapsed.util.ts": {
-    "mtime": 1794400605.7037642,
-    "seen": 1794400692.683258,
+    "mtime": 1794403734.5567589,
+    "seen": 1794403829.360683,
     "ast_hash": "66a12bbc7ecdaa218980e1d772820c2f",
     "semantic_hash": ""
   },
   "packages/shared/src/models/background-task.ts": {
-    "mtime": 1794400518.8788695,
-    "seen": 1794400692.685149,
+    "mtime": 1794403734.5683975,
+    "seen": 1794403829.362268,
     "ast_hash": "0a98dfd0207994601a9aa3a62afe3c82",
     "semantic_hash": ""
   },
   "plans/2026-11-11-19-34-04-background-tasks-sign.md": {
-    "mtime": 1794400469.5872502,
-    "seen": 1794400692.689784,
+    "mtime": 1794403734.569594,
+    "seen": 1794403829.3664691,
     "ast_hash": "af92f1f7fc5ea64ffb904b8bee51de51",
     "semantic_hash": ""
   },
@@ -2775,6 +2775,24 @@
     "mtime": 1794400141.7796946,
     "seen": 1794400692.689787,
     "ast_hash": "6d7a4de38e4d1c40d508dd37434564c8",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-11-19-40-08-web-test-background-tasks-sign-report.md": {
+    "mtime": 1794403734.5700352,
+    "seen": 1794403829.3664699,
+    "ast_hash": "5c57e2724c4d15dfbafb6e6c8365e4ba",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-11-19-40-08-web-test-background-tasks-sign.md": {
+    "mtime": 1794403734.5702767,
+    "seen": 1794403829.3664708,
+    "ast_hash": "01eeb758da415e49ea4f4051d6bd1e23",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-11-20-34-37-closed-room-muted-sidebar-text.md": {
+    "mtime": 1794404221.0310986,
+    "seen": 1794404230.019045,
+    "ast_hash": "6982ea79e713ea72a927316656a2ddcd",
     "semantic_hash": ""
   }
 }
