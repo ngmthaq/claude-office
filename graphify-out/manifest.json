@@ -12,9 +12,9 @@
     "semantic_hash": ""
   },
   "apps/server/package.json": {
-    "mtime": 1794318670.870129,
-    "seen": 1794398502.6313071,
-    "ast_hash": "f903f4e310f22effdeb4f3a69b749291",
+    "mtime": 1794404374.2288725,
+    "seen": 1794488117.119775,
+    "ast_hash": "1030b9b5d266f952df1fd96ea4ea0aa9",
     "semantic_hash": ""
   },
   "apps/server/src/main.ts": {
@@ -30,9 +30,9 @@
     "semantic_hash": ""
   },
   "apps/web/package.json": {
-    "mtime": 1794318670.8702788,
-    "seen": 1794398502.632608,
-    "ast_hash": "565dc7bab33725037a0e1d60abf61412",
+    "mtime": 1794404374.2294154,
+    "seen": 1794488117.121067,
+    "ast_hash": "c7e91c65d3b67bb1b078cac5292f01ff",
     "semantic_hash": ""
   },
   "apps/web/src/main.tsx": {
@@ -60,15 +60,15 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1794318670.869513,
-    "seen": 1794398502.635154,
-    "ast_hash": "b569e15e81a035e46354e0c7bd913795",
+    "mtime": 1794404374.2279239,
+    "seen": 1794488117.123604,
+    "ast_hash": "b2ffdf35654227971ecc292d30bc58a4",
     "semantic_hash": ""
   },
   "packages/shared/package.json": {
-    "mtime": 1794318670.871514,
-    "seen": 1794398502.635155,
-    "ast_hash": "19764a11bbb301b457d4e5525ddc944d",
+    "mtime": 1794404374.2297828,
+    "seen": 1794488117.123605,
+    "ast_hash": "5525cd4bcc50a75dd5710ae896eb55f5",
     "semantic_hash": ""
   },
   "packages/shared/src/index.ts": {
@@ -2130,9 +2130,9 @@
     "semantic_hash": ""
   },
   "apps/cli/package.json": {
-    "mtime": 1794318670.86989,
-    "seen": 1794398502.6309729,
-    "ast_hash": "7d4a191e2b18a105ceceb0072839142e",
+    "mtime": 1794404374.228567,
+    "seen": 1794488117.11945,
+    "ast_hash": "990813a134022add5b2d262518e6b652",
     "semantic_hash": ""
   },
   "apps/cli/scripts/build.mjs": {
@@ -2793,6 +2793,12 @@
     "mtime": 1794404221.0310986,
     "seen": 1794404230.019045,
     "ast_hash": "6982ea79e713ea72a927316656a2ddcd",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-12-19-54-35-show-assistant-text-when-floor-off.md": {
+    "mtime": 1794488093.5391612,
+    "seen": 1794488117.129457,
+    "ast_hash": "8fcdde6cad257bb257acdaa7be9e72c3",
     "semantic_hash": ""
   }
 }
