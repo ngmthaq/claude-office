@@ -81,6 +81,10 @@
   overflow-y: auto;
 }
 
+.message-list > * {
+  flex-shrink: 0;
+}
+
 .message {
   max-width: 48rem;
   line-height: 1.5;
