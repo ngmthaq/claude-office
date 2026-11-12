@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { ErrorBoundary } from '@/components/atoms/ErrorBoundary';
+import { APP_VERSION } from '@/configs/app.config';
 
 type AppLayoutProps = {
   connectionBadge: ReactNode;
@@ -33,6 +34,7 @@ export function AppLayout({
     <div className="app">
       <header className="app-header d-flex align-items-center gap-3 px-3 py-2 border-bottom">
         <h1 className="h5 m-0">Claude Office</h1>
+        <span className="small text-body-secondary text-nowrap">v{APP_VERSION}</span>
         {connectionBadge}
         {headerActions}
       </header>
