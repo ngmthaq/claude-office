@@ -48,9 +48,9 @@
     "semantic_hash": ""
   },
   "apps/web/vite.config.ts": {
-    "mtime": 1793919813.3374386,
-    "seen": 1794024742.115508,
-    "ast_hash": "f5a148d163593f199fa45a05b589f552",
+    "mtime": 1794488584.2393548,
+    "seen": 1794488645.712596,
+    "ast_hash": "4db789d012a287eddd295c52755a9dbe",
     "semantic_hash": ""
   },
   "eslint.config.js": {
@@ -1590,9 +1590,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/templates/AppLayout.tsx": {
-    "mtime": 1794317785.4653265,
-    "seen": 1794317800.234159,
-    "ast_hash": "a199e23877224ed2b48970fdc8fdec6b",
+    "mtime": 1794488584.2396057,
+    "seen": 1794488645.711051,
+    "ast_hash": "e6ad9e67fbc05ab0547cca6848babfbb",
     "semantic_hash": ""
   },
   "apps/web/src/configs/autocomplete.config.ts": {
@@ -2796,9 +2796,39 @@
     "semantic_hash": ""
   },
   "plans/2026-11-12-19-54-35-show-assistant-text-when-floor-off.md": {
-    "mtime": 1794488093.5391612,
-    "seen": 1794488117.129457,
-    "ast_hash": "8fcdde6cad257bb257acdaa7be9e72c3",
+    "mtime": 1794488337.74296,
+    "seen": 1794488645.7186549,
+    "ast_hash": "9fc220d47f55e82b225c4e9b0cd6fa74",
+    "semantic_hash": ""
+  },
+  "apps/web/src/configs/app.config.ts": {
+    "mtime": 1794488584.2410789,
+    "seen": 1794488645.711052,
+    "ast_hash": "4568c56aaab9b4e13795a8abd10b605f",
+    "semantic_hash": ""
+  },
+  "apps/web/src/vite-env.d.ts": {
+    "mtime": 1794488584.2409887,
+    "seen": 1794488645.7125728,
+    "ast_hash": "62f9f6bc4c280b79695ad10ef416425f",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-12-19-56-32-web-test-show-assistant-text-when-floor-off-report.md": {
+    "mtime": 1794488328.2680938,
+    "seen": 1794488645.718656,
+    "ast_hash": "023c251072fc7dd872d10a069773fe3d",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-12-19-56-32-web-test-show-assistant-text-when-floor-off.md": {
+    "mtime": 1794488318.8249888,
+    "seen": 1794488645.718657,
+    "ast_hash": "2fbc98a89ab988ab5e5f1593a48cd66a",
+    "semantic_hash": ""
+  },
+  "plans/2026-11-12-20-02-19-show-app-version-in-header.md": {
+    "mtime": 1794488564.5114493,
+    "seen": 1794488645.718658,
+    "ast_hash": "3bd694239bdbba409a476f8023f9dca7",
     "semantic_hash": ""
   }
 }
