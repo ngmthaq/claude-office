@@ -11,7 +11,7 @@ import { useMcpStore } from '@/hooks/store/useMcpStore';
 import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { useUsageLimitStore } from '@/hooks/store/useUsageLimitStore';
 
-export class WsClientService {
+class WsClientService {
   private activeSocket: WebSocket | null = null;
 
   send(event: ClientEvent): void {

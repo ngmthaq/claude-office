@@ -8,8 +8,6 @@ export const ResumeErrorCodeSchema = z.enum([
   'load_failed',
 ]);
 
-export type ResumeErrorCode = z.infer<typeof ResumeErrorCodeSchema>;
-
 export const ResumeResultSchema = z.discriminatedUnion('ok', [
   z.object({ ok: z.literal(true), room: RoomSummarySchema }),
   z.object({ ok: z.literal(false), code: ResumeErrorCodeSchema }),

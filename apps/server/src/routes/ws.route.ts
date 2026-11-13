@@ -19,7 +19,7 @@ import type { UsageLimitService } from '@/services/usage-limit.service.ts';
 import type { SessionService } from '@/services/session.service.ts';
 import { WsSendUtil } from '@/utils/ws-send.util.ts';
 
-export type WsRouteOptions = {
+type WsRouteOptions = {
   originCheckMiddleware: OriginCheckMiddleware;
   eventBusService: EventBusService;
   sessionService: SessionService;

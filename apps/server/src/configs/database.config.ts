@@ -4,7 +4,7 @@ import Database from 'better-sqlite3';
 import { DATA_DIR, resolveDir } from '@/configs/app.config.ts';
 
 export const DB_PATH = `${DATA_DIR}/claude-office.db`;
-export const MIGRATIONS_DIR = resolveDir('CLAUDE_OFFICE_MIGRATIONS_DIR', (root) =>
+const MIGRATIONS_DIR = resolveDir('CLAUDE_OFFICE_MIGRATIONS_DIR', (root) =>
   join(root, 'src', 'migrations'),
 );
 

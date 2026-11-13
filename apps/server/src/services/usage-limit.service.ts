@@ -4,10 +4,9 @@ import type { FastifyBaseLogger } from 'fastify';
 import type { EventBusService } from '@/services/event-bus.service.ts';
 import { ErrorUtil } from '@/utils/error.util.ts';
 
-const SECONDS_LIMIT = 1e12;
-const MS_PER_SECOND = 1000;
-
 export class UsageLimitService {
+  private static readonly secondsLimit = 1e12;
+  private static readonly msPerSecond = 1000;
   private static readonly usageMethod = 'usage_EXPERIMENTAL_MAY_CHANGE_DO_NOT_RELY_ON_THIS_API_YET';
 
   private limit: UsageLimit | null = null;
@@ -27,8 +26,8 @@ export class UsageLimitService {
     const resetsAt =
       info.resetsAt === undefined
         ? (this.limit?.resetsAt ?? null)
-        : info.resetsAt < SECONDS_LIMIT
-          ? info.resetsAt * MS_PER_SECOND
+        : info.resetsAt < UsageLimitService.secondsLimit
+          ? info.resetsAt * UsageLimitService.msPerSecond
           : info.resetsAt;
     // The event's utilization unit is undocumented, so only the usage API sets it.
     this.apply(this.limit?.utilization ?? null, resetsAt);

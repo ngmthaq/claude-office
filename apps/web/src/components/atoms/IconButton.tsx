@@ -4,7 +4,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import type { Placement } from 'react-bootstrap/types';
 
-export interface IconButtonProps extends Omit<ButtonProps, 'children' | 'aria-label'> {
+interface IconButtonProps extends Omit<ButtonProps, 'children' | 'aria-label'> {
   icon: string;
   label: string;
   placement?: Placement;

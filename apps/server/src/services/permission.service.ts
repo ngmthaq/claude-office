@@ -10,6 +10,7 @@ import {
 import type { Session, SessionStoreRepository } from '@/repositories/session-store.repository.ts';
 import type { EventBusService } from '@/services/event-bus.service.ts';
 import { TextUtil } from '@/utils/text.util.ts';
+import { TypeGuardUtil } from '@/utils/type-guard.util.ts';
 
 export class PermissionService {
   constructor(
@@ -130,10 +131,7 @@ export class PermissionService {
     if (!Array.isArray(questions)) return 'questions malformed';
     const texts: string[] = [];
     for (const item of questions) {
-      const text =
-        typeof item === 'object' && item !== null
-          ? (item as { question?: unknown }).question
-          : undefined;
+      const text = TypeGuardUtil.isRecord(item) ? item.question : undefined;
       if (typeof text !== 'string') return 'questions malformed';
       texts.push(text);
     }

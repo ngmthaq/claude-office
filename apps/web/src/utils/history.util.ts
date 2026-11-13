@@ -1,6 +1,6 @@
 import type { HistoryEntry } from '@claude-office/shared';
 
-export type FolderGroup = { folder: string; latest: number; entries: HistoryEntry[] };
+type FolderGroup = { folder: string; latest: number; entries: HistoryEntry[] };
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class HistoryUtil {

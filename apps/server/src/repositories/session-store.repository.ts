@@ -9,9 +9,9 @@ import {
 } from '@claude-office/shared';
 import type { RoomSummary, SubagentRef } from '@claude-office/shared';
 import type { RoomRow } from '@/dtos/room-row.dto.ts';
-import type { InputQueue } from '@/utils/input-queue.util.ts';
+import type { InputQueue } from '@/repositories/input-queue.repository.ts';
 
-export type SubagentState = {
+type SubagentState = {
   agentType: string;
   description: string;
   toolEvents: number;
@@ -30,7 +30,7 @@ export type MapperState = {
   cardedTasks: Set<string>;
 };
 
-export type PendingPermission = {
+type PendingPermission = {
   toolName: string;
   input: Record<string, unknown>;
   resolve: (result: PermissionResult) => void;

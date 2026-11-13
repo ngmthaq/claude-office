@@ -5,7 +5,7 @@ import type { ChatItem } from '@/dtos/chat-item.dto';
 import type { PermissionStatus } from '@/dtos/permission-item.dto';
 import type { SubagentItem } from '@/dtos/subagent-item.dto';
 
-export type ChatByRoom = Record<string, ChatItem[]>;
+type ChatByRoom = Record<string, ChatItem[]>;
 
 export type ChatState = {
   byRoom: ChatByRoom;
@@ -70,7 +70,7 @@ export function selectRoomItems(roomId: string | null) {
 }
 
 /** Pure reducer shared by live events and history replay. */
-export function applyRoomEvent(items: ChatItem[] | undefined, event: RoomEvent): ChatItem[] {
+function applyRoomEvent(items: ChatItem[] | undefined, event: RoomEvent): ChatItem[] {
   const current = items ?? EMPTY_ITEMS;
   switch (event.type) {
     case 'user_message':

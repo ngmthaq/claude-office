@@ -3,7 +3,7 @@ import { DiffEditor, Editor, type DiffOnMount } from '@monaco-editor/react';
 import { setupMonaco } from '@/configs/monaco.config';
 import { CodeLanguageUtil } from '@/utils/code-language.util';
 
-export type CodeEditorViewProps = {
+type CodeEditorViewProps = {
   mode: 'diff' | 'file';
   path: string;
   head: string | null;

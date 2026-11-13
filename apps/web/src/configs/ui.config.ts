@@ -10,7 +10,7 @@ import type { ConnectionStatus } from '@/dtos/connection-status.dto';
 import type { ReportStatus } from '@/utils/report-status.util';
 import type { SubagentItem } from '@/dtos/subagent-item.dto';
 
-export type ModeOption = { value: PermissionMode; label: string; icon: string };
+type ModeOption = { value: PermissionMode; label: string; icon: string };
 
 export const PERMISSION_STATUS_LABELS = {
   allow: 'Allowed',

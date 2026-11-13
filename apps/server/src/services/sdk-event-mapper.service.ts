@@ -7,6 +7,7 @@ import { COMPACT_EVENT_NAME, LOCAL_COMMAND_EVENT_NAME } from '@/configs/system-e
 import { PeerMessageUtil } from '@/utils/peer-message.util.ts';
 import { SdkEventContentUtil } from '@/utils/sdk-event-content.util.ts';
 import { TextUtil } from '@/utils/text.util.ts';
+import { TypeGuardUtil } from '@/utils/type-guard.util.ts';
 
 type SubagentStatus = 'done' | 'error' | 'stopped';
 
@@ -286,9 +287,7 @@ export class SdkEventMapperService {
     if (text === '') return [];
     const run = record.local_command_run;
     const command =
-      typeof run === 'object' && run !== null && 'command' in run && typeof run.command === 'string'
-        ? run.command
-        : null;
+      TypeGuardUtil.isRecord(run) && typeof run.command === 'string' ? run.command : null;
     const name = command === null ? LOCAL_COMMAND_EVENT_NAME : `/${command}`;
     return [this.buildCard(roomId, { ...message }, name, TextUtil.truncate(text), false)];
   }

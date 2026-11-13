@@ -1,6 +1,6 @@
-export type TaskNotificationStatus = 'completed' | 'failed' | 'killed';
+type TaskNotificationStatus = 'completed' | 'failed' | 'killed';
 
-export type TaskNotification = {
+type TaskNotification = {
   toolUseId: string | null;
   status: TaskNotificationStatus | null;
   title: string | null;

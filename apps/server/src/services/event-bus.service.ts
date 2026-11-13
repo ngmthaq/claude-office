@@ -4,8 +4,8 @@ import type { Session } from '@/repositories/session-store.repository.ts';
 import { InternalEventsUtil } from '@/utils/internal-events.util.ts';
 import { SessionMapperUtil } from '@/utils/session-mapper.util.ts';
 
-export type RoomEventListener = (event: RoomEvent) => void;
-export type SessionStateListener = (event: SessionStateEvent) => void;
+type RoomEventListener = (event: RoomEvent) => void;
+type SessionStateListener = (event: SessionStateEvent) => void;
 
 export class EventBusService {
   private readonly eventListeners = new Set<RoomEventListener>();

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { CodeFileEvent, CodeTreeEvent } from '@claude-office/shared';
 
-export type CodeViewerMode = 'diff' | 'file';
+type CodeViewerMode = 'diff' | 'file';
 
 type CodeViewerState = {
   openRoomId: string | null;

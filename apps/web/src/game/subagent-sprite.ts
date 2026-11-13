@@ -3,7 +3,7 @@ import { useSessionsStore } from '@/hooks/store/useSessionsStore';
 import { useSubagentDetailsStore } from '@/hooks/store/useSubagentDetailsStore';
 import { AgentSprite } from './agent-sprite';
 
-export type SubagentEnd = 'done' | 'error' | 'stopped';
+type SubagentEnd = 'done' | 'error' | 'stopped';
 export type Point = { readonly x: number; readonly y: number };
 
 type Phase = 'entering' | 'working' | 'marking' | 'leaving';

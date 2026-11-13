@@ -7,7 +7,7 @@ import {
 } from '@claude-office/shared';
 import { ATTACHMENT_RESIZE } from '@/configs/ui.config';
 
-export type ResizedImage = { blob: Blob; name: string; mediaType: string };
+type ResizedImage = { blob: Blob; name: string; mediaType: string };
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class AttachmentUtil {

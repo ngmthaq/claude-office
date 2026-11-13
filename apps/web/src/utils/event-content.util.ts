@@ -1,6 +1,6 @@
-export type EventContentFormat = 'json' | 'markdown' | 'text';
+type EventContentFormat = 'json' | 'markdown' | 'text';
 
-export type EventContentView = { format: EventContentFormat; text: string };
+type EventContentView = { format: EventContentFormat; text: string };
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class EventContentUtil {

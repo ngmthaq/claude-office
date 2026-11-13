@@ -13,7 +13,7 @@ import { ATTACHED_FILE_TAG, ATTACHED_FILE_TAG_PREFIX } from '@/configs/limits.co
 
 type ContentBlock = Exclude<SDKUserMessage['message']['content'], string>[number];
 
-export type PrepareResult =
+type PrepareResult =
   { ok: true; blocks: ContentBlock[]; info: AttachmentInfo[] } | { ok: false; message: string };
 
 type Checked = { ok: true; block: ContentBlock } | { ok: false; message: string };

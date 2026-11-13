@@ -9,12 +9,11 @@ import {
 } from '@/configs/git.config.ts';
 import { CODE_VIEWER_MAX_FILE_BYTES } from '@/configs/limits.config.ts';
 
-export type PrInfo = { number: number; url: string };
+type PrInfo = { number: number; url: string };
 
 export type GitStatusEntry = { path: string; status: GitFileStatus; oldPath?: string };
 
-export type HeadContent =
-  { ok: true; data: Buffer } | { ok: false; reason: 'missing' | 'too_large' };
+type HeadContent = { ok: true; data: Buffer } | { ok: false; reason: 'missing' | 'too_large' };
 
 type PrCommand = {
   command: string;

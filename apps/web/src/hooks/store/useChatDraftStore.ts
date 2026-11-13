@@ -2,14 +2,14 @@ import { create } from 'zustand';
 import type { AttachmentDraft } from '@/dtos/attachment-draft.dto';
 import type { QuestionProgress } from '@/dtos/question-progress.dto';
 
-export type RoomDraft = {
+type RoomDraft = {
   text: string;
   attachments: AttachmentDraft[];
   sending: boolean;
   questions: Record<string, QuestionProgress>;
 };
 
-export type ChatDraftState = {
+type ChatDraftState = {
   byRoom: Record<string, RoomDraft>;
   setText: (roomId: string, text: string) => void;
   addAttachments: (roomId: string, drafts: AttachmentDraft[]) => void;

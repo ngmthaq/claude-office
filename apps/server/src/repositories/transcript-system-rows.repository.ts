@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { createInterface } from 'node:readline';
 import { HOME_DIR } from '@/configs/app.config.ts';
 import type { CompactMetadata } from '@/utils/sdk-event-content.util.ts';
+import { TypeGuardUtil } from '@/utils/type-guard.util.ts';
 
 export type TranscriptSystemRow = {
   index: number;
@@ -16,7 +17,7 @@ export type TranscriptSystemRow = {
   record: Record<string, unknown>;
 };
 
-export type TranscriptSystemRows = {
+type TranscriptSystemRows = {
   rows: TranscriptSystemRow[];
   messageOrder: Map<string, number>;
 };
@@ -73,9 +74,7 @@ export class TranscriptSystemRowsRepository {
   private parse(line: string): Record<string, unknown> | null {
     try {
       const value: unknown = JSON.parse(line);
-      return typeof value === 'object' && value !== null && !Array.isArray(value)
-        ? (value as Record<string, unknown>)
-        : null;
+      return TypeGuardUtil.isRecord(value) && !Array.isArray(value) ? value : null;
     } catch {
       return null;
     }

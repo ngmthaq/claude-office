@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { FileEntry, GitFileStatus } from '@claude-office/shared';
 
-export type FileTreeProps = {
+type FileTreeProps = {
   files: FileEntry[];
   statuses: { path: string; status: GitFileStatus }[];
   selectedPath: string | null;

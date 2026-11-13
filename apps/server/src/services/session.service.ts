@@ -26,7 +26,7 @@ import type { SessionInfoService } from '@/services/session-info.service.ts';
 import type { SdkEventMapperService } from '@/services/sdk-event-mapper.service.ts';
 import type { UsageLimitService } from '@/services/usage-limit.service.ts';
 import { ErrorUtil } from '@/utils/error.util.ts';
-import { InputQueue } from '@/utils/input-queue.util.ts';
+import { InputQueue } from '@/repositories/input-queue.repository.ts';
 import { SessionMapperUtil } from '@/utils/session-mapper.util.ts';
 
 class LoadSkipped extends Error {}

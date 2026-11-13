@@ -4,13 +4,13 @@ import type { FolderEntry } from '@claude-office/shared';
 import { HOME_DIR } from '@/configs/app.config.ts';
 import type { FolderErrorCode } from '@/dtos/folder-error-code.dto.ts';
 
-export type FolderListing = {
+type FolderListing = {
   path: string;
   parent: string | null;
   entries: FolderEntry[];
 };
 
-export type FolderResult<T> = { ok: true; value: T } | { ok: false; code: FolderErrorCode };
+type FolderResult<T> = { ok: true; value: T } | { ok: false; code: FolderErrorCode };
 
 export class FolderRepository {
   listFolders(input?: string): FolderResult<FolderListing> {

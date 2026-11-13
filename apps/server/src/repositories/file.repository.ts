@@ -4,11 +4,11 @@ import { join, posix, sep } from 'node:path';
 import type { FileEntry } from '@claude-office/shared';
 import { CODE_VIEWER_MAX_FILE_BYTES } from '@/configs/limits.config.ts';
 
-export type FileListing = { files: FileEntry[]; truncated: boolean };
+type FileListing = { files: FileEntry[]; truncated: boolean };
 
 export type FileUnavailable = 'too_large' | 'binary' | 'not_found';
 
-export type TextResult = { ok: true; text: string } | { ok: false; reason: FileUnavailable };
+type TextResult = { ok: true; text: string } | { ok: false; reason: FileUnavailable };
 
 export class FileRepository {
   private static readonly binarySniffBytes = 8192;

@@ -20,8 +20,9 @@ import { SdkEventContentUtil } from '@/utils/sdk-event-content.util.ts';
 import { TaskNotificationUtil } from '@/utils/task-notification.util.ts';
 import { PeerMessageUtil } from '@/utils/peer-message.util.ts';
 import { TextUtil } from '@/utils/text.util.ts';
+import { TypeGuardUtil } from '@/utils/type-guard.util.ts';
 
-export type OpenRoomLookup = (sessionId: string) => string | null;
+type OpenRoomLookup = (sessionId: string) => string | null;
 
 export class HistoryRepository {
   private static readonly wrapperPrefixes = [
@@ -164,7 +165,7 @@ export class HistoryRepository {
       return;
     }
     content.forEach((block, index) => {
-      if (!this.isRecord(block)) return;
+      if (!TypeGuardUtil.isRecord(block)) return;
       if (block.type === 'text' && typeof block.text === 'string') {
         this.pushUserText(roomId, `${uuid}-${index}`, block.text, events, hasTranscript);
       } else if (block.type === 'tool_result' && typeof block.tool_use_id === 'string') {
@@ -280,7 +281,7 @@ export class HistoryRepository {
     let text = '';
     const calls: RoomEvent[] = [];
     for (const block of content) {
-      if (!this.isRecord(block)) continue;
+      if (!TypeGuardUtil.isRecord(block)) continue;
       if (block.type === 'text' && typeof block.text === 'string') {
         text += block.text;
       } else if (
@@ -303,14 +304,10 @@ export class HistoryRepository {
   }
 
   private contentOf(message: unknown): string | unknown[] | null {
-    if (!this.isRecord(message)) return null;
+    if (!TypeGuardUtil.isRecord(message)) return null;
     const content = message.content;
     if (typeof content === 'string' || Array.isArray(content)) return content as string | unknown[];
     return null;
-  }
-
-  private isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null;
   }
 
   private cut(text: string | undefined): string | undefined {

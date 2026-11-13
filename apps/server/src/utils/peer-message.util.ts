@@ -1,4 +1,4 @@
-export type PeerEnvelope = { from: string; body: string; isHandback: boolean };
+type PeerEnvelope = { from: string; body: string; isHandback: boolean };
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class PeerMessageUtil {
